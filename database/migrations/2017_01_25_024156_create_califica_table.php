@@ -18,7 +18,7 @@ class CreateCalificaTable extends Migration
             $table->integer('idPropuesta');
             $table->integer('calificacion');
             $table->primary(array('cedula','idPropuesta'));
-            $table->foreign('cedula')->references('cedula')->on('usuarios');
+            $table->foreign('cedula')->references('cedula')->on('users');
             $table->foreign('idPropuesta')->references('id')->on('propuesta');
             $table->timestamps();
         });

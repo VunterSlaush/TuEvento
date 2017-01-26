@@ -19,7 +19,7 @@ class CreateAsisteTable extends Migration
             $table->boolean('asistio');
             $table->string('codigo');
             $table->primary(array('cedula','idActividad'));
-            $table->foreign('cedula')->references('cedula')->on('usuarios');
+            $table->foreign('cedula')->references('cedula')->on('users');
             $table->foreign('idActividad')->references('id')->on('actividad');
             $table->timestamps();
         });

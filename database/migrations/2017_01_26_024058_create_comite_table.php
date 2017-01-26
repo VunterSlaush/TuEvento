@@ -17,7 +17,7 @@ class CreateComiteTable extends Migration
             $table->string('cedula');
             $table->integer('idEvento');
             $table->primary(array('cedula','idEvento'));
-            $table->foreign('cedula')->references('cedula')->on('usuarios');
+            $table->foreign('cedula')->references('cedula')->on('users');
             $table->foreign('idEvento')->references('id')->on('evento');
             $table->timestamps();
         });

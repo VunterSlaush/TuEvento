@@ -14,13 +14,13 @@ class CreatePropuestaTable extends Migration
     public function up()
     {
         Schema::create('propuesta', function (Blueprint $table) {
-            $table->integer('id');
+            $table->integer('id')->increments();
             $table->string('autor');
             $table->integer('idEvento');
             $table->string('adjunto');
             $table->string('demanda');
             $table->primary('id');
-            $table->foreign('autor')->references('cedula')->on('usuarios');
+            $table->foreign('autor')->references('cedula')->on('users');
             $table->foreign('idEvento')->references('id')->on('evento');
             $table->timestamps();
         });

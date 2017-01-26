@@ -14,7 +14,7 @@ class CreateActividadTable extends Migration
     public function up()
     {
         Schema::create('actividad', function (Blueprint $table) {
-            $table->integer('id');
+            $table->integer('id')->increments();
             $table->string('ponente');
             $table->integer('evento');
             $table->date('fecha');
@@ -23,7 +23,7 @@ class CreateActividadTable extends Migration
             $table->timestamp('hora_fin');
             $table->string('resumen');
             $table->primary('id');
-            $table->foreign('ponente')->references('cedula')->on('usuarios');
+            $table->foreign('ponente')->references('cedula')->on('users');
             $table->foreign('evento')->references('id')->on('evento');
             $table->timestamps();
         });
