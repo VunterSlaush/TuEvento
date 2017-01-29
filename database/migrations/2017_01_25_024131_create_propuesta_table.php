@@ -20,6 +20,8 @@ class CreatePropuestaTable extends Migration
             $table->string('titulo');
             $table->string('adjunto');
             $table->string('demanda');
+            $table->string('descripcion');
+            $table->integer('duracion');
             $table->foreign('autor')->references('cedula')->on('users');
             $table->foreign('idEvento')->references('id')->on('evento');
             $table->timestamps();

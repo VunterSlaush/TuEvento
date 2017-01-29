@@ -14,6 +14,9 @@ class Evento extends Model
     					'lugar',
     					'fecha_inicio',
     					'fecha_fin',
+    					'cant_max_actividades',
+    					'punt_min_aprovatorio',
+    					'estado',
     					'created_at',
     					'updated_at'];
 

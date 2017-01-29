@@ -11,8 +11,11 @@ class Propuesta extends Model
     protected $fillable = ['id',
     					'autor',
     					'idEvento',
+    					'titulo',
     					'adjunto',
     					'demanda',
+    					'descripcion',
+    					'duracion',
     					'created_at',
     					'updated_at'];
 
