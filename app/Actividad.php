@@ -10,7 +10,7 @@ class Actividad extends Model
 
     protected $fillable = ['id',
     					'ponente',
-                        'evento',
+              'evento',
     					'fecha',
     					'titulo',
     					'hora_inicio',
