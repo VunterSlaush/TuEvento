@@ -21,7 +21,7 @@ class CreateEventoTable extends Migration
             $table->timestamp('fecha_inicio');
             $table->timestamp('fecha_fin');
             $table->integer('cant_max_actividades');
-            $table->integer('punt_min_aprovatorio');
+            $table->integer('punt_min_aprobatorio');
             $table->string('estado');
             $table->foreign('creador')->references('cedula')->on('users');
             $table->timestamps();

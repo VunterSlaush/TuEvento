@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Propuestas Index</title>
-  </head>
-  <body>
+@extends('layouts.app')
+
+@section('content')
+  <div class="container">
     <h1>Propuestas Index</h1>
     <ul>
       <li> <a href="{{ URL::to('propuesta')}}"> Ver todos</a></li>
@@ -20,11 +18,11 @@
 
     <table>
       <thead>
-        <td> id </td>
-        <td> autor </td>
-        <td> idEvento</td>
-        <td> adjunto</td>
-        <td> demanda </td>
+        <td> id -</td>
+        <td> autor -</td>
+        <td> idEvento -</td>
+        <td> adjunto -</td>
+        <td> demanda -</td>
       </thead>
       <tbody>
         @foreach($propuesta as $key => $value)
@@ -45,5 +43,5 @@
         @endforeach
       </tbody>
     </table>
-  </body>
-</html>
+  </div>
+@endsection

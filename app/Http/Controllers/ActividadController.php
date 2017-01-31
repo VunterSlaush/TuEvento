@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Actividad;
+use App\Propuesta;
 
 class ActividadController extends Controller
 {
@@ -26,6 +27,25 @@ class ActividadController extends Controller
     public function create()
     {
       return view('actividad.create');
+    }
+
+    public function createFromPropuesta($id){
+      echo "hola";
+      $propuesta = Propuesta::find($id);
+
+      Actividad::create([
+        'ponente' => $propuesta->autor,
+        'evento' => $propuesta->idEvento,
+        'fecha' => "2017-01-20",
+        'titulo' => $propuesta->titulo,
+        'hora_inicio' => "2017-01-20 00:00:00",
+        'hora_fin' => "2017-01-20 00:00:00",
+        'resumen' => $propuesta->descripcion
+      ]);
+
+      //Esto es para pruebas, en realidad no te deberia retorna al index de las actividades.
+      return redirect()->route('actividad.index')
+              ->with('success','actividad creado');
     }
 
     /**

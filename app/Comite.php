@@ -15,13 +15,13 @@ class Comite extends Model
 
     public function evento(){
 
-    	return $this->belongsTo('App\Evento');
+    	return $this->belongsTo('App\Evento','idEvento');
 
     }
 
     public function user(){
 
-    	return $this->belongsTo('App\User');
+    	return $this->belongsTo('App\User','cedula');
 
     }
 }

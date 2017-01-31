@@ -16,13 +16,13 @@ class Califica extends Model
 
     public function propuesta(){
 
-    	return $this->belongsTo('App\Propuesta');
+    	return $this->belongsTo('App\Propuesta','idPropuesta');
 
     }
 
     public function user(){
 
-    	return $this->belongsTo('App\User');
+    	return $this->belongsTo('App\User','cedula');
 
     }
 }

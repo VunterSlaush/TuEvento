@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Propuestas Index</title>
-  </head>
-  <body>
-    <h1>Propuestas Index</h1>
+@extends('layouts.app')
+
+@section('content')
+  <div class="container">
+    <h1>Propuestas Crear</h1>
     <ul>
       <li> <a href="{{ URL::to('propuesta')}}"> Ver todos</a></li>
       <li> <a href="{{ URL::to('propuesta/create')}}"> Crear</a></li>
@@ -22,6 +20,18 @@
         {{Form::text('idEvento')}}
       </div>
       <div class="">
+        {{Form::label('titulo','Titulo')}}
+        {{Form::text('titulo')}}
+      </div>
+      <div class="">
+        {{Form::label('duracion','Duracion')}}
+        {{Form::text('duracion')}}
+      </div>
+      <div class="">
+        {{Form::label('descripcion','Descripcion')}}
+        {{Form::text('descripcion')}}
+      </div>
+      <div class="">
         {{Form::label('adjunto','Adjunto')}}
         {{Form::File('adjunto')}}
       </div>
@@ -34,5 +44,5 @@
       {{Form::close()}}
     </div>
 
-  </body>
-</html>
+  </div>
+@endsection

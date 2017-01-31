@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Propuesta {{ $actividad['id'] }}</title>
-  </head>
-  <body>
+@extends('layouts.app')
+
+@section('content')
+  <div class="container">
     <h1>Propuesta {{ $actividad['id'] }}</h1>
     <ul>
       <li>Autor: {{ $actividad['autor'] }}</li>
@@ -11,5 +9,5 @@
       <li>Adjutnto: {{ $actividad['adjunto'] }}</li>
       <li>Demanda: {{ $actividad['demanda'] }}</li>
     </ul>
-  </body>
-</html>
+  </div>
+@endsection

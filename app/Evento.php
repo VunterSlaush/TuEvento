@@ -15,7 +15,7 @@ class Evento extends Model
     					'fecha_inicio',
     					'fecha_fin',
     					'cant_max_actividades',
-    					'punt_min_aprovatorio',
+    					'punt_min_aprobatorio',
     					'estado',
     					'created_at',
     					'updated_at'];
@@ -28,19 +28,19 @@ class Evento extends Model
 
     public function propuestas(){
 
-    	return $this->hasMany('App\Propuesta');
+    	return $this->hasMany('App\Propuesta','idEvento');
 
     }
 
     public function comites(){
 
-    	return $this->hasMany('App\Comite');
+    	return $this->hasMany('App\Comite','idEvento');
 
     }
 
     public function users(){
 
-    	return $this->hasMany('App\User');
+    	return $this->hasMany('App\User','cedula');
 
     }
 }

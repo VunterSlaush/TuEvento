@@ -21,19 +21,19 @@ class Propuesta extends Model
 
     public function evento(){
 
-    	return $this->belongsTo('App\Evento');
+    	return $this->belongsTo('App\Evento','idEvento');
 
     }
 
     public function calificas(){
 
-    	return $this->hasMany('App\Califica');
+    	return $this->hasMany('App\Califica','idPropuesta');
 
     }
 
     public function user(){
 
-    	return $this->belongsTo('App\User');
+    	return $this->belongsTo('App\User','autor');
 
     }
 }
