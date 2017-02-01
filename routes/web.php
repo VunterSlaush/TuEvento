@@ -26,3 +26,5 @@ Route::get('/home', 'HomeController@index');
 Route::resource('propuesta', 'PropuestaController');
 Route::resource('actividad', 'ActividadController');
 Route::resource('evento', 'EventoController');
+Route::get('certificado',['uses' => 'CertificadoController@getCertificado']);
+Route::get('mis-certificados',['uses' => 'CertificadoController@verCertificados']);
