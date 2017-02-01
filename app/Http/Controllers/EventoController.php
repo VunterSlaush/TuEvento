@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Evento;
 use App\Propuesta;
-use Illuminate\Support\Facades\Auth;
 
-class PropuestaController extends Controller
+class EventoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class PropuestaController extends Controller
      */
     public function index()
     {
-      $propuesta = Propuesta::where('autor',Auth::id())->get();
-      return view('propuesta.index',['propuesta' => $propuesta]);
+      $evento = Evento::all();
+      return view('evento.index',['evento' => $evento]);
     }
 
     /**
@@ -26,7 +26,7 @@ class PropuestaController extends Controller
      */
     public function create()
     {
-        return view('propuesta.create');
+        //
     }
 
     /**
@@ -37,17 +37,7 @@ class PropuestaController extends Controller
      */
     public function store(Request $request)
     {
-
-        $this->validate($request,[
-          'idEvento' =>  'required'
-        ]);
-
-        $request->merge(['autor' => Auth::id()]);
-
-        Propuesta::create($request->all());
-
-        return redirect()->route('propuesta.index')
-                ->with('success','propuesta creada');
+        //
     }
 
     /**
@@ -58,8 +48,8 @@ class PropuestaController extends Controller
      */
     public function show($id)
     {
-        $propuesta = Propuesta::find($id);
-        return view('propuesta.show',['propuesta' => $propuesta]);
+      $evento = Evento::find($id);
+      return view('evento.show',['evento' => $evento]);
     }
 
     /**
@@ -70,8 +60,7 @@ class PropuestaController extends Controller
      */
     public function edit($id)
     {
-        $propuesta = Propuesta::find($id);
-        return view('propuesta.edit',['propuesta' => $propuesta]);
+      //
     }
 
     /**
@@ -83,14 +72,7 @@ class PropuestaController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $this->validate($request,[
-        'idEvento' =>  'required'
-      ]);
-
-      Propuesta::find($id)->update($request->all());
-
-      return redirect()->route('propuesta.index')
-              ->with('success','propuesta editada');
+        //
     }
 
     /**
@@ -101,9 +83,6 @@ class PropuestaController extends Controller
      */
     public function destroy($id)
     {
-      Propuesta::find($id)->delete();
-
-      return redirect()->route('propuesta.index')
-              ->with('success','propuesta eliminada');
+        //
     }
 }

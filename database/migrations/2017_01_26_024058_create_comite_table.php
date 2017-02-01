@@ -15,10 +15,10 @@ class CreateComiteTable extends Migration
     {
         Schema::create('comite', function (Blueprint $table) {
             $table->string('cedula');
-            $table->integer('idEvento');
-            $table->primary(array('cedula','idEvento'));
+            $table->integer('id_evento');
+            $table->primary(array('cedula','id_evento'));
             $table->foreign('cedula')->references('cedula')->on('users');
-            $table->foreign('idEvento')->references('id')->on('evento');
+            $table->foreign('id_evento')->references('id')->on('evento');
             $table->timestamps();
         });
     }

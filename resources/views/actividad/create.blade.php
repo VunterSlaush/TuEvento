@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Actividades Index</title>
-  </head>
-  <body>
+@extends('layouts.app')
+
+@section('content')
+  <div class="container">
     <h1>Actividades Index</h1>
     <ul>
       <li> <a href="{{ URL::to('actividad')}}"> Ver todos</a></li>
@@ -54,5 +52,5 @@
       {{Form::close()}}
     </div>
 
-  </body>
-</html>
+  </div>
+@endsection

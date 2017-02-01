@@ -31,37 +31,37 @@ class User extends Authenticatable
 
     public function evento(){
 
-        return $this->belongsTo('App\Evento');
+        return $this->belongsTo('App\Evento','creador');
 
     }
 
     public function propuestas(){
 
-        return $this->hasMany('App\Propuesta');
+        return $this->hasMany('App\Propuesta','autor');
 
     }
 
     public function asistes(){
 
-        return $this->hasMany('App\Asiste');
+        return $this->hasMany('App\Asiste','cedula');
 
     }
 
     public function actividades(){
 
-        return $this->hasMany('App\Actividad');
+        return $this->hasMany('App\Actividad','ponente');
 
     }
 
     public function calificas(){
 
-        return $this->hasMany('App\Califica');
+        return $this->hasMany('App\Califica','cedula');
 
     }
 
     public function comites(){
 
-        return $this->hasMany('App\Comite');
+        return $this->hasMany('App\Comite','cedula');
 
     }
 }

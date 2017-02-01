@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Propuestas Index</title>
-  </head>
-  <body>
+@extends('layouts.app')
+
+@section('content')
+  <div class="container">
     <h1>Propuestas Index</h1>
     <ul>
       <li> <a href="{{ URL::to('propuesta')}}"> Ver todos</a></li>
@@ -33,6 +31,5 @@
 
       {{Form::close()}}
     </div>
-
-  </body>
-</html>
+  </div>
+  @endsection

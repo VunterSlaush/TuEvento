@@ -17,6 +17,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::post('actividad/createFromProp/{id}',[
+  'as' => 'actividad.createFromProp',
+  'uses'  => 'ActividadController@createFromPropuesta'
+]);
+
 Route::get('/home', 'HomeController@index');
 Route::resource('propuesta', 'PropuestaController');
 Route::resource('actividad', 'ActividadController');
+Route::resource('evento', 'EventoController');

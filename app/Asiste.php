@@ -16,13 +16,13 @@ class Asiste extends Model
 
     public function user(){
 
-    	return $this->belongsTo('App\User');
-    
+    	return $this->belongsTo('App\User','cedula');
+
     }
 
     public function actividades(){
 
-    	return $this->belongsTo('App\Actividad');
+    	return $this->belongsTo('App\Actividad','idActividad');
 
     }
 }

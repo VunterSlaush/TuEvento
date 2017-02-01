@@ -21,19 +21,19 @@ class Actividad extends Model
 
     public function evento(){
 
-        return $this->belongsTo('App\Evento');
+        return $this->belongsTo('App\Evento','evento');
 
     }
 
     public function user(){
 
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User','ponente');
 
     }
 
     public function asiste(){
 
-        return $this->belongsTo('App\Asiste');
+        return $this->belongsTo('App\Asiste','cedula');
 
     }
 }
