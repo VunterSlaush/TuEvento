@@ -15,7 +15,7 @@ class Comite extends Model
 
     public function evento(){
 
-    	return $this->belongsTo('App\Evento','idEvento');
+    	return $this->belongsTo('App\Evento','id_evento');
 
     }
 

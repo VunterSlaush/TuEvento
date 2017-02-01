@@ -16,7 +16,7 @@ class Califica extends Model
 
     public function propuesta(){
 
-    	return $this->belongsTo('App\Propuesta','idPropuesta');
+    	return $this->belongsTo('App\Propuesta','id_propuesta');
 
     }
 

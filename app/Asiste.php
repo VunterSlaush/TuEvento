@@ -22,7 +22,7 @@ class Asiste extends Model
 
     public function actividades(){
 
-    	return $this->belongsTo('App\Actividad','idActividad');
+    	return $this->belongsTo('App\Actividad','id_actividad');
 
     }
 }

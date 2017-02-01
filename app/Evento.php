@@ -28,13 +28,13 @@ class Evento extends Model
 
     public function propuestas(){
 
-    	return $this->hasMany('App\Propuesta','idEvento');
+    	return $this->hasMany('App\Propuesta','id_evento');
 
     }
 
     public function comites(){
 
-    	return $this->hasMany('App\Comite','idEvento');
+    	return $this->hasMany('App\Comite','id_evento');
 
     }
 
