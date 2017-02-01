@@ -19,8 +19,8 @@ class CreateActividadTable extends Migration
             $table->integer('evento');
             $table->date('fecha');
             $table->string('titulo');
-            $table->timestamp('hora_inicio');
-            $table->timestamp('hora_fin');
+            $table->time('hora_inicio');
+            $table->time('hora_fin');
             $table->string('resumen');
             $table->foreign('ponente')->references('cedula')->on('users');
             $table->foreign('evento')->references('id')->on('evento');
