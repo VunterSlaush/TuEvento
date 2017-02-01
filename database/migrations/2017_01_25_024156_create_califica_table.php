@@ -15,11 +15,11 @@ class CreateCalificaTable extends Migration
     {
         Schema::create('califica', function (Blueprint $table) {
             $table->string('cedula');
-            $table->integer('idPropuesta');
+            $table->integer('id_propuesta');
             $table->integer('calificacion');
-            $table->primary(array('cedula','idPropuesta'));
+            $table->primary(array('cedula','id_propuesta'));
             $table->foreign('cedula')->references('cedula')->on('users');
-            $table->foreign('idPropuesta')->references('id')->on('propuesta');
+            $table->foreign('id_propuesta')->references('id')->on('propuesta');
             $table->timestamps();
         });
     }

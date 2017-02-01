@@ -15,12 +15,12 @@ class CreateAsisteTable extends Migration
     {
         Schema::create('asiste', function (Blueprint $table) {
             $table->string('cedula');
-            $table->integer('idActividad');
+            $table->integer('id_actividad');
             $table->boolean('asistio');
             $table->string('codigo');
             $table->primary(array('cedula','idActividad'));
             $table->foreign('cedula')->references('cedula')->on('users');
-            $table->foreign('idActividad')->references('id')->on('actividad');
+            $table->foreign('id_actividad')->references('id')->on('actividad');
             $table->timestamps();
         });
     }
