@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Actividad;
 use App\Propuesta;
+use Illuminate\Support\Facades\Auth;
 
 class ActividadController extends Controller
 {
@@ -129,5 +130,18 @@ class ActividadController extends Controller
 
       return redirect()->route('actividad.index')
               ->with('success','actividad eliminada');
+    }
+
+    public function mis_actividades()
+    {
+      if(Auth::guest())
+      {
+        return redirect('/');
+      }
+      else
+      {
+        $actividades = Actividad::where('ponente',Auth::id())->get();
+        return $actividades;
+      }
     }
 }

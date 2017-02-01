@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Evento;
 use App\Propuesta;
+use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
 {
@@ -84,5 +85,19 @@ class EventoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function mis_eventos()
+    {
+      if(Auth::guest())
+      {
+        return redirect('/');
+      }
+      else
+      {
+        $eventos = Evento::where('creador',Auth::id())->get();
+        return $eventos;
+      }
+
     }
 }

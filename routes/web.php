@@ -23,6 +23,9 @@ Route::post('actividad/createFromProp/{id}',[
 ]);
 
 Route::get('/home', 'HomeController@index');
+Route::get('/misEventos','EventoController@mis_eventos');
+Route::get('/miHorario','AsisteController@mi_horario');
+Route::get('/misActividades','ActividadController@mis_actividades');
 Route::resource('propuesta', 'PropuestaController');
 Route::resource('actividad', 'ActividadController');
 Route::resource('evento', 'EventoController');

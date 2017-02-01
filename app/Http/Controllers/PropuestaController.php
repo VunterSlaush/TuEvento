@@ -15,8 +15,16 @@ class PropuestaController extends Controller
      */
     public function index()
     {
-      $propuesta = Propuesta::where('autor',Auth::id())->get();
-      return view('propuesta.index',['propuesta' => $propuesta]);
+      if(Auth::guest())
+      {
+        return redirect('/');
+      }
+      else
+      {
+        $propuesta = Propuesta::where('autor',Auth::id())->get();
+        return view('propuesta.index',['propuesta' => $propuesta]);
+      }
+
     }
 
     /**
