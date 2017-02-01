@@ -20,3 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::resource('propuesta', 'PropuestaController');
 Route::resource('actividad', 'ActividadController');
+Route::get('certificado',['uses' => 'CertificadoController@getCertificado']);
+Route::get('mis-certificados',['uses' => 'CertificadoController@verCertificados']);
