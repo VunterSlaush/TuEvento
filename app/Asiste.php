@@ -9,7 +9,7 @@ class Asiste extends Model
     protected $table = "asiste";
 
     protected $fillable = ['cedula',
-    					'idActividad',
+    					'id_actividad',
     					'codigo',
     					'created_at',
     					'updated_at'];

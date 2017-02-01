@@ -9,7 +9,7 @@ class Comite extends Model
     protected $table = "comite";
 
     protected $fillable = ['cedula',
-    					'idEvento',
+    					'id_evento',
     					'created_at',
     					'updated_at'];
 

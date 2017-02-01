@@ -9,7 +9,7 @@ class Califica extends Model
     protected $table = "califica";
 
     protected $fillable = ['cedula',
-    					'idPropuesta',
+    					'id_propuesta',
     					'calificacion',
     					'created_at',
     					'updated_at'];
