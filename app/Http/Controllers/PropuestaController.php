@@ -39,7 +39,7 @@ class PropuestaController extends Controller
     {
 
         $this->validate($request,[
-          'idEvento' =>  'required'
+          'id_evento' =>  'required'
         ]);
 
         $request->merge(['autor' => Auth::id()]);
@@ -84,7 +84,7 @@ class PropuestaController extends Controller
     public function update(Request $request, $id)
     {
       $this->validate($request,[
-        'idEvento' =>  'required'
+        'id_evento' =>  'required'
       ]);
 
       Propuesta::find($id)->update($request->all());

@@ -16,8 +16,8 @@
 
     <div class="">
       <div class="">
-        {{Form::label('idEvento','IdEvento')}}
-        {{Form::text('idEvento')}}
+        {{Form::label('id_evento','id_evento')}}
+        {{Form::text('id_evento')}}
       </div>
       <div class="">
         {{Form::label('titulo','Titulo')}}

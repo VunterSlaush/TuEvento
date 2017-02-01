@@ -35,7 +35,7 @@ class ActividadController extends Controller
 
       Actividad::create([
         'ponente' => $propuesta->autor,
-        'evento' => $propuesta->idEvento,
+        'evento' => $propuesta->id_evento,
         'fecha' => "2017-01-20",
         'titulo' => $propuesta->titulo,
         'hora_inicio' => "2017-01-20 00:00:00",

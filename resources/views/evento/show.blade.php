@@ -17,7 +17,7 @@
           <ul>
             <li>Id: {{$value->id}}</li>
             <li>Id: {{$value->autor}}</li>
-            <li>Evento: {{$value->idEvento}}</li>
+            <li>Evento: {{$value->id_evento}}</li>
             <li>Titulo: {{$value->titulo}}</li>
             <li>Adjunto: {{$value->adjunto}}</li>
             <li>Demanda: {{$value->demanda}}</li>

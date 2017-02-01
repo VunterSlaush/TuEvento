@@ -20,7 +20,7 @@
       <thead>
         <td> id -</td>
         <td> autor -</td>
-        <td> idEvento -</td>
+        <td> id_evento -</td>
         <td> adjunto -</td>
         <td> demanda -</td>
       </thead>
@@ -29,7 +29,7 @@
         <tr>
           <td> {{$value->id}}</td>
           <td> {{$value->autor}}</td>
-          <td> {{$value->idEvento}}</td>
+          <td> {{$value->id_evento}}</td>
           <td> {{$value->adjunto}}</td>
           <td> {{$value->demanda}}</td>
           <td>
