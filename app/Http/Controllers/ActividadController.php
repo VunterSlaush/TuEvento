@@ -31,7 +31,6 @@ class ActividadController extends Controller
     }
 
     public function createFromPropuesta($id){
-      echo "hola";
       $propuesta = Propuesta::find($id);
 
       Actividad::create([

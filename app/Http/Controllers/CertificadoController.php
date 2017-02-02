@@ -24,9 +24,9 @@ class CertificadoController extends Controller
     public function generarCertificado()
     {
     	if(Auth::guest()){
-        	
+
         	return redirect('/');
-    	
+
     	}
 
       	$certificado = DB::table('asiste')
@@ -42,7 +42,7 @@ class CertificadoController extends Controller
     }
 
     public function getCertificado(){
-    	
+
     	$certified = $this->generarCertificado();
 
     	$certificado = \PDF::loadview('certificado', ['certified' => $certified]);
@@ -51,7 +51,7 @@ class CertificadoController extends Controller
     }
 
     public function verCertificados(){
-    	
+
     	//$certificado = \PDF::loadview('certificado');
     	$certificado = DB::table('asiste')
             ->select('asiste.cedula','id_actividad','fecha','titulo','hora_inicio','hora_fin','asistio','ponente','codigo')

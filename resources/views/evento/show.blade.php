@@ -12,6 +12,15 @@
       <li>Cant Max: {{ $evento['cant_max'] }}</li>
       <li>Punt Min: {{ $evento['punt_min_aprobatorio'] }}</li>
       <li>Estado: {{ $evento['estado'] }}</li>
+      <li>
+        <a href="{{ URL::to('evento/'.$evento->id.'/propuesta')}}"> Ver propuestas de este evento</a>
+      </li>
+      <li>
+        <a href="{{ URL::to('evento/'.$evento->id.'/propuesta/create')}}"> Aplicar</a>
+      </li>
+      <li>
+        <a href="{{ URL::to('evento/'.$evento->id.'/actividad')}}"> Ver Actividades de este evento</a>
+      </li>
       @foreach($evento->propuestas()->get() as $key => $value)
         <li> Propuestas:
           <ul>

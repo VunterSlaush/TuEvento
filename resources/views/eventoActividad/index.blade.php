@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h1>Actividades Index</h1>
+    <h1>Evento {{$id_evento}} Index</h1>
     <ul>
       <li> <a href="{{ URL::to('actividad')}}"> Ver todos</a></li>
       <li> <a href="{{ URL::to('actividad/create')}}"> Crear</a></li>
@@ -42,8 +42,7 @@
             {{ Form::open(['method' => 'DELETE','route' => ['actividad.destroy', $value->id],'style'=>'display:inline'])}}
             {{ Form::submit('Eliminar')}}
             {{ Form::close()}}
-            <a href="{{route('actividad.show',$value->id)}}"> Mostrar</a>
-            <a href="{{route('actividad.edit',$value->id)}}"> Editar</a>
+            <a href="{{route('evento.actividad.show',[$id_evento,$value->id])}}"> Mostrar</a>
           </td>
         </tr>
         @endforeach
