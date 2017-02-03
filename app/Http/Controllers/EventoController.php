@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Evento;
-use App\Propuesta;
 use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
@@ -16,8 +15,15 @@ class EventoController extends Controller
      */
     public function index()
     {
-      $evento = Evento::all();
-      return view('evento.index',['evento' => $evento]);
+      if(Auth::guest())
+      {
+        return redirect('/');
+      }
+      else
+      {
+        $evento = Evento::all();
+        return view('evento.index',['evento' => $evento]);
+      }
     }
 
     /**
@@ -27,7 +33,7 @@ class EventoController extends Controller
      */
     public function create()
     {
-        //
+        return view('evento.create');
     }
 
     /**
@@ -38,7 +44,21 @@ class EventoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $this->validate($request,[
+        'nombre' =>  'required',
+        'fecha_inicio' =>  'required',
+        'fecha_fin' =>  'required',
+        'cant_max_actividades' =>  'required|numeric',
+        'punt_min_aprobatorio' =>  'required|numeric', //50%
+      ]);
+
+      $request->merge(['creador' => Auth::id()]);
+      $request->merge(['estado' => 'inscripciones']);
+
+      Evento::create($request->all());
+
+      return redirect()->route('evento.index')
+              ->with('success','evento creado');
     }
 
     /**
@@ -61,7 +81,8 @@ class EventoController extends Controller
      */
     public function edit($id)
     {
-      //
+      $evento = Evento::find($id);
+      return view('evento.edit',['evento' => $evento]);
     }
 
     /**
@@ -73,7 +94,18 @@ class EventoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $this->validate($request,[
+        'nombre' =>  'required',
+        'fecha_inicio' =>  'required',
+        'fecha_fin' =>  'required',
+        'cant_max_actividades' =>  'required|numeric',
+        'punt_min_aprobatorio' =>  'required|numeric', //50%
+      ]);
+
+      Evento::find($id)->update($request->all());
+
+      return redirect()->route('evento.index')
+              ->with('success','evento editado');
     }
 
     /**
@@ -84,7 +116,10 @@ class EventoController extends Controller
      */
     public function destroy($id)
     {
-        //
+      Evento::find($id)->delete();
+
+      return redirect()->route('evento.index')
+              ->with('success','evento eliminado');
     }
 
     public function mis_eventos()
