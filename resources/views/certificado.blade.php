@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
+<head>	
+	<title>Certificados</title>
 </head>
 <body>
-	<h1>Hola Mundo en PDF</h1>
-	<p>{{$certified}}</p>
+	<h1>Certificados</h1>
 </body>
 </html>
