@@ -35,3 +35,6 @@ Route::get('mis-certificados',['uses' => 'CertificadoController@verCertificados'
 Route::resource('evento.actividad','EventoActividadController');
 Route::resource('evento.propuesta','EventoPropuestaController');
 Route::resource('evento.comite','EventoComiteController');
+
+Route::get('certificado',['uses' => 'CertificadoController@getSingleCertificado']);
+Route::get('mis-certificados',['uses' => 'CertificadoController@getMultipleCertificado']);
