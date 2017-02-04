@@ -12,7 +12,7 @@
 
     {{Html::ul($errors->all())}}
 
-  {{Form::model($comite, array('route' => array('comite.update', $comite->id), 'method' => 'PUT'))}}
+  {{Form::model($comite, array('route' => array('evento.comite.update',$id_evento, $comite->id), 'method' => 'PUT'))}}
 
     <div class="">
       <div class="">

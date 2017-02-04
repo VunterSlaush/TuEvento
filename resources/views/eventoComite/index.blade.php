@@ -2,10 +2,10 @@
 
 @section('content')
   <div class="container">
-    <h1>Comite Index</h1>
+    <h1>Evento {{$id_evento}} Index</h1>
     <ul>
       <li> <a href="{{ URL::to('comite')}}"> Ver todos</a></li>
-      <li> <a href="{{ URL::to('comite/create')}}"> Crear</a></li>
+      <li> <a href="{{ URL::to('actividad/create')}}"> Crear</a></li>
     </ul>
 
     <h1> Todos</h1>
@@ -32,8 +32,8 @@
             {{ Form::open(['method' => 'DELETE','route' => ['comite.destroy', $value->id],'style'=>'display:inline'])}}
             {{ Form::submit('Eliminar')}}
             {{ Form::close()}}
-            <a href="{{route('comite.show',$value->id)}}"> Mostrar</a>
-            <a href="{{route('comite.edit',$value->id)}}"> Editar</a>
+            <a href="{{route('evento.comite.show',[$id_evento,$value->id])}}"> Mostrar</a>
+            <a href="{{route('evento.comite.edit',[$id_evento,$value->id])}}"> Editar</a>
           </td>
         </tr>
         @endforeach

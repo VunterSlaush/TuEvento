@@ -4,18 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\User;
-use App\Evento;
 use App\Comite;
+use App\Evento;
 
-class ComiteController extends Controller
+class EventoComiteController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id_evento)
     {
       if(Auth::guest())
       {
@@ -23,8 +22,8 @@ class ComiteController extends Controller
       }
       else
       {
-          $comite = Comite::all();
-          return view('comite.index',['comite' => $comite]);
+        $comite = Comite::where('id_evento',$id_evento)->get();
+        return view('eventoComite.index',['comite' => $comite,'id_evento' => $id_evento]);
       }
     }
 
@@ -33,9 +32,9 @@ class ComiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id_evento)
     {
-        return view('comite.create');
+        return view('eventoComite.create',['id_evento' => $id_evento]);
     }
 
     /**
@@ -44,22 +43,15 @@ class ComiteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id_evento)
     {
-      $this->validate($request,[
-        'id_evento' =>  'required',
-        'cedula' =>  'required',
-      ]);
+      $request->merge(['cedula' => Auth::id()]);
+      $request->merge(['id_evento' => $id_evento]);
 
-      // if ($this->comiteExists($request->id_evento,$request->cedula) == 0){
         Comite::create($request->all());
 
-        return redirect()->route('comite.index')
+        return redirect()->route('evento.comite.index',['id_evento' => $id_evento])
                 ->with('success','comite creado');
-      // }
-
-      // return redirect()->route('comite.index')
-      //         ->withErrors(['failed','Error usuario ya en comite de evento']);
     }
 
     /**
@@ -68,10 +60,17 @@ class ComiteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_evento,$id)
     {
-      $comite = Comite::find($id);
-      return view('comite.show',['comite' => $comite]);
+      if(Auth::guest())
+      {
+        return redirect('/');
+      }
+      else
+      {
+        $comite = Comite::find($id)->where('id_evento',$id_evento)->get();
+        return view('eventoComite.show',['comite' => $comite,'id_evento'=> $id_evento]);
+      }
     }
 
     /**
@@ -80,10 +79,10 @@ class ComiteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_evento,$id)
     {
       $comite = Comite::find($id);
-      return view('comite.edit',['comite' => $comite]);
+      return view('eventoComite.edit',['comite' => $comite,'id_evento'=> $id_evento]);
     }
 
     /**
@@ -93,17 +92,12 @@ class ComiteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_evento,$id)
     {
-      $this->validate($request,[
-        'cedula' =>  'required',
-        'id_evento' =>  'required',
-      ]);
-
       Comite::find($id)->update($request->all());
 
-      return redirect()->route('comite.index')
-              ->with('success','comite editado');
+      return redirect()->route('evento.comite.index',['id_evento' => $id_evento])
+              ->with('success','comite editada');
     }
 
     /**
@@ -112,16 +106,11 @@ class ComiteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_evento,$id)
     {
       Comite::find($id)->delete();
 
-      return redirect()->route('comite.index')
-              ->with('success','comite eliminado');
-    }
-
-    private function comiteExists($id_evento,$cedula){
-      return count(Comite::where('id_evento',$id_evento)
-             ->where('cedula',$cedula));
+      return redirect()->route('evento.comite.index',['id_evento' => $id_evento])
+              ->with('success','comite eliminada');
     }
 }
