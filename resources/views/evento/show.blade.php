@@ -40,6 +40,11 @@
           </ul>
         </li>
       @endforeach
+      <li>
+        {{ Form::open(['method' => 'POST','route' => ['comite.index',$evento['id']]]) }}
+        {{ Form::submit('ver comite')}}
+        {{ Form::close()}}</a>
+      </li>
     </ul>
   </div>
 @endsection
