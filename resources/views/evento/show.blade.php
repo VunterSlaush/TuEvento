@@ -21,6 +21,9 @@
       <li>
         <a href="{{ URL::to('evento/'.$evento->id.'/actividad')}}"> Ver Actividades de este evento</a>
       </li>
+      <li>
+        <a href="{{ URL::to('evento/'.$evento->id.'/comite')}}"> Ver Comite de este evento</a>
+      </li>
       @foreach($evento->propuestas()->get() as $key => $value)
         <li> Propuestas:
           <ul>
@@ -40,6 +43,11 @@
           </ul>
         </li>
       @endforeach
+      <li>
+        {{ Form::open(['method' => 'POST','route' => ['comite.index',$evento['id']]]) }}
+        {{ Form::submit('ver comite')}}
+        {{ Form::close()}}</a>
+      </li>
     </ul>
   </div>
 @endsection

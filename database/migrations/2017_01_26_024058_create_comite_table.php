@@ -14,9 +14,9 @@ class CreateComiteTable extends Migration
     public function up()
     {
         Schema::create('comite', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('cedula');
             $table->integer('id_evento');
-            $table->primary(array('cedula','id_evento'));
             $table->foreign('cedula')->references('cedula')->on('users');
             $table->foreign('id_evento')->references('id')->on('evento');
             $table->timestamps();

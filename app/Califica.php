@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Califica extends Model
 {
+    protected $primaryKey = 'id';
     protected $table = "califica";
 
     protected $fillable = ['cedula',
