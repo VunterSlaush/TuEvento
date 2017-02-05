@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Califica Index</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
   <h1>Propuestas Pendientes por Calificar</h1>
 
   @if (Session::has('success'))
   <div class="">
     {{Session::get('success')}}
   </div>
-  @endif  
+  @endif
 
   <table>
     <thead>
@@ -41,7 +39,5 @@
       @endforeach
     </tbody>
   </table>
-
-
-</body>
-</html>
+</div>
+@endsection

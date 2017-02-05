@@ -40,8 +40,6 @@ Route::get('/actividad/{id}/asistir','ActividadController@asistir');
 Route::get('/actividad/{id}/verificarAsistencia',
 ['as' => 'verificarAsistencia', 'uses' => 'ActividadController@verificarAsistencia']);
 Route::post('marcarAsistencia',['as' => 'marcarAsistencia', 'uses' => 'AsisteController@marcarAsistencia']);
-Route::get('certificado',['uses' => 'CertificadoController@getSingleCertificado']);
-Route::get('mis-certificados',['uses' => 'CertificadoController@getMultipleCertificado']);
 Route::get('califica/pendiente', 'CalificaController@porcalificar')->name('califica.porcalificar');
 Route::get('califica/lista', 'CalificaController@calificada')->name('califica.calificada');
 Route::resource('califica', 'CalificaController');

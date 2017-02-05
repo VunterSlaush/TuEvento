@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Calificaciones Index</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
+<div>
   <h1>Editar Calificacion</h1>
   <ul>
     <li> <a href="{{ URL::to('califica/pendiente')}}"> Ver Pendientes</a></li>
@@ -34,5 +32,5 @@
     {{Form::close()}}
   </div>
 
-</body>
-</html>
+</div>
+@endsection

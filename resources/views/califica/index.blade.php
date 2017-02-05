@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Califica Index</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
+<div>
   <h1>Califica Index</h1>
   <ul>
     <li> <a href="{{ URL::to('califica/pendiente')}}"> Ver Pendientes</a></li>
@@ -14,7 +12,7 @@
   <div class="">
     {{Session::get('success')}}
   </div>
-  @endif  
+  @endif
 
-</body>
-</html>
+</div>
+@endsection
