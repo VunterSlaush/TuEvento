@@ -9,7 +9,18 @@
 
                 <div class="panel-body">
                     You are logged in!
+                    <ul>
+                    <li><a href="{{ URL::to('propuesta')}}"> Ver Propuestas!</a> </li>
+                    <li><a href="{{ URL::to('califica')}}"> Calificar Propuestas!</a> </li>
+                    <li><a href="{{ URL::to('actividad')}}"> Ver Actividades!</a> </li>
+                    
+                    
+                    
+                    </ul>
                 </div>
+
+                
+
             </div>
         </div>
     </div>

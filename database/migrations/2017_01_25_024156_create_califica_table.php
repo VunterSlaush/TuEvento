@@ -14,10 +14,10 @@ class CreateCalificaTable extends Migration
     public function up()
     {
         Schema::create('califica', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('cedula');
             $table->integer('idPropuesta');
             $table->integer('calificacion');
-            $table->primary(array('cedula','idPropuesta'));
             $table->foreign('cedula')->references('cedula')->on('users');
             $table->foreign('idPropuesta')->references('id')->on('propuesta');
             $table->timestamps();
