@@ -2,12 +2,6 @@
 
 @section('content')
   <div class="container">
-    <h1>Evento {{$id_evento}} Index</h1>
-    <ul>
-      <li> <a href="{{ URL::to('actividad')}}"> Ver todos</a></li>
-      <li> <a href="{{ URL::to('actividad/create')}}"> Crear</a></li>
-    </ul>
-
     <h1> Todas las actividades</h1>
 
     @if (Session::has('message'))
@@ -18,20 +12,18 @@
 
     <table>
       <thead>
-        <td> id </td>
-        <td> ponente </td>
-        <td> evento</td>
-        <td> fecha</td>
-        <td> titulo </td>
-        <td> Inicio </td>
-        <td> Fin </td>
-        <td> Resumen </td>
+        <th> Ponente </th>
+        <th> Evento</th>
+        <th> Fecha </th>
+        <th> Titulo </th>
+        <th> Inicio </th>
+        <th> Fin </th>
+        <th> Resumen </th>
       </thead>
       <tbody>
         @foreach($actividad as $key => $value)
         <tr>
-          <td> {{$value->id}}</td>
-          <td> {{$value->ponente}}</td>
+          <td> {{$value->user->nombre}}</td>
           <td> {{$value->evento}}</td>
           <td> {{$value->fecha}}</td>
           <td> {{$value->titulo}}</td>

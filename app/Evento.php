@@ -22,7 +22,7 @@ class Evento extends Model
 
    	public function actividades(){
 
-    	return $this->hasMany('App\Actividad');
+    	return $this->hasMany('App\Actividad','id_evento');
 
     }
 
@@ -38,9 +38,9 @@ class Evento extends Model
 
     }
 
-    public function users(){
+    public function user(){
 
-    	return $this->hasMany('App\User','cedula');
+    	return $this->belongsTo('App\User','creador','cedula');
 
     }
 }

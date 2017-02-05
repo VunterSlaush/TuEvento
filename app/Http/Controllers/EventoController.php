@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
 {
+    protected $redirectTo = '/home';
+
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +59,7 @@ class EventoController extends Controller
 
       Evento::create($request->all());
 
-      return redirect()->route('evento.index')
+      return redirect('/home')
               ->with('success','evento creado');
     }
 
@@ -105,7 +107,7 @@ class EventoController extends Controller
       Evento::find($id)->update($request->all());
 
       return redirect()->route('evento.index')
-              ->with('success','evento editado');
+              ->with('message','evento editado');
     }
 
     /**
@@ -119,7 +121,7 @@ class EventoController extends Controller
       Evento::find($id)->delete();
 
       return redirect()->route('evento.index')
-              ->with('success','evento eliminado');
+              ->with('message','evento eliminado');
     }
 
     public function mis_eventos()
@@ -130,8 +132,8 @@ class EventoController extends Controller
       }
       else
       {
-        $eventos = Evento::where('creador',Auth::id())->get();
-        return $eventos;
+        $evento = Evento::where('creador',Auth::id())->get();
+        return view('evento.index',['evento' => $evento]);
       }
 
     }

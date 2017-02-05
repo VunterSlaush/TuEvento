@@ -2,40 +2,33 @@
 
 @section('content')
   <div class="container">
-    <h1>evento Index</h1>
-    <ul>
-      <li> <a href="{{ URL::to('evento')}}"> Ver todos</a></li>
-      <li> <a href="{{ URL::to('evento/create')}}"> Crear</a></li>
-    </ul>
-
     <h1> Crear evento</h1>
 
     {{Html::ul($errors->all())}}
 
     {{Form::open(array('url' => 'evento'))}}
-
-    <div class="">
-      <div class="">
+    <div class="row">
+      <div class="col m6">
         {{Form::label('nombre','Nombre')}}
         {{Form::text('nombre')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('lugar','Lugar')}}
         {{Form::text('lugar')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('fecha_inicio','fecha_inicio')}}
         {{Form::date('fecha_inicio','\Carbon\Carbon::now()')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('fecha_fin','fecha_fin')}}
         {{Form::date('fecha_fin','\Carbon\Carbon::now()')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('cant_max_actividades','Cant. Actividades')}}
         {{Form::text('cant_max_actividades')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('punt_min_aprobatorio','Puntuacion Minima')}}
         {{Form::text('punt_min_aprobatorio','50')}}
       </div>

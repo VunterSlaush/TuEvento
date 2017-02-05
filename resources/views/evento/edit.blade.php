@@ -2,40 +2,33 @@
 
 @section('content')
   <div class="container">
-    <h1>Eventos Index</h1>
-    <ul>
-      <li> <a href="{{ URL::to('actividad')}}"> Ver todos</a></li>
-      <li> <a href="{{ URL::to('actividad/create')}}"> Crear</a></li>
-    </ul>
-
     <h1> Editar evento</h1>
 
-    {{Html::ul($errors->all())}}
-
+  {{Html::ul($errors->all())}}
   {{Form::model($evento, array('route' => array('evento.update', $evento->id), 'method' => 'PUT'))}}
 
-    <div class="">
-      <div class="">
+    <div class="row">
+      <div class="col m6">
         {{Form::label('nombre','Nombre')}}
         {{Form::text('nombre')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('lugar','Lugar')}}
         {{Form::text('lugar')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('fecha_inicio','fecha_inicio')}}
         {{Form::date('fecha_inicio')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('fecha_fin','fecha_fin')}}
         {{Form::date('fecha_fin')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('cant_max_actividades','Cant. Actividades')}}
         {{Form::number('cant_max_actividades')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('punt_min_aprobatorio','Puntuacion Minima')}}
         {{Form::number('punt_min_aprobatorio')}}
       </div>
