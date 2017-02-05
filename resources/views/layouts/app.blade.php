@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
 
     <!-- Scripts -->
     <script>
@@ -22,90 +23,45 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav>
+          <div class="nav-wrapper">
             <div class="container">
-                <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->nombre }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu" role="menu">
-                                  <li>
-                                    <a href="{{ url('/miHorario') }}"
-                                        >
-                                        Mi Horario
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a href="{{ url('/misEventos') }}"
-                                        >
-                                        Mis Eventos
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a href="{{ url('/propuesta') }}"
-                                        >
-                                        Mis Propuestas
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a href="{{ url('/misActividades') }}"
-                                        >
-                                        Mis Actividades
-                                    </a>
-                                  </li>
-                                    <li>
-                                        <a href="{{ url('/logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-                    </ul>
-                </div>
+              <a href="{{ url('/') }}" class="brand-logo">TuEvento</a>
+              <ul id="nav-mobile" class="right hide-on-med-and-down">
+                @if (Auth::guest())
+                    <li><a href="{{ url('/login') }}">Ingreso</a></li>
+                    <li><a href="{{ url('/register') }}">Registro</a></li>
+                @else
+                  <a class='dropdown-button' href='#' data-activates='dropdown1'>
+                    {{ Auth::user()->nombre }}<span class="caret"></span>
+                  </a>
+                  <!-- Dropdown Structure -->
+                  <ul id='dropdown1' class='dropdown-content'>
+                    <li><a href="{{ url('/miHorario') }}">Mi Horario</a></li>
+                    <li><a href="{{ url('/misEventos') }}">Mis Eventos</a></li>
+                    <li><a href="{{ url('/propuesta') }}">Mis Propuestas</a></li>
+                    <li><a href="{{ url('/misActividades') }}">Mis Actividades</a></li>
+                    <li class="divider"></li>
+                    <li>
+                      <a href="{{ url('/logout') }}"
+                        onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();">
+                        Logout</a>
+                      <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                          {{ csrf_field() }}
+                      </form>
+                    </li>
+                  </ul>
+                @endif
+              </ul>
             </div>
+          </div>
         </nav>
-
         @yield('content')
     </div>
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script type="text/javascript" src="/js/materialize.min.js"></script>
 </body>
 </html>

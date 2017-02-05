@@ -31,7 +31,7 @@ class User extends Authenticatable
 
     public function evento(){
 
-        return $this->belongsTo('App\Evento','creador');
+        return $this->hasOne('App\Evento','creador');
 
     }
 

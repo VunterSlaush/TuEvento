@@ -35,7 +35,7 @@ class ActividadController extends Controller
 
       Actividad::create([
         'ponente' => $propuesta->autor,
-        'evento' => $propuesta->id_evento,
+        'id_evento' => $propuesta->id_evento,
         'fecha' => "2017-01-20",
         'titulo' => $propuesta->titulo,
         'hora_inicio' => "2017-01-20 00:00:00",
@@ -103,13 +103,11 @@ class ActividadController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $this->validate($request,[
-        'id' =>  'required',
-        'ponente' =>  'required',
-        'evento' =>  'required',
-        'fecha' =>  'required',
-        'titulo' =>  'required'
-      ]);
+        $this->validate($request,[
+          'ponente' =>  'required',
+          'fecha' =>  'required',
+          'titulo' =>  'required'
+        ]);
 
         Actividad::find($id)->update($request->all());
 
@@ -139,8 +137,8 @@ class ActividadController extends Controller
       }
       else
       {
-        $actividades = Actividad::where('ponente',Auth::id())->get();
-        return $actividades;
+        $actividad = Actividad::where('ponente',Auth::id())->get();
+        return view('actividad.index',['actividad' => $actividad]);
       }
     }
 }

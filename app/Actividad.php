@@ -10,7 +10,7 @@ class Actividad extends Model
 
     protected $fillable = ['id',
     					'ponente',
-              'evento',
+              'id_evento',
     					'fecha',
     					'titulo',
     					'hora_inicio',
@@ -21,7 +21,7 @@ class Actividad extends Model
 
     public function evento(){
 
-        return $this->belongsTo('App\Evento','evento');
+        return $this->belongsTo('App\Evento','id_evento');
 
     }
 
