@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
+
         <div class="col s8 offset-s2">
           <ul class="collection with-header">
             <li class="collection-header"> <h5> Dashboard </h5> </li>
@@ -36,6 +37,7 @@
               </div>
             </li>
           </ul>
+
         </div>
     </div>
 </div>

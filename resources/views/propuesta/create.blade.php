@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -8,13 +9,18 @@
       <li> <a href="{{ URL::to('propuesta/create')}}"> Crear</a></li>
     </ul>
 
-    <h1> Crear propuesta</h1>
 
-    {{Html::ul($errors->all())}}
+  <h1> Crear propuesta</h1>
 
-    {{Form::open(array('url' => 'propuesta'))}}
+  {{Html::ul($errors->all())}}
 
-    <div class="">
+  {{Form::open(array('url' => 'propuesta'))}}
+
+  <div class="">
+      <div class="">
+        {{Form::label('autor','autor')}}
+        {{Form::text('autor')}}
+      </div>
       <div class="">
         {{Form::label('id_evento','id_evento')}}
         {{Form::text('id_evento')}}
@@ -32,6 +38,11 @@
         {{Form::text('descripcion')}}
       </div>
       <div class="">
+        {{Form::label('titulo','titulo')}}
+        {{Form::text('titulo')}}
+      </div>
+
+      <div class="">
         {{Form::label('adjunto','Adjunto')}}
         {{Form::File('adjunto')}}
       </div>
@@ -39,10 +50,19 @@
         {{Form::label('demanda','Demanda')}}
         {{Form::text('demanda')}}
       </div>
-      {{Form::submit('Crear')}}
+      <div class="">
+        {{Form::label('descripcion','descripcion')}}
+        {{Form::text('descripcion')}}
+      </div>
+      <div class="">
+        {{Form::label('duracion','duracion')}}
+        {{Form::text('duracion')}}
+      </div>
+    {{Form::submit('Crear')}}
 
-      {{Form::close()}}
-    </div>
+    {{Form::close()}}
+  </div>
+
 
   </div>
 @endsection

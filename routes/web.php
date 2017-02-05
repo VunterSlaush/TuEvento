@@ -35,6 +35,8 @@ Route::get('mis-certificados',['uses' => 'CertificadoController@verCertificados'
 Route::resource('evento.actividad','EventoActividadController');
 Route::resource('evento.propuesta','EventoPropuestaController');
 Route::resource('evento.comite','EventoComiteController');
-
 Route::get('certificado',['uses' => 'CertificadoController@getSingleCertificado']);
 Route::get('mis-certificados',['uses' => 'CertificadoController@getMultipleCertificado']);
+Route::get('califica/pendiente', 'CalificaController@porcalificar')->name('califica.porcalificar');
+Route::get('califica/lista', 'CalificaController@calificada')->name('califica.calificada');
+Route::resource('califica', 'CalificaController');

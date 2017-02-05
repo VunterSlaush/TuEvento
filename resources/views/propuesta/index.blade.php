@@ -1,14 +1,16 @@
+<<<<<<< HEAD
 @extends('layouts.app')
 
 @section('content')
   <div class="container">
     <h1> Todas las propuestas</h1>
 
-    @if (Session::has('message'))
-      <div class="">
-        {{Sesion::get('message')}}
-      </div>
-    @endif
+
+  @if (Session::has('success'))
+  <div class="">
+    {{Session::get('success')}}
+  </div>
+  @endif
 
     <table>
       <thead>
