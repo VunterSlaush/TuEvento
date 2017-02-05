@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Actividad;
+use App\Evento;
 use Illuminate\Support\Facades\Auth;
 
 class EventoActividadController extends Controller
@@ -21,8 +22,9 @@ class EventoActividadController extends Controller
       }
       else
       {
-        $actividad = Actividad::where('evento',$id_evento)->get();
-        return view('eventoActividad.index',['actividad' => $actividad,'id_evento' => $id_evento]);
+        $actividad = Actividad::where('id_evento',$id_evento)->get();
+        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        return view('eventoActividad.index',['actividad' => $actividad,'id_evento' => $id_evento, 'nombre_evento' => $nombre_evento]);
       }
     }
 
@@ -61,7 +63,7 @@ class EventoActividadController extends Controller
       }
       else
       {
-        $actividad = Actividad::find($id)->where('evento',$id_evento)->get();
+        $actividad = Actividad::find($id)->where('id_evento',$id_evento)->get();
         return view('eventoActividad.show',['actividad' => $actividad,'id_evento'=> $id_evento]);
       }
     }

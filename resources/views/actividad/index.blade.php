@@ -32,6 +32,7 @@
           <td> {{$value->hora_fin}}</td>
           <td> {{$value->resumen}}</td>
           <td>
+            <a href="/actividad/{{$value->id}}/asistir"> Asistir</a>
             <a href="{{route('actividad.show',$value->id)}}"> Mostrar</a>
             <a href="{{route('actividad.edit',$value->id)}}"> Editar</a>
             {{ Form::open(['method' => 'DELETE','route' => ['actividad.destroy', $value->id],'style'=>'display:inline'])}}

@@ -41,6 +41,7 @@
                     <li><a href="{{ url('/misEventos') }}">Mis Eventos</a></li>
                     <li><a href="{{ url('/propuesta') }}">Mis Propuestas</a></li>
                     <li><a href="{{ url('/misActividades') }}">Mis Actividades</a></li>
+                    <li><a href="{{ url('/misCertificados') }}">Mis Certificados</a></li>
                     <li class="divider"></li>
                     <li>
                       <a href="{{ url('/logout') }}"

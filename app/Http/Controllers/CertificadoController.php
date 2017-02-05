@@ -24,7 +24,7 @@ class CertificadoController extends Controller
     WHERE users.cedula = '00000002';
     */
 
-    public function generarSingleCertificado()
+    public function generarCertificado($codigo)
     {
     	if(Auth::guest()){
 
@@ -33,69 +33,36 @@ class CertificadoController extends Controller
     	}
 
       	$certificado = DB::table('asiste')
-            ->select('asiste.cedula','id_actividad','fecha','titulo','hora_inicio','hora_fin','asistio','ponente','codigo')
-            ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
-            ->join('users', 'asiste.cedula', '=', 'users.cedula')
-            ->join('evento','actividad.evento','=','evento.id')
-            ->where('asiste.cedula',Auth::id())
-            ->where('asiste.asistio','=', true)
-            ->where('asistio.codigo','=',codigoParam)
-            ->get();
+	            ->select('evento.nombre as evento','asiste.cedula as cedula', 'lugar','user.nombre as nombre','id_actividad','fecha','titulo','asistio','ponente.nombre as ponente','codigo')
+	            ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
+	            ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
+							->join('users as ponente', 'actividad.ponente', '=', 'ponente.cedula')
+	            ->join('evento','actividad.id_evento','=','evento.id')
+	            ->where('asiste.cedula',Auth::id())
+	            ->where('asiste.asistio','=', true)
+							->where('asiste.codigo', '=',$codigo)
+	            ->first();
       	return $certificado;
     }
 
-    public function getCertificado(){
-
-    	$certified = $this->generarCertificado();
-
-
-        $certificado = DB::table('asiste')
-        ->select('users.nombre','users.cedula','id_actividad','fecha','titulo','evento.nombre AS nombre_evento','lugar')
-        ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
-        ->join('users', 'asiste.cedula', '=', 'users.cedula')
-        ->join('evento','actividad.evento','=','evento.id')
-        //->where('asiste.cedula',Auth::id()) usable only when a user is logged in, not usable for initial tests.
-        ->where('asiste.cedula','=','00000004') //only usable for tests, this value can be changed.
-        //->where('asiste.asistio','=', true)
-        //->where('asistio.codigo','=',codigoParam)
-        ->get();
-        return $certificado;
-
-    }
-
-
-    public function generarMultipleCertificados(){
-
-
-        $certificado = DB::table('asiste')
-        ->select('users.nombre','users.cedula','id_actividad','fecha','titulo','evento.nombre AS nombre_evento','lugar')
-        ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
-        ->join('users', 'asiste.cedula', '=', 'users.cedula')
-        ->join('evento','actividad.evento','=','evento.id')
-        //->where('asiste.cedula',Auth::id()) usable only when a user is logged in, not usable for initial tests.
-        ->where('asiste.cedula','=','00000002') //only usable for tests, this value can be changed.
-        //->where('asiste.asistio','=', true)
-        ->get();
-        return $certificado;
-
-    }
-
-
-    public function verCertificados(){
+    public function verCertificados()
+		{
 
     	//$certificado = \PDF::loadview('certificado');
     	$certificado = DB::table('asiste')
-            ->select('asiste.cedula','id_actividad','fecha','titulo','hora_inicio','hora_fin','asistio','ponente','codigo')
+            ->select('evento.nombre as evento','id_actividad','fecha','titulo','asistio','ponente.nombre as ponente','codigo')
             ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
-            ->join('users', 'asiste.cedula', '=', 'users.cedula')
-            ->join('evento','actividad.evento','=','evento.id')
+            ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
+						->join('users as ponente', 'actividad.ponente', '=', 'ponente.cedula')
+            ->join('evento','actividad.id_evento','=','evento.id')
             ->where('asiste.cedula',Auth::id())
             ->where('asiste.asistio','=', true)
             ->get();
-        return $certificado;
-}
 
-    public function getSingleCertificado(){
+				return view('certificados',['certificados' => $certificado]);
+		}
+
+    public function getCertificado($codigo){
 
         if(Auth::guest()){
 
@@ -103,7 +70,7 @@ class CertificadoController extends Controller
 
         }else{
 
-            $certificate = $this->generarSingleCertificado();
+            $certificate = $this->generarCertificado($codigo);
             $certificado = \PDF::loadview('certificado',['certificate' => $certificate]);
             return $certificado->setPaper('a4','landscape')->stream('certificate.pdf');
 
@@ -112,21 +79,5 @@ class CertificadoController extends Controller
 
     }
 
-
-    public function getMultipleCertificado(){
-
-
-        if(Auth::guest()){
-
-            return redirect('home');
-
-        }else{
-
-            $certified = $this->generarMultipleCertificados();
-            return View::make('listaCertificados', ['certified' => $certified]);
-
-        }
-
-    }
 
 }

@@ -24,7 +24,7 @@
 					<td>{{ $cert->cedula }}</td>
 					<td>{{ $cert->fecha }}</td>
 					<td>{{ $cert->titulo }}</td>
-					<td>{{ $cert->nombre_evento }}</td>
+					<td>{{ $cert->evento }}</td>
 					<td>{{ $cert->lugar }}</td>
 				</tr>
 			@endforeach
