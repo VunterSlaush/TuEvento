@@ -5,7 +5,7 @@
     <h1>Actividades Index</h1>
     <ul>
       <li> <a href="{{ URL::to('actividad')}}"> Ver todos</a></li>
-      <li> <a href="{{ URL::to('actividad/create')}}"> Crear</a></li>
+      <li> <a href="{{ URL::to('actividad/create')}}"> Crear</a></li>    
     </ul>
 
     <h1> Todas las actividades</h1>

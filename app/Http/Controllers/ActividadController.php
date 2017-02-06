@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Actividad;
 use App\Propuesta;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ActividadController extends Controller
 {
@@ -143,4 +144,5 @@ class ActividadController extends Controller
         return $actividades;
       }
     }
+
 }
