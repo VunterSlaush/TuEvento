@@ -12,7 +12,6 @@ use App\Actividad;
 
 class SearcherController extends Controller
 {
-
     public function searchActivities(Request $request){
 
       $busqueda = $request->input('titulo');

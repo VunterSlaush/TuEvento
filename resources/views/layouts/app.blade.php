@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
 
     <!-- Scripts -->

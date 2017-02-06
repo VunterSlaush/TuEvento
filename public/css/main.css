@@ -1,0 +1,56 @@
+a:hover,a:focus{
+  text-decoration: none;
+}
+
+.collapsible-body {
+  padding: 0 !important;
+}
+
+nav .dropdown-content{
+  min-width: 168px;
+  margin-top: 64px;
+  background-color: rgba(24, 7, 150, 0.78);
+}
+nav .dropdown-content li>a, .dropdown-content li>span{
+  color: #fff;
+}
+nav{
+  background-color: #180796 !important;
+}
+
+nav ul a:hover {
+  background-color: #fff !important;
+  color: #180796 !important;
+}
+
+nav ul a:focus{
+  color: #f5f8fa;
+}
+
+.collection a.collection-item:not(.active):hover {
+    background-color: #5b4cca !important;
+    color: #fff !important;
+}
+
+.collection a.collection-item {
+    color: #5b4cca !important;
+}
+
+.btn{
+      background-color: #180796 !important;
+}
+
+.btn:hover, .btn-large:hover {
+    background-color: #5b4cca !important;
+    color: #fff !important;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #180796 !important;
+    box-shadow: 0 1px 0 0 #180796 !important;
+}
+
+strong {
+    font-weight: bold !important;
+    text-decoration: underline;
+}
