@@ -2,24 +2,18 @@
 
 @section('content')
   <div class="container">
-    <h1>Comite Index</h1>
-    <ul>
-      <li> <a href="{{ URL::to('evento/'.$id_evento.'/comite')}}"> Ver todos</a></li>
-      <li> <a href="{{ URL::to('evento/'.$id_evento.'/comite/create')}}"> Crear</a></li>
-    </ul>
-
-    <h1> Todos</h1>
+    <h1> Asignar Jurado</h1>
 
     {{Html::ul($errors->all())}}
 
     {{Form::open(array('url' => 'evento/'.$id_evento.'/comite'))}}
 
-    <div class="">
-      <div class="">
+    <div class="row">
+      <div class="col m6">
         {{Form::label('cedula','Usuario id')}}
         {{Form::text('cedula')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('id_evento','Evento id')}}
         {{Form::text('id_evento')}}
       </div>

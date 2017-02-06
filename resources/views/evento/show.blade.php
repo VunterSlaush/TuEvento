@@ -23,8 +23,8 @@
           <a class="btn" href="{{ route('evento.propuesta.index',$evento->id)}}"> Ver propuestas</a>
           <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}"> Aplicar</a>
           <a class="btn" href="{{ route('evento.actividad.index',$evento->id)}}"> Ver actividades</a>
-          <a class="btn" href="{{ route('evento.comite.index',$evento->id) }}">
-            Ver comite</a>
+          <a class="btn" href="{{ route('evento.comite.index',$evento->id) }}"> Ver comite</a>
+          <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}"> Asignar Jurado</a>
       </li>
     </ul>
   </div>

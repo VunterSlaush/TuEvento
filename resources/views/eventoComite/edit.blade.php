@@ -2,28 +2,21 @@
 
 @section('content')
   <div class="container">
-    <h1>comite Index</h1>
-    <ul>
-      <li> <a href="{{ URL::to('comite')}}"> Ver todos</a></li>
-      <li> <a href="{{ URL::to('comite/create')}}"> Crear</a></li>
-    </ul>
-
-    <h1> Crear</h1>
+    <h1> Editar </h1>
 
     {{Html::ul($errors->all())}}
 
   {{Form::model($comite, array('route' => array('evento.comite.update',$id_evento, $comite->id), 'method' => 'PUT'))}}
 
-    <div class="">
-      <div class="">
+    <div class="row">
+      <div class="col m6">
         {{Form::label('id_evento','id_evento')}}
         {{Form::text('id_evento')}}
       </div>
-      <div class="">
+      <div class="col m6">
         {{Form::label('cedula','usuario')}}
         {{Form::text('cedula')}}
       </div>
-
       {{Form::submit('Editar')}}
 
       {{Form::close()}}
