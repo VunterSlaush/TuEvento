@@ -181,7 +181,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
 
         /* Custom */
-        Collective\Html\HtmlServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,    
 
     ],
 

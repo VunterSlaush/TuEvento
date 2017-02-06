@@ -7,6 +7,7 @@ use App\Actividad;
 use App\Asiste;
 use App\Propuesta;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ActividadController extends Controller
 {
@@ -183,4 +184,5 @@ class ActividadController extends Controller
       }
       return $randomString;
     }
+
 }

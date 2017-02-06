@@ -43,3 +43,4 @@ Route::post('marcarAsistencia',['as' => 'marcarAsistencia', 'uses' => 'AsisteCon
 Route::get('califica/pendiente', 'CalificaController@porcalificar')->name('califica.porcalificar');
 Route::get('califica/lista', 'CalificaController@calificada')->name('califica.calificada');
 Route::resource('califica', 'CalificaController');
+Route::get('/search-activities','SearcherController@searchActivities');
