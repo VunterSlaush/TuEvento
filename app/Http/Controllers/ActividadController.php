@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Actividad;
+use App\Asiste;
 use App\Propuesta;
 use Illuminate\Support\Facades\Auth;
 
@@ -115,6 +116,18 @@ class ActividadController extends Controller
                 ->with('success','actividad editada');
     }
 
+    public function verificarAsistencia($id)
+    {
+      if(Auth::guest())
+      {
+        return redirect('/login');
+      }
+      else
+      {
+        return view('actividad.verificar_asistencia',['id_actividad' => $id]);
+      }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -140,5 +153,34 @@ class ActividadController extends Controller
         $actividad = Actividad::where('ponente',Auth::id())->get();
         return view('actividad.index',['actividad' => $actividad]);
       }
+    }
+
+    public function asistir($id)
+    {
+      if(Auth::guest())
+      {
+        return redirect('/login');
+      }
+      else
+      {
+        $asiste = new Asiste;
+        $asiste->id_actividad = $id;
+        $asiste->cedula = Auth::id();
+        $asiste->codigo = $this->generateRandomString(8);
+        $asiste->asistio = false;
+        $asiste->save();
+        return redirect('/miHorario');
+      }
+    }
+
+    function generateRandomString($length = 10)
+    {
+      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      $charactersLength = strlen($characters);
+      $randomString = '';
+      for ($i = 0; $i < $length; $i++) {
+          $randomString .= $characters[rand(0, $charactersLength - 1)];
+      }
+      return $randomString;
     }
 }

@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Calificadas</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
   <h1>Calificadas</h1>
   <ul>
     <li> <a href="{{ URL::to('califica')}}"> Volver</a></li>
@@ -15,7 +13,7 @@
   <div class="">
     {{Session::get('success')}}
   </div>
-  @endif  
+  @endif
 
   <table>
     <thead>
@@ -37,7 +35,7 @@
         <td> {{$propuestas[$key]->idEvento}}</td>
         <td> {{$propuestas[$key]->adjunto}}</td>
         <td> {{$propuestas[$key]->demanda}}</td>
-        
+
         <td>
           {{ Form::open(['method' => 'DELETE','route' => ['califica.destroy', $value->id],'style'=>'display:inline'])}}
           {{ Form::submit('Eliminar')}}
@@ -51,5 +49,5 @@
   </table>
 
 
-</body>
-</html>
+</div>
+@endsection

@@ -37,10 +37,13 @@
                   </a>
                   <!-- Dropdown Structure -->
                   <ul id='dropdown1' class='dropdown-content'>
+                    <!--TODO mostrar tips del menu segun permisos  -->
                     <li><a href="{{ url('/miHorario') }}">Mi Horario</a></li>
                     <li><a href="{{ url('/misEventos') }}">Mis Eventos</a></li>
                     <li><a href="{{ url('/propuesta') }}">Mis Propuestas</a></li>
                     <li><a href="{{ url('/misActividades') }}">Mis Actividades</a></li>
+                    <li><a href="{{ url('/misCertificados') }}">Mis Certificados</a></li>
+                    <li><a href="{{ url('/califica') }}">Mis Calificaciones</a></li>
                     <li class="divider"></li>
                     <li>
                       <a href="{{ url('/logout') }}"
