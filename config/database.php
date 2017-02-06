@@ -68,11 +68,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', 'POSTGRESQL_ADDON_HOST'),
             'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'tueventodb'),
-            'username' => env('DB_USERNAME', 'postgres'),
-            'password' => env('DB_PASSWORD', '1234'),
+            'database' => env('DB_DATABASE', 'POSTGRESQL_ADDON_DB'),
+            'username' => env('DB_USERNAME', 'POSTGRESQL_ADDON_USER'),
+            'password' => env('DB_PASSWORD', 'POSTGRESQL_ADDON_PASSWORD'),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
