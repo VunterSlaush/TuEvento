@@ -17,6 +17,8 @@ class CreatePropuestaTable extends Migration
             $table->increments('id');
             $table->string('autor');
             $table->integer('id_evento');
+            $table->integer('id_area');
+            $table->integer('id_tipo');
             $table->string('titulo');
             $table->string('adjunto');
             $table->string('demanda');
@@ -24,6 +26,8 @@ class CreatePropuestaTable extends Migration
             $table->integer('duracion');
             $table->foreign('autor')->references('cedula')->on('users');
             $table->foreign('id_evento')->references('id')->on('evento');
+            $table->foreign('id_area')->references('id')->on('area');
+            $table->foreign('id_tipo')->references('id')->on('tipo_actividad');
             $table->timestamps();
         });
     }

@@ -17,6 +17,8 @@ class CreateActividadTable extends Migration
             $table->increments('id');
             $table->string('ponente');
             $table->integer('id_evento');
+            $table->integer('id_area');
+            $table->integer('id_tipo');
             $table->date('fecha');
             $table->string('titulo');
             $table->time('hora_inicio');
@@ -24,6 +26,8 @@ class CreateActividadTable extends Migration
             $table->string('resumen');
             $table->foreign('ponente')->references('cedula')->on('users');
             $table->foreign('id_evento')->references('id')->on('evento');
+            $table->foreign('id_area')->references('id')->on('area');
+            $table->foreign('id_tipo')->references('id')->on('tipo_actividad');
             $table->timestamps();
         });
     }
