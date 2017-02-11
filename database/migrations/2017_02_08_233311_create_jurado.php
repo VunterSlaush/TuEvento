@@ -17,10 +17,8 @@ class CreateJurado extends Migration
           $table->increments('id');
           $table->string('id_user');
           $table->integer('id_evento');
-          $table->integer('id_area');
           $table->foreign('id_user')->references('cedula')->on('users');
           $table->foreign('id_evento')->references('id')->on('evento');
-          $table->foreign('id_area')->references('id')->on('area');
           $table->timestamps();
       });
     }
@@ -32,6 +30,6 @@ class CreateJurado extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('jurado');
     }
 }

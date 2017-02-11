@@ -1,10 +1,8 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
-class CreateComiteTable extends Migration
+class CreatePreguntaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +11,15 @@ class CreateComiteTable extends Migration
      */
     public function up()
     {
-        Schema::create('comite', function (Blueprint $table) {
+        Schema::create('pregunta', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('id_user');
-            $table->integer('id_evento');
-            $table->foreign('id_user')->references('cedula')->on('users');
-            $table->foreign('id_evento')->references('id')->on('evento');
+            $table->integer('id_encuesta');
+            $table->foreign('id_encuesta')->references('encuesta')->on('id');
+            $table->string('pregunta');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -30,6 +27,6 @@ class CreateComiteTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comite');
+        Schema::drop('pregunta');
     }
 }
