@@ -17,6 +17,8 @@ class TipoActividadEvento extends Migration
             $table->increments('id');
             $table->integer('id_tipo');
             $table->integer('id_evento');
+            $table->integer('cant_maxima');
+            $table->boolean('evaluable');
             $table->foreign('id_tipo')->references('id')->on('tipo_actividad');
             $table->foreign('id_evento')->references('id')->on('evento');
             $table->timestamps();
