@@ -43,4 +43,10 @@ class Evento extends Model
     	return $this->belongsTo('App\User','creador','cedula');
 
     }
+
+    public function tipoActividad(){
+
+    	return $this->hasMany('App\TipoActividadEvento','id_evento');
+
+    }
 }
