@@ -31,37 +31,53 @@ class User extends Authenticatable
 
     public function evento(){
 
-        return $this->hasOne('App\Evento','creador');
+        return $this->hasMany('App\Evento','creador','cedula');
 
     }
 
     public function propuestas(){
 
-        return $this->hasMany('App\Propuesta','autor');
+        return $this->hasMany('App\Propuesta','autor','cedula');
 
     }
 
-    public function asistes(){
+    public function asistencias(){
 
-        return $this->hasMany('App\Asiste','cedula');
+        return $this->hasMany('App\Asiste','cedula','cedula');
 
     }
 
     public function actividades(){
 
-        return $this->hasMany('App\Actividad','ponente');
+        return $this->hasMany('App\Actividad','ponente','cedula');
 
     }
 
-    public function calificas(){
+    public function calificaciones(){
 
-        return $this->hasMany('App\Califica','cedula');
+        return $this->hasMany('App\Califica','id_user','cedula');
 
     }
 
     public function comites(){
 
-        return $this->hasMany('App\Comite','cedula');
+        return $this->hasMany('App\Comite','id_user','cedula');
 
+    }
+
+    public function jurado()
+    {
+        return $this->hasMany('App\Jurado','id_user','cedula');
+    }
+
+    public function presentadores(){
+
+        return $this->hasMany('App\Presentador','id_user','cedula');
+
+    }
+
+    public function evaluaciones()
+    {
+        return $this->hasMany('App\Evalua','cedula','cedula');
     }
 }

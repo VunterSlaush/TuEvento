@@ -8,7 +8,7 @@ class Actividad extends Model
 {
     protected $table = "actividad";
 
-    protected $fillable = ['id',
+    protected $fillable = [
     					'ponente',
               'id_evento',
     					'fecha',
@@ -21,19 +21,31 @@ class Actividad extends Model
 
     public function evento(){
 
-        return $this->belongsTo('App\Evento','id_evento');
+        return $this->belongsTo('App\Evento','id','id_evento');
 
     }
 
     public function user(){
 
-        return $this->belongsTo('App\User','ponente');
+        return $this->belongsTo('App\User','cedula','ponente');
 
     }
 
-    public function asiste(){
+    public function asistencias(){
 
-        return $this->belongsTo('App\Asiste','cedula');
+        return $this->hasMany('App\Asiste','id_actividad','id');
+
+    }
+
+    public function calificaciones(){
+
+        return $this->hasMany('App\Califica','id_activida','id');
+
+    }
+
+    public function presentadores(){
+
+        return $this->hasMany('App\Presentador','id_actividad','id');
 
     }
 
