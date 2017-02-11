@@ -4,21 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AreaActividad extends Model
+class AreaJurado extends Model
 {
-  protected $table = "area_actividad";
+  protected $table = "area_jurado";
 
   protected $fillable = [
             'id',
             'id_area',
-            'id_actividad'
+            'id_jurado'
           ];
 
   public function area(){
     return $this->belongsTo('App\Area','id_area');
   }
 
-  public function evento(){
-    return $this->belongsTo('App\Evento','id_actividad');
+  public function jurado(){
+    return $this->belongsTo('App\Jurado','id_jurado');
   }
 }
