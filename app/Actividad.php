@@ -42,4 +42,10 @@ class Actividad extends Model
     	return $this->hasMany('App\TipoActividadActividad','id_actividad');
 
     }
+
+    public function areas(){
+
+    	return $this->hasMany('App\AreaActividad','id_actividad');
+
+    }
 }
