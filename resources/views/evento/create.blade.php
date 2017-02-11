@@ -58,11 +58,20 @@
       </div>
 
       <div class="row" id="tipo_wrapper">
-        <div class="col m8">
-          <p class="col m3">Nombre del Tipo</p>
-          <input class="col m6" type="text"  name="tipo[0]" id='tipo[0]'>
-          <a href="#" class="col m3 remove_field">Remove</a>
+        <div class="row">
+          <p class="col m2">Nombre del Tipo</p>
+          <input class="col m2" type="text"  name="tipo[0]" id='tipo[0]'>
+          <p class="col m2">Vacantes Disponibles</p>
+          <input class="col m2" type="number"  name="tipo_cantidad[0]" id='tipo_cantidad[0]'>
+          <div class="col m2">
+            <p>
+              <input type="checkbox" id="tipo_evaluable[0]" name="tipo_evaluable[0]" />
+              <label for="tipo_evaluable[0]">Evaluable</label>
+            </p>
+          </div>
+          <a href="#" class="col m2 remove_field">Remove</a>
         </div>
+
       </div>
 
 
@@ -107,10 +116,19 @@ $(document).ready(function(){
         e.preventDefault();
         if(tipos < max_fields){ //max input box allowed
             tipos++; //text box increment
-            $(wrapper_tipo).append('<div class="col m8">'+
-                                '<p class="col m3">Nombre del Tipo</p>'+
-                                '<input class="col m6" type="text"  name="tipo['+tipos+']" id="tipo['+tipos+']">'+
-                                '<a href="#" class="col m3 remove_field">Remove</a></div>'+
+            $(wrapper_tipo).append('<div class="row">'+
+                                '<p class="col m2">Nombre del Tipo</p>'+
+                                '<input class="col m2" type="text"  name="tipo['+tipos+']" id="tipo['+tipos+']">'+
+                                '<p class="col m2">Vacantes Disponibles</p>'+
+                                '<input class="col m2" type="number"  name="tipo_cantidad['+tipos+']" id="tipo_cantidad['+tipos+']">'+
+                                '<div class="col m2">'+
+                                  '<p>'+
+                                    '<input type="checkbox" id="tipo_evaluable['+tipos+']" name="tipo_evaluable['+tipos+']" />'+
+                                    '<label for="tipo_evaluable['+tipos+']">Evaluable</label>'+
+                                  '</p>'+
+                                '</div>'+
+                                '<a href="#" class="col m2 remove_field">Remove</a></div>'+
+
                               '</div>');
         }
     });

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Evento;
 use App\Area;
-use App\AreaEvento; 
+use App\AreaEvento;
+use App\TipoActividad;
+use App\TipoActividadEvento;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
@@ -52,7 +55,6 @@ class EventoController extends Controller
         'nombre' =>  'required',
         'fecha_inicio' =>  'required',
         'fecha_fin' =>  'required',
-        'certificado_por_actividad' => 'required'
       ]);
 
 
@@ -63,15 +65,36 @@ class EventoController extends Controller
       $nuevoEvento = Evento::create($request->all());
 
       $areas = $request->input('area');
-      for($i=0; $i<count($areas); $i++)
+      foreach ($areas as $a)
       {
-        $area = new Area(['nombre' => $areas[$i]]);
-        $area->save();
+        $area = Area::where('nombre', '=', $a)->first();
+        if ($area === null) {
+          $area = new Area(['nombre' => $a]);
+          $area->save();
+        }
+
         $area_evento = new AreaEvento(['id_area' => $area->id,
                                        'id_evento' => $nuevoEvento->id]);
         $area_evento->save();
       }
 
+      $tipos = $request->input('tipo');
+      $tipos_cantidad = $request->input('tipo_cantidad');
+      $tipos_evaluable = $request->input('tipo_evaluable');
+      foreach ($tipos as $key => $value)
+      {
+        $tipo = TipoActividad::where('nombre', '=', $value)->first();
+        if ($tipo === null) {
+          $tipo = new TipoActividad(['nombre' => $value]);
+          $tipo->save();
+        }
+        $evaluable = array_key_exists ($key, $tipos_evaluable);
+        $tipo_evento = new TipoActividadEvento(['id_tipo' => $tipo->id,
+                                                'id_evento' => $nuevoEvento->id,
+                                                'cant_maxima'=> $tipos_cantidad[$key],
+                                                'evaluable' => $evaluable ]);
+        $tipo_evento->save();
+      }
 
       return redirect('/home')
               ->with('success','evento creado');
