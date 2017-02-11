@@ -20,6 +20,7 @@ class CreateAreaEvento extends Migration
         $table->integer('id_evento');
         $table->foreign('id_area')->references('id')->on('area');
         $table->foreign('id_evento')->references('id')->on('evento');
+        $table->timestamps();
       });
 
     }

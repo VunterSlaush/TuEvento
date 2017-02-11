@@ -20,6 +20,7 @@ class CreateAreaJurado extends Migration
         $table->integer('id_jurado');
         $table->foreign('id_area')->references('id')->on('area');
         $table->foreign('id_jurado')->references('id')->on('jurado');
+        $table->timestamps();
       });
     }
 

@@ -57,7 +57,7 @@ class Evento extends Model
 
     public function areas(){
 
-    	return $this->hasMany('App\Area','id_evento');
+    	return $this->hasMany('App\AreaEvento','id_evento');
 
     }
 }

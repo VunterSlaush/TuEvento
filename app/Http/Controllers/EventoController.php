@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Evento;
+use App\Area;
+use App\AreaEvento; 
 use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
@@ -50,14 +52,26 @@ class EventoController extends Controller
         'nombre' =>  'required',
         'fecha_inicio' =>  'required',
         'fecha_fin' =>  'required',
-        'cant_max_actividades' =>  'required|numeric',
-        'punt_min_aprobatorio' =>  'required|numeric', //50%
+        'certificado_por_actividad' => 'required'
       ]);
+
 
       $request->merge(['creador' => Auth::id()]);
       $request->merge(['estado' => 'inscripciones']);
 
-      Evento::create($request->all());
+
+      $nuevoEvento = Evento::create($request->all());
+
+      $areas = $request->input('area');
+      for($i=0; $i<count($areas); $i++)
+      {
+        $area = new Area(['nombre' => $areas[$i]]);
+        $area->save();
+        $area_evento = new AreaEvento(['id_area' => $area->id,
+                                       'id_evento' => $nuevoEvento->id]);
+        $area_evento->save();
+      }
+
 
       return redirect('/home')
               ->with('success','evento creado');
