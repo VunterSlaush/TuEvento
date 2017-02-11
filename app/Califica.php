@@ -18,13 +18,13 @@ class Califica extends Model
 
     public function actividad(){
 
-    	return $this->belongsTo('App\Propuesta','id_actividad');
+    	return $this->belongsTo('App\Actividad','id','id_actividad');
 
     }
 
     public function user(){
 
-    	return $this->belongsTo('App\User','id_user');
+    	return $this->belongsTo('App\User','cedula','id_user');
 
     }
 
