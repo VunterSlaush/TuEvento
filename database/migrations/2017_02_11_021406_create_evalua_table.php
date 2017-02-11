@@ -14,7 +14,7 @@ class CreateEvaluaTable extends Migration
         Schema::create('evalua', function (Blueprint $table) {
             $table->increments('id');
             $table->string('cedula');
-            $table->foreign('cedula')->references('users')->on('cedula');
+            $table->foreign('cedula')->references('cedula')->on('users');
             $table->integer('id_propuesta');
             $table->foreign('id_propuesta')->references('id')->on('propuesta');
             $table->integer('id_encuesta');

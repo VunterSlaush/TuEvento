@@ -16,7 +16,7 @@ class TipoActividadActividad extends Migration
         Schema::create('tipo_actividad_actividad', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_tipo');
-            $table->integer('id_propuesta');
+            $table->integer('id_actividad');
             $table->foreign('id_tipo')->references('id')->on('tipo_actividad');
             $table->foreign('id_actividad')->references('id')->on('actividad');
             $table->timestamps();

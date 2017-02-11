@@ -17,7 +17,7 @@ class CreateAreaActividad extends Migration
       {
         $table->increments('id');
         $table->integer('id_area');
-        $table->string('id_actividad');
+        $table->integer('id_actividad');
         $table->foreign('id_area')->references('id')->on('area');
         $table->foreign('id_actividad')->references('id')->on('actividad');
       });
