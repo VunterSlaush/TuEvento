@@ -1,10 +1,8 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
-class CreateAreaTable extends Migration
+class CreateEncuestaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +11,13 @@ class CreateAreaTable extends Migration
      */
     public function up()
     {
-      Schema::create('area', function (Blueprint $table) {
-          $table->increments('id');
-          $table->string('nombre');
-      });
+        Schema::create('encuesta', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('tipo');
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -26,6 +25,6 @@ class CreateAreaTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('encuesta');
     }
 }
