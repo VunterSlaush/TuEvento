@@ -42,4 +42,9 @@ class Propuesta extends Model
     {
       return $this->belongsTo('App\TipoActividad','id','id_tipo');
     }
+
+    public function evaluaciones()
+    {
+      return this->hasMany('App\Evalua','id_propuesta','id');
+    }
 }

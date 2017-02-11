@@ -30,6 +30,6 @@ class Califica extends Model
 
     public function encuesta()
     {
-      return $this->belongsTo('App\User','id_encuesta');
+      return $this->belongsTo('App\User','id','id_encuesta');
     }
 }

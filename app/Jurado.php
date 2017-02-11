@@ -29,4 +29,9 @@ class Jurado extends Model
 
     }
 
+    public function areas()
+    {
+      return $this->HasMany('App\AreaJurado','id_jurado','id');
+    }
+
 }
