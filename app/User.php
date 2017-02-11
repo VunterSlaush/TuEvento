@@ -69,4 +69,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Jurado','id_user','cedula');
     }
+
+    public function presentadores(){
+
+        return $this->hasMany('App\Presentador','id_user','cedula');
+
+    }
 }

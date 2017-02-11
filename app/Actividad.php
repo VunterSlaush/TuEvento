@@ -36,4 +36,10 @@ class Actividad extends Model
         return $this->hasMany('App\Asiste','id_actividad','id');
 
     }
+
+    public function presentadores(){
+
+        return $this->hasMany('App\Presentador','id_actividad','id');
+
+    }
 }
