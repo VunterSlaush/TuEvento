@@ -36,4 +36,10 @@ class Actividad extends Model
         return $this->belongsTo('App\Asiste','cedula');
 
     }
+
+    public function tipoActividad(){
+
+    	return $this->hasMany('App\TipoActividadActividad','id_actividad');
+
+    }
 }
