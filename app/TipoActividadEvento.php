@@ -8,7 +8,13 @@ class TipoActividadEvento extends Model
 {
   protected $table = "tipo_actividad_evento";
 
-  protected $fillable = ['id','id_tipo','id_evento'];
+  protected $fillable = [
+            'id',
+            'id_tipo',
+            'id_evento',
+            'cant_maxima',
+            'evaluable'
+          ];
 
   public function tipoActividad(){
     return $this->belongsTo('App\TipoActividad','id_tipo');
