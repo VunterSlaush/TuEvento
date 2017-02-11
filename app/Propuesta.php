@@ -8,7 +8,7 @@ class Propuesta extends Model
 {
     protected $table = "propuesta";
 
-    protected $fillable = ['id',
+    protected $fillable = [
     					'autor',
     					'id_evento',
     					'titulo',

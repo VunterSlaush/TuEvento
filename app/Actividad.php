@@ -8,7 +8,7 @@ class Actividad extends Model
 {
     protected $table = "actividad";
 
-    protected $fillable = ['id',
+    protected $fillable = [
     					'ponente',
               'id_evento',
     					'fecha',

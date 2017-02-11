@@ -8,7 +8,7 @@ class Jurado extends Model
 {
     protected $table = "jurado";
 
-    protected $fillable = ['id',
+    protected $fillable = [
               'id_evento',
               'id_user',
     					'created_at',
