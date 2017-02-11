@@ -22,19 +22,25 @@ class Evento extends Model
 
    	public function actividades(){
 
-    	return $this->hasMany('App\Actividad','id_evento');
+    	return $this->hasMany('App\Actividad','id_evento','id');
 
     }
 
     public function propuestas(){
 
-    	return $this->hasMany('App\Propuesta','id_evento');
+    	return $this->hasMany('App\Propuesta','id_evento','id');
 
     }
 
     public function comites(){
 
-    	return $this->hasMany('App\Comite','id_evento');
+    	return $this->hasMany('App\Comite','id_evento','id');
+
+    }
+
+    public function jurados(){
+
+      return $this->hasMany('App\Jurado','id_evento','id');
 
     }
 
