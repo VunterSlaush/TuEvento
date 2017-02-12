@@ -151,7 +151,7 @@ class ActividadController extends Controller
       }
       else
       {
-        $actividad = Actividad::where('ponente',Auth::id())->get();
+        $actividad = Actividad::where('id_user',Auth::id())->get();
         return view('actividad.index',['actividad' => $actividad]);
       }
     }

@@ -36,7 +36,7 @@ class CertificadoController extends Controller
 	            ->select('evento.nombre as evento','asiste.cedula as cedula', 'lugar','user.nombre as nombre','id_actividad','fecha','titulo','asistio','ponente.nombre as ponente','codigo')
 	            ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
 	            ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
-							->join('users as ponente', 'actividad.ponente', '=', 'ponente.cedula')
+							->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')
 	            ->join('evento','actividad.id_evento','=','evento.id')
 	            ->where('asiste.cedula',Auth::id())
 	            ->where('asiste.asistio','=', true)
@@ -50,10 +50,10 @@ class CertificadoController extends Controller
 
     	//$certificado = \PDF::loadview('certificado');
     	$certificado = DB::table('asiste')
-            ->select('evento.nombre as evento','id_actividad','fecha','titulo','asistio','ponente.nombre as ponente','codigo')
+            ->select('evento.nombre as evento','asiste.id_actividad','fecha','titulo','asistio','ponente.nombre as ponente','codigo')
             ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
             ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
-						->join('users as ponente', 'actividad.ponente', '=', 'ponente.cedula')
+						->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')
             ->join('evento','actividad.id_evento','=','evento.id')
             ->where('asiste.cedula',Auth::id())
             ->where('asiste.asistio','=', true)

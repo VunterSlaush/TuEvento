@@ -15,8 +15,8 @@ class CreatePresentadorTable extends Migration
             $table->increments('id');
             $table->integer('id_actividad');
             $table->string('id_user');
-            $table->foreign('id_user')->references('cedula')->on('users');
-            $table->foreign('id_actividad')->references('id')->on('actividad');
+            $table->foreign('id_user')->references('cedula')->on('users')->onDelete('cascade');
+            $table->foreign('id_actividad')->references('id')->on('actividad')->onDelete('cascade');
             $table->timestamps();
         });
     }

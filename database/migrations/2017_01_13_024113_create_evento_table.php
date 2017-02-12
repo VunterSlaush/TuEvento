@@ -22,7 +22,7 @@ class CreateEventoTable extends Migration
             $table->timestamp('fecha_fin');
             $table->string('estado');
             $table->boolean('certificado_por_actividad')->default(false);
-            $table->foreign('creador')->references('cedula')->on('users');
+            $table->foreign('creador')->references('cedula')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

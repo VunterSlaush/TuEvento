@@ -19,8 +19,8 @@ class CreateAsisteTable extends Migration
             $table->integer('id_actividad');
             $table->boolean('asistio');
             $table->string('codigo');
-            $table->foreign('cedula')->references('cedula')->on('users');
-            $table->foreign('id_actividad')->references('id')->on('actividad');
+            $table->foreign('cedula')->references('cedula')->on('users')->onDelete('cascade');
+            $table->foreign('id_actividad')->references('id')->on('actividad')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -18,8 +18,8 @@ class CreateAreaEvento extends Migration
         $table->increments('id');
         $table->integer('id_area');
         $table->integer('id_evento');
-        $table->foreign('id_area')->references('id')->on('area');
-        $table->foreign('id_evento')->references('id')->on('evento');
+        $table->foreign('id_area')->references('id')->on('area')->onDelete('cascade');
+        $table->foreign('id_evento')->references('id')->on('evento')->onDelete('cascade');
         $table->timestamps();
       });
 

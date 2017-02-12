@@ -33,11 +33,35 @@
       </li>
 
       <li class="collection-item">
+        <ul>
+          <li> <strong>Comite:</strong></li>
+          <ul>
+          @foreach ($evento->comites as $comite)
+              <li>{{ $comite->user->nombre }}</li>
+          @endforeach
+          </ul>
+          <li> <strong>Jurado:</strong></li>
+          <ul>
+          @foreach ($evento->jurados as $jurado)
+              <li>{{ $jurado->user->nombre }}
+                  (
+                  @foreach ($jurado->areas as $area)
+                    {{ $area->area->nombre }},
+                  @endforeach
+                  )
+              </li>
+          @endforeach
+          </ul>
+        </ul>
+
+      </li>
+
+      <li class="collection-item">
           <a class="btn" href="{{ route('evento.propuesta.index',$evento->id)}}"> Ver propuestas</a>
           <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}"> Aplicar</a>
           <a class="btn" href="{{ route('evento.actividad.index',$evento->id)}}"> Ver actividades</a>
-          <a class="btn" href="{{ route('evento.comite.index',$evento->id) }}"> Ver comite</a>
-          <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}"> Asignar Jurado</a>
+          <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}"> Asignar Comite</a>
+          <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}"> Asignar Jurado</a>
       </li>
     </ul>
   </div>

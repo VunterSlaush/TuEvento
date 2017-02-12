@@ -16,7 +16,7 @@ class CreateOpcionTable extends Migration
             $table->integer('id_pregunta');
             $table->string('opcion');
             $table->integer('valor');
-            $table->foreign('id_pregunta')->references('id')->on('pregunta');
+            $table->foreign('id_pregunta')->references('id')->on('pregunta')->onDelete('cascade');
             $table->timestamps();
         });
     }

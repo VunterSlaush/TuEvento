@@ -19,8 +19,8 @@ class TipoActividadEvento extends Migration
             $table->integer('id_evento');
             $table->integer('cant_maxima');
             $table->boolean('evaluable')->default(false);
-            $table->foreign('id_tipo')->references('id')->on('tipo_actividad');
-            $table->foreign('id_evento')->references('id')->on('evento');
+            $table->foreign('id_tipo')->references('id')->on('tipo_actividad')->onDelete('cascade');
+            $table->foreign('id_evento')->references('id')->on('evento')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -21,8 +21,8 @@ class CreateActividadTable extends Migration
             $table->integer('id_actividad');
             $table->integer('id_evento');
             $table->string('id_user');
-            $table->foreign('id_user')->references('cedula')->on('users');
-            $table->foreign('id_evento')->references('id')->on('evento');
+            $table->foreign('id_user')->references('cedula')->on('users')->onDelete('cascade');
+            $table->foreign('id_evento')->references('id')->on('evento')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
