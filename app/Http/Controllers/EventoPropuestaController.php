@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Propuesta;
+use App\Evento;
+use App\TipoActividad;
+use App\Area;
 use Illuminate\Support\Facades\Auth;
 
 class EventoPropuestaController extends Controller
@@ -33,7 +36,8 @@ class EventoPropuestaController extends Controller
      */
     public function create($id_evento)
     {
-      return view('eventoPropuesta.create',['id_evento' => $id_evento]);
+      $evento = Evento::where('id','=',$id_evento)->first();
+      return view('eventoPropuesta.create',['evento' => $evento]);
     }
 
     /**
@@ -42,12 +46,17 @@ class EventoPropuestaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$id_evento)
+    public function store(Request $request, $id_evento)
     {
 
       $request->merge(['autor' => Auth::id()]);
       $request->merge(['id_evento' => $id_evento]);
-
+      $area_value = $request->input('area');
+      $tipo_value = $request->input('tipo');
+      $area = Area::where('nombre','=',$area_value)->first();
+      $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
+      $request->merge(['id_area' => $area->id]);
+      $request->merge(['id_tipo' => $tipo->id]);
       Propuesta::create($request->all());
 
       return redirect()->route('evento.propuesta.index',['id_evento' => $id_evento])
