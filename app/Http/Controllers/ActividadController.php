@@ -145,25 +145,12 @@ class ActividadController extends Controller
 
     public function mis_actividades()
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
         $actividad = Actividad::where('id_user',Auth::id())->get();
         return view('actividad.index',['actividad' => $actividad]);
-      }
     }
 
     public function asistir($id)
     {
-      if(Auth::guest())
-      {
-        return redirect('/login');
-      }
-      else
-      {
         $asiste = new Asiste;
         $asiste->id_actividad = $id;
         $asiste->cedula = Auth::id();
@@ -171,7 +158,6 @@ class ActividadController extends Controller
         $asiste->asistio = false;
         $asiste->save();
         return redirect('/miHorario');
-      }
     }
 
     function generateRandomString($length = 10)

@@ -11,14 +11,7 @@ class AsisteController extends Controller
 {
     public function mi_horario()
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
         return $this->generarHorario();
-      }
     }
 
     public function destroy($id)
@@ -66,6 +59,7 @@ class AsisteController extends Controller
       }
       else
       {
+        //TODO agregar Error de que el user no existe!!
         return \Redirect::route('verificarAsistencia', $actividad);
       }
 

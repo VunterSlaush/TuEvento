@@ -17,13 +17,6 @@ class CalificaController extends Controller
      */
     public function index()
     {
-
-    	if(Auth::guest()){
-
-    		return redirect()->to('/home')
-    		->with('success', 'Usted no esta logeado!');
-    	}
-
     	return view('califica.index');
     }
 
@@ -35,12 +28,6 @@ class CalificaController extends Controller
     public function calificada()
     {
 
-    	if(Auth::guest()){
-
-    		return redirect()->to('/home')
-    		->with('success', 'Usted no esta logeado!');
-    	}
-    	
     	$califica = Califica::where('cedula','=',Auth::id())->get();
 
     	$propuestas= array();
@@ -49,7 +36,7 @@ class CalificaController extends Controller
 
     		$propuesta = Propuesta::find($calific->idPropuesta);
     		array_push($propuestas,$propuesta);
-    	
+
     	}
 
     	return view('califica.calificada',compact('califica','propuestas'));
