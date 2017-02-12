@@ -24,10 +24,10 @@ class CreatePropuestaTable extends Migration
             $table->string('demanda');
             $table->string('descripcion');
             $table->integer('duracion');
-            $table->foreign('autor')->references('cedula')->on('users');
-            $table->foreign('id_evento')->references('id')->on('evento');
-            $table->foreign('id_area')->references('id')->on('area');
-            $table->foreign('id_tipo')->references('id')->on('tipo_actividad');
+            $table->foreign('autor')->references('cedula')->on('users')->onDelete('cascade');
+            $table->foreign('id_evento')->references('id')->on('evento')->onDelete('cascade');
+            $table->foreign('id_area')->references('id')->on('area')->onDelete('cascade');
+            $table->foreign('id_tipo')->references('id')->on('tipo_actividad')->onDelete('cascade');
             $table->timestamps();
         });
     }

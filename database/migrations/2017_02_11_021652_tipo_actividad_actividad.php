@@ -17,8 +17,8 @@ class TipoActividadActividad extends Migration
             $table->increments('id');
             $table->integer('id_tipo');
             $table->integer('id_actividad');
-            $table->foreign('id_tipo')->references('id')->on('tipo_actividad');
-            $table->foreign('id_actividad')->references('id')->on('actividad');
+            $table->foreign('id_tipo')->references('id')->on('tipo_actividad')->onDelete('cascade');
+            $table->foreign('id_actividad')->references('id')->on('actividad')->onDelete('cascade');
             $table->timestamps();
         });
     }

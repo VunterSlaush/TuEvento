@@ -155,8 +155,8 @@ class EventoController extends Controller
      */
     public function destroy($id)
     {
-      Evento::find($id)->delete();
-
+      $evento = Evento::find($id);
+      $evento->delete();
       return redirect()->route('evento.index')
               ->with('message','evento eliminado');
     }
