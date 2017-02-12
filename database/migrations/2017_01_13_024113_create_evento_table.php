@@ -20,8 +20,8 @@ class CreateEventoTable extends Migration
             $table->string('lugar');
             $table->timestamp('fecha_inicio');
             $table->timestamp('fecha_fin');
-            $table->integer('punt_min_aprobatorio');
             $table->string('estado');
+            $table->boolean('certificado_por_actividad')->default(false);
             $table->foreign('creador')->references('cedula')->on('users');
             $table->timestamps();
         });

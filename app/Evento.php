@@ -14,9 +14,8 @@ class Evento extends Model
     					'lugar',
     					'fecha_inicio',
     					'fecha_fin',
-    					'cant_max_actividades',
-    					'punt_min_aprobatorio',
     					'estado',
+              'certificado_por_actividad',
     					'created_at',
     					'updated_at'];
 
@@ -58,7 +57,7 @@ class Evento extends Model
 
     public function areas(){
 
-    	return $this->hasMany('App\Area','id_evento');
+    	return $this->hasMany('App\AreaEvento','id_evento');
 
     }
 }

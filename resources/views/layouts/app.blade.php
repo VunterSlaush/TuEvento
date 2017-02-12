@@ -13,7 +13,8 @@
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 
     <!-- Scripts -->
     <script>
@@ -66,6 +67,9 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
-    <script type="text/javascript" src="/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+
+    @yield('scripts')
 </body>
 </html>

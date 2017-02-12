@@ -30,7 +30,7 @@ class Propuesta extends Model
 
     public function user(){
 
-    	return $this->belongsTo('App\User','cedula','autor');
+    	return $this->belongsTo('App\User','autor','cedula');
     }
 
     public function area()
@@ -45,6 +45,6 @@ class Propuesta extends Model
 
     public function evaluaciones()
     {
-      return this->hasMany('App\Evalua','id_propuesta','id');
+      return $this->hasMany('App\Evalua','id_propuesta','id');
     }
 }

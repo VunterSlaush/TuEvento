@@ -20,6 +20,7 @@ class CreateAreaActividad extends Migration
         $table->integer('id_actividad');
         $table->foreign('id_area')->references('id')->on('area');
         $table->foreign('id_actividad')->references('id')->on('actividad');
+        $table->timestamps();
       });
 
     }

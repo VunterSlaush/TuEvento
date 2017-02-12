@@ -17,8 +17,21 @@
           <li> <strong>Cantidad de Actividades max.</strong> {{ $evento['cant_max'] }}</li>
           <li> <strong>Puntuacion minima </strong> {{ $evento['punt_min_aprobatorio'] }} puntos</li>
           <li> <strong>Estado</strong> {{ $evento['estado'] }}</li>
+          <li>
+            <strong>Areas:</strong>
+            @foreach ($evento->areas as $area)
+                {{ $area->area->nombre }}
+            @endforeach
+          </li>
+          <li>
+            <strong>Actividades de Tipo:</strong>
+            @foreach ($evento->tipoActividad as $tipo)
+                {{ $tipo->tipoActividad->nombre }}
+            @endforeach
+          </li>
         </ul>
       </li>
+
       <li class="collection-item">
           <a class="btn" href="{{ route('evento.propuesta.index',$evento->id)}}"> Ver propuestas</a>
           <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}"> Aplicar</a>
