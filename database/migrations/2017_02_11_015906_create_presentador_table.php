@@ -27,6 +27,6 @@ class CreatePresentadorTable extends Migration
      */
     public function down()
     {
-        Schema::drop('presentador');
+        Schema::dropIfExists('presentador');
     }
 }

@@ -32,6 +32,6 @@ class CreateAreaActividad extends Migration
      */
     public function down()
     {
-        Schema::drop('area_actividad');
+        Schema::dropIfExists('area_actividad');
     }
 }

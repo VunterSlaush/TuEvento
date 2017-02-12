@@ -30,6 +30,6 @@ class CreateJurado extends Migration
      */
     public function down()
     {
-        Schema::drop('jurado');
+        Schema::dropIfExists('jurado');
     }
 }
