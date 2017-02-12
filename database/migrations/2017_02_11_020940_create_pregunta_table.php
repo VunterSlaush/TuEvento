@@ -26,6 +26,6 @@ class CreatePreguntaTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pregunta');
+        Schema::dropIfExists('pregunta');
     }
 }

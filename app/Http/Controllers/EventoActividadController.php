@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Actividad;
 use App\Evento;
+use App\Area;
+use App\AreaActividad;
+use App\TipoActividad;
+use App\TipoActividadActividad;
 use Illuminate\Support\Facades\Auth;
 
 class EventoActividadController extends Controller
@@ -33,9 +37,11 @@ class EventoActividadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id_evento)
     {
-        //
+        $evento = Evento::where('id','=',$id_evento)->first();
+        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        return view('eventoActividad.create',['evento' => $evento,'nombre_evento' => $nombre_evento]);
     }
 
     /**
@@ -44,9 +50,38 @@ class EventoActividadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id_evento)
     {
-        //
+      $this->validate($request,[
+        'fecha' =>  'required',
+        'titulo' =>  'required'
+      ]);
+
+      $request->merge(['id_user' => Auth::id()]);
+      $request->merge(['id_evento' => $id_evento]);
+
+
+      $nueva_actividad = Actividad::create($request->all());
+
+      $area_value = $request->input('area');
+      $tipo_value = $request->input('tipo');
+      $area = Area::where('nombre','=',$area_value)->first();
+      $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
+      $request->merge(['id_area' => $area->id]);
+      $request->merge(['id_tipo' => $tipo->id]);
+
+      $area_actividad = new AreaActividad(['id_area' => $area->id,
+                                     'id_actividad' => $nueva_actividad->id]);
+      $area_actividad->save();
+
+      $tipo_actividad = new tipoActividadActividad(['id_tipo' => $tipo->id,
+                                     'id_actividad' => $nueva_actividad->id]);
+      $tipo_actividad->save();
+
+      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+
+      return redirect()->route('evento.actividad.show',['id_evento' => $id_evento,'nombre_evento' => $nombre_evento,'actividad' => $nueva_actividad])
+              ->with('success','actividad creada');
     }
 
     /**
@@ -63,8 +98,10 @@ class EventoActividadController extends Controller
       }
       else
       {
-        $actividad = Actividad::find($id)->where('id_evento',$id_evento)->get();
-        return view('eventoActividad.show',['actividad' => $actividad,'id_evento'=> $id_evento]);
+
+        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        $actividad = Actividad::find($id);
+        return view('eventoActividad.show',['actividad' => $actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento]);
       }
     }
 
@@ -74,9 +111,12 @@ class EventoActividadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_evento,$id_actvidad)
     {
-        //
+      $actividad = Actividad::find($id_actvidad);
+      $evento = Evento::where('id','=',$id_evento)->first();
+      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+      return view('eventoActividad.edit',['actividad' => $actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento,'evento' => $evento]);
     }
 
     /**
@@ -86,9 +126,17 @@ class EventoActividadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_evento,$id_actividad)
     {
-        //
+
+      Actividad::find($id_actividad)->update($request->all());
+
+      $actividad = Actividad::find($id_actividad);
+      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+      $evento = Evento::where('id','=',$id_evento)->first();
+
+      return redirect()->route('evento.actividad.show',['id_evento' => $id_evento,'nombre_evento' => $nombre_evento,'actividad' => $actividad])
+              ->with('success','actividad creada');
     }
 
     /**

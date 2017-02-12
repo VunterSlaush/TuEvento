@@ -30,6 +30,6 @@ class CalificaSatisfaccion extends Migration
      */
     public function down()
     {
-        Schema::drop('califica_satisfaccion');
+        Schema::dropIfExists('califica_satisfaccion');
     }
 }

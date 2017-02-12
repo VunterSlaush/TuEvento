@@ -2,23 +2,24 @@
 
 @section('content')
 <div class="container">
+  <h1> Evento {{$nombre_evento}}</h1>
   <ul class="collection with-header">
-    <li class="collection-header"> <h4> {{$actividad[0]->titulo}}</h4> </li>
+    <li class="collection-header"> <h4> {{$actividad->titulo}}</h4> </li>
     <li class="collection-item">
       <ul>
-        <li> <strong>Ponente</strong> {{$actividad[0]->user->nombre}}</li>
-        <li> <strong>Evento</strong> {{ $actividad[0]->evento->nombre }}</li>
-        <li> <strong>Fecha</strong> {{ $actividad[0]->fecha }}</li>
-        <li> <strong>Titulo</strong> {{ $actividad[0]->titulo }}</li>
-        <li> <strong>Inicio</strong> {{ $actividad[0]->hora_inicio }}</li>
-        <li> <strong>Fin </strong> {{ $actividad[0]->hora_fin }}</li>
-        <li> <strong>Resumen</strong> {{ $actividad[0]->resumen }}</li>
+        <li> <strong>Creador</strong> {{$actividad->user->nombre}}</li>
+        <li> <strong>Evento</strong> {{ $actividad->evento->nombre }}</li>
+        <li> <strong>Fecha</strong> {{ $actividad->fecha }}</li>
+        <li> <strong>Titulo</strong> {{ $actividad->titulo }}</li>
+        <li> <strong>Inicio</strong> {{ $actividad->hora_inicio }}</li>
+        <li> <strong>Fin </strong> {{ $actividad->hora_fin }}</li>
+        <li> <strong>Resumen</strong> {{ $actividad->resumen }}</li>
       </ul>
     </li>
   </ul>
-  <a href="/actividad/{{$actividad[0]->id}}/asistir"> Asistir</a>
+  <a href="/actividad/{{$actividad->id}}/asistir"> Asistir</a>
   <!--TODO VERIFICAR SI EL USUARIO ES COMITE JURADO O ENCARGADO DEL EVENTO y si el evento ya no esta en
        Estado de Inscripciones -->
-  <a href="/actividad/{{$actividad[0]->id}}/verificarAsistencia"> Verificar Asistencia!</a>
+  <a href="/actividad/{{$actividad->id}}/verificarAsistencia"> Verificar Asistencia!</a>
 </div>
 @endsection

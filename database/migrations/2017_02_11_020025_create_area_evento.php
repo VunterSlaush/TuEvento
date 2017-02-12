@@ -32,6 +32,6 @@ class CreateAreaEvento extends Migration
      */
     public function down()
     {
-      Schema::drop('area_evento');
+      Schema::dropIfExists('area_evento');
     }
 }

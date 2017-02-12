@@ -12,7 +12,7 @@
 
     <table>
       <thead>
-        <th> Ponente </th>
+        <th> Creador </th>
         <th> Fecha </th>
         <th> Titulo </th>
         <th> Inicio </th>

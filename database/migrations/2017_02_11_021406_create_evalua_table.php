@@ -29,6 +29,6 @@ class CreateEvaluaTable extends Migration
      */
     public function down()
     {
-        Schema::drop('evalua');
+        Schema::dropIfExists('evalua');
     }
 }

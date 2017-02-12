@@ -31,6 +31,6 @@ class CreateAreaJurado extends Migration
      */
     public function down()
     {
-        Schema::drop('area_jurado');
+        Schema::dropIfExists('area_jurado');
     }
 }

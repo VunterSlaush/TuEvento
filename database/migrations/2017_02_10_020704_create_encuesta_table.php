@@ -25,6 +25,6 @@ class CreateEncuestaTable extends Migration
      */
     public function down()
     {
-        Schema::drop('encuesta');
+        Schema::dropIfExists('encuesta');
     }
 }
