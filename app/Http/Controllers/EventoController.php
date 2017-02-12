@@ -96,8 +96,8 @@ class EventoController extends Controller
         $tipo_evento->save();
       }
 
-      return redirect('/home')
-              ->with('success','evento creado');
+      return redirect()->route('evento.show',$nuevoEvento->id)
+              ->with('message','evento editado');
     }
 
     /**

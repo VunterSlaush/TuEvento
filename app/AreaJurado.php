@@ -9,7 +9,6 @@ class AreaJurado extends Model
   protected $table = "area_jurado";
 
   protected $fillable = [
-            'id',
             'id_area',
             'id_jurado'
           ];

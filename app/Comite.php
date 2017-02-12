@@ -22,7 +22,7 @@ class Comite extends Model
 
     public function user(){
 
-    	return $this->belongsTo('App\User','cedula','id_user');
+    	return $this->belongsTo('App\User','id_user','cedula');
 
     }
 }

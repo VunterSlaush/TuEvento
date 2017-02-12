@@ -36,6 +36,7 @@ Route::get('/misCertificados',['uses' => 'CertificadoController@verCertificados'
 Route::resource('evento.actividad','EventoActividadController');
 Route::resource('evento.propuesta','EventoPropuestaController');
 Route::resource('evento.comite','EventoComiteController');
+Route::resource('evento.jurado','EventoJuradoController');
 Route::get('/actividad/{id}/asistir','ActividadController@asistir');
 Route::get('/actividad/{id}/verificarAsistencia',
 ['as' => 'verificarAsistencia', 'uses' => 'ActividadController@verificarAsistencia']);
