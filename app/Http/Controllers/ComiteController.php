@@ -17,15 +17,8 @@ class ComiteController extends Controller
      */
     public function index()
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
-          $comite = Comite::all();
-          return view('comite.index',['comite' => $comite]);
-      }
+        $comite = Comite::where('id_user','=',Auth::id())->get();
+        return view('comite.index',['comite' => $comite]);
     }
 
     /**
