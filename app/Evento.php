@@ -15,6 +15,7 @@ class Evento extends Model
     					'fecha_inicio',
     					'fecha_fin',
     					'estado',
+              'adjunto',
               'certificado_por_actividad',
     					'created_at',
     					'updated_at'];

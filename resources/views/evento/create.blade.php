@@ -6,7 +6,7 @@
 
     {{Html::ul($errors->all())}}
 
-    {{Form::open(array('url' => 'evento'))}}
+    {{Form::open(array('url' => 'evento','files' => 'true'))}}
     <div class="row">
       <div class="col m6">
         {{Form::label('nombre','Nombre')}}
@@ -16,6 +16,8 @@
         {{Form::label('lugar','Lugar')}}
         {{Form::text('lugar')}}
       </div>
+    </div>
+    <div class="row">
       <div class="col m6">
         {{Form::label('fecha_inicio','fecha_inicio')}}
         {{Form::date('fecha_inicio','\Carbon\Carbon::now()')}}
@@ -24,12 +26,21 @@
         {{Form::label('fecha_fin','fecha_fin')}}
         {{Form::date('fecha_fin','\Carbon\Carbon::now()')}}
       </div>
+    </div>
+    <div class="row">
       <div class="col m6">
         <p>
           <input type="checkbox" id="certificado_por_actividad" name="certificado_por_actividad" />
           <label for="certificado_por_actividad">Certificado Por Actividad</label>
         </p>
       </div>
+
+      <div class="col m6">
+        {{Form::label('adjunto','Adjunto')}}
+        {{Form::File('adjunto')}}
+      </div>
+    </div>
+    <div class="row">
       <div class="col m12">
         <div class="col m6">
               <h4>Areas de Conocimiento del Evento</h4>
@@ -38,16 +49,14 @@
           <a class="waves-effect waves-light btn" id="add_area" name="add_area">Añadir area</a>
         </div>
       </div>
-
-      <div class="row" id="area_wrapper">
-        <div class="col m8">
-          <p class="col m3">Nombre del Area</p>
-          <input class="col m6" type="text"  name="area[0]" id='area[0]'>
-          <a href="#" class="col m3 remove_field">Remove</a></div>
-        </div>
+    </div>
+    <div class="row" id="area_wrapper">
+      <div class="col m8">
+        <p class="col m3">Nombre del Area</p>
+        <input class="col m6" type="text"  name="area[0]" id='area[0]'>
+        <a href="#" class="col m3 remove_field">Remove</a>
       </div>
-
-
+    </div>
       <div class="col m12">
         <div class="col m6">
               <h4>Tipos de Actividades</h4>
@@ -82,8 +91,6 @@
       </div>
 
     </div>
-
-  </div>
 
 @endsection
 

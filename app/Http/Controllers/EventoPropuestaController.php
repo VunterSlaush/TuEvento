@@ -49,6 +49,10 @@ class EventoPropuestaController extends Controller
     public function store(Request $request, $id_evento)
     {
 
+      $this->validate($request,[
+        'adjunto' =>  'size:10000',
+      ]);
+
       $request->merge(['autor' => Auth::id()]);
       $request->merge(['id_evento' => $id_evento]);
       $area_value = $request->input('area');
@@ -57,7 +61,19 @@ class EventoPropuestaController extends Controller
       $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
       $request->merge(['id_area' => $area->id]);
       $request->merge(['id_tipo' => $tipo->id]);
-      Propuesta::create($request->all());
+
+      $propuesta = Propuesta::create($request->all());
+
+      if ($request->hasFile('adjunto') && $request->file('adjunto')->isValid()){
+          $rel_path='uploads\\'.'evento_'.$id_evento.'\\propuestas';
+          $dest = base_path($rel_path);
+          $ext = $request->file('adjunto')->getClientOriginalExtension();
+          $fileName = 'propuesta_'.$propuesta->id.'.'.$ext;
+          $request->file('adjunto')->move($dest,$fileName);
+
+          $propuesta->adjunto =  $rel_path.'\\'.$fileName;
+          $propuesta->update();
+      }
 
       return redirect()->route('evento.propuesta.index',['id_evento' => $id_evento])
               ->with('success','propuesta creada');
