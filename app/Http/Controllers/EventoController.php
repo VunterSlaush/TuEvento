@@ -55,6 +55,7 @@ class EventoController extends Controller
         'nombre' =>  'required',
         'fecha_inicio' =>  'required',
         'fecha_fin' =>  'required',
+        'adjunto' =>  'max:10000|image'
       ]);
 
 
@@ -95,6 +96,18 @@ class EventoController extends Controller
                                                 'evaluable' => $evaluable ]);
         $tipo_evento->save();
       }
+
+      if ($request->hasFile('adjunto') && $request->file('adjunto')->isValid()){
+          $rel_path='uploads\\'.'evento_'.$nuevoEvento->id;
+          $dest = base_path($rel_path);
+          $ext = $request->file('adjunto')->getClientOriginalExtension();
+          $fileName = 'imagen.'.$ext;
+          $request->file('adjunto')->move($dest,$fileName);
+
+          $nuevoEvento->adjunto =  $rel_path.'\\'.$fileName;
+          $nuevoEvento->update();
+      }
+
 
       return redirect()->route('evento.show',$nuevoEvento->id)
               ->with('message','evento editado');
