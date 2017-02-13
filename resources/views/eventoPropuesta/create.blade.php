@@ -7,7 +7,7 @@
 
     {{Html::ul($errors->all())}}
 
-    {{Form::open(array('url' => 'evento/'.$evento->id.'/propuesta'))}}
+    {{Form::open(array('url' => 'evento/'.$evento->id.'/propuesta', 'files' => 'true'))}}
 
       <div class="row">
         <div class="col m6">
