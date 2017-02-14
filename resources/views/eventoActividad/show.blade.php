@@ -23,7 +23,7 @@
     <!--TODO VERIFICAR SI EL USUARIO ES COMITE JURADO O ENCARGADO DEL EVENTO y si el evento ya no esta en
          Estado de Inscripciones -->
   @endcannot
-  @can('attend',$actividad)
+  @can('modify',$actividad)
     <a href="/actividad/{{$actividad->id}}/verificarAsistencia"> Verificar Asistencia!</a>
   @endcan
 </div>
