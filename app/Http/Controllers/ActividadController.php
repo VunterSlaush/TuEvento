@@ -35,15 +35,19 @@ class ActividadController extends Controller
     public function createFromPropuesta($id){
       $propuesta = Propuesta::find($id);
 
-      Actividad::create([
-        'ponente' => $propuesta->autor,
-        'id_evento' => $propuesta->id_evento,
-        'fecha' => "2017-01-20",
-        'titulo' => $propuesta->titulo,
-        'hora_inicio' => "2017-01-20 00:00:00",
-        'hora_fin' => "2017-01-20 00:00:00",
-        'resumen' => $propuesta->descripcion
-      ]);
+      try{
+        Actividad::create([
+          'ponente' => $propuesta->autor,
+          'id_evento' => $propuesta->id_evento,
+          'fecha' => "2017-01-20",
+          'titulo' => $propuesta->titulo,
+          'hora_inicio' => "2017-01-20 00:00:00",
+          'hora_fin' => "2017-01-20 00:00:00",
+          'resumen' => $propuesta->descripcion
+        ]);
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al Aplicar propuesta']);
+      }
 
       //Esto es para pruebas, en realidad no te deberia retorna al index de las actividades.
       return redirect()->route('actividad.index')
@@ -66,7 +70,11 @@ class ActividadController extends Controller
         'titulo' =>  'required'
       ]);
 
+      try{
         Actividad::create($request->all());
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al crear Actividad']);
+      }
 
         return redirect()->route('actividad.index')
                 ->with('success','actividad creada');
@@ -110,9 +118,12 @@ class ActividadController extends Controller
           'fecha' =>  'required',
           'titulo' =>  'required'
         ]);
-
-        Actividad::find($id)->update($request->all());
-
+        try{
+          Actividad::find($id)->update($request->all());
+        } catch (\Illuminate\Database\QueryException $qe) {
+          return redirect()->back()->withErrors(['Error al editar Actividad']);
+        }
+        
         return redirect()->route('actividad.index')
                 ->with('success','actividad editada');
     }

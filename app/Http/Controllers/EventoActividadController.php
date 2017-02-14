@@ -57,28 +57,32 @@ class EventoActividadController extends Controller
         'titulo' =>  'required'
       ]);
 
-      $request->merge(['id_user' => Auth::id()]);
-      $request->merge(['id_evento' => $id_evento]);
+      try{
+        $request->merge(['id_user' => Auth::id()]);
+        $request->merge(['id_evento' => $id_evento]);
 
 
-      $nueva_actividad = Actividad::create($request->all());
+        $nueva_actividad = Actividad::create($request->all());
 
-      $area_value = $request->input('area');
-      $tipo_value = $request->input('tipo');
-      $area = Area::where('nombre','=',$area_value)->first();
-      $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
-      $request->merge(['id_area' => $area->id]);
-      $request->merge(['id_tipo' => $tipo->id]);
+        $area_value = $request->input('area');
+        $tipo_value = $request->input('tipo');
+        $area = Area::where('nombre','=',$area_value)->first();
+        $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
+        $request->merge(['id_area' => $area->id]);
+        $request->merge(['id_tipo' => $tipo->id]);
 
-      $area_actividad = new AreaActividad(['id_area' => $area->id,
-                                     'id_actividad' => $nueva_actividad->id]);
-      $area_actividad->save();
+        $area_actividad = new AreaActividad(['id_area' => $area->id,
+                                       'id_actividad' => $nueva_actividad->id]);
+        $area_actividad->save();
 
-      $tipo_actividad = new tipoActividadActividad(['id_tipo' => $tipo->id,
-                                     'id_actividad' => $nueva_actividad->id]);
-      $tipo_actividad->save();
+        $tipo_actividad = new tipoActividadActividad(['id_tipo' => $tipo->id,
+                                       'id_actividad' => $nueva_actividad->id]);
+        $tipo_actividad->save();
 
-      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al crear actividad']);
+      }
 
       return redirect()->route('evento.actividad.show',['id_evento' => $id_evento,'nombre_evento' => $nombre_evento,'actividad' => $nueva_actividad])
               ->with('success','actividad creada');
@@ -130,10 +134,13 @@ class EventoActividadController extends Controller
     {
 
       Actividad::find($id_actividad)->update($request->all());
-
-      $actividad = Actividad::find($id_actividad);
-      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
-      $evento = Evento::where('id','=',$id_evento)->first();
+      try{
+        $actividad = Actividad::find($id_actividad);
+        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        $evento = Evento::where('id','=',$id_evento)->first();
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al editar Actividad']);
+      }
 
       return redirect()->route('evento.actividad.show',['id_evento' => $id_evento,'nombre_evento' => $nombre_evento,'actividad' => $actividad])
               ->with('success','actividad creada');

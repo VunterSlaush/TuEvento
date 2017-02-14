@@ -58,56 +58,59 @@ class EventoController extends Controller
         'adjunto' =>  'max:10000|image'
       ]);
 
+      try {
+        $request->merge(['creador' => Auth::id()]);
+        $request->merge(['estado' => 'inscripciones']);
 
-      $request->merge(['creador' => Auth::id()]);
-      $request->merge(['estado' => 'inscripciones']);
 
+        $nuevoEvento = Evento::create($request->all());
 
-      $nuevoEvento = Evento::create($request->all());
+        $areas = $request->input('area');
+        foreach ($areas as $a)
+        {
+          $area = Area::where('nombre', '=', $a)->first();
+          if ($area === null) {
+            $area = new Area(['nombre' => $a]);
+            $area->save();
+          }
 
-      $areas = $request->input('area');
-      foreach ($areas as $a)
-      {
-        $area = Area::where('nombre', '=', $a)->first();
-        if ($area === null) {
-          $area = new Area(['nombre' => $a]);
-          $area->save();
+          $area_evento = new AreaEvento(['id_area' => $area->id,
+                                         'id_evento' => $nuevoEvento->id]);
+          $area_evento->save();
         }
 
-        $area_evento = new AreaEvento(['id_area' => $area->id,
-                                       'id_evento' => $nuevoEvento->id]);
-        $area_evento->save();
-      }
-
-      $tipos = $request->input('tipo');
-      $tipos_cantidad = $request->input('tipo_cantidad');
-      $tipos_evaluable = $request->input('tipo_evaluable');
-      foreach ($tipos as $key => $value)
-      {
-        $tipo = TipoActividad::where('nombre', '=', $value)->first();
-        if ($tipo === null) {
-          $tipo = new TipoActividad(['nombre' => $value]);
-          $tipo->save();
+        $tipos = $request->input('tipo');
+        $tipos_cantidad = $request->input('tipo_cantidad');
+        $tipos_evaluable = $request->input('tipo_evaluable');
+        foreach ($tipos as $key => $value)
+        {
+          $tipo = TipoActividad::where('nombre', '=', $value)->first();
+          if ($tipo === null) {
+            $tipo = new TipoActividad(['nombre' => $value]);
+            $tipo->save();
+          }
+          $evaluable = array_key_exists ($key, $tipos_evaluable);
+          $tipo_evento = new TipoActividadEvento(['id_tipo' => $tipo->id,
+                                                  'id_evento' => $nuevoEvento->id,
+                                                  'cant_maxima'=> $tipos_cantidad[$key],
+                                                  'evaluable' => $evaluable ]);
+          $tipo_evento->save();
         }
-        $evaluable = array_key_exists ($key, $tipos_evaluable);
-        $tipo_evento = new TipoActividadEvento(['id_tipo' => $tipo->id,
-                                                'id_evento' => $nuevoEvento->id,
-                                                'cant_maxima'=> $tipos_cantidad[$key],
-                                                'evaluable' => $evaluable ]);
-        $tipo_evento->save();
+
+        if ($request->hasFile('adjunto') && $request->file('adjunto')->isValid()){
+            $rel_path='uploads\\'.'evento_'.$nuevoEvento->id;
+            $dest = base_path($rel_path);
+            $ext = $request->file('adjunto')->getClientOriginalExtension();
+            $fileName = 'imagen.'.$ext;
+            $request->file('adjunto')->move($dest,$fileName);
+
+            $nuevoEvento->adjunto =  $rel_path.'\\'.$fileName;
+            $nuevoEvento->update();
+        }
+
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al crear evento verifica los datos proporcionados']);
       }
-
-      if ($request->hasFile('adjunto') && $request->file('adjunto')->isValid()){
-          $rel_path='uploads\\'.'evento_'.$nuevoEvento->id;
-          $dest = base_path($rel_path);
-          $ext = $request->file('adjunto')->getClientOriginalExtension();
-          $fileName = 'imagen.'.$ext;
-          $request->file('adjunto')->move($dest,$fileName);
-
-          $nuevoEvento->adjunto =  $rel_path.'\\'.$fileName;
-          $nuevoEvento->update();
-      }
-
 
       return redirect()->route('evento.show',$nuevoEvento->id)
               ->with('message','evento editado');
@@ -146,15 +149,21 @@ class EventoController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $this->validate($request,[
-        'nombre' =>  'required',
-        'fecha_inicio' =>  'required',
-        'fecha_fin' =>  'required',
-        'cant_max_actividades' =>  'required|numeric',
-        'punt_min_aprobatorio' =>  'required|numeric', //50%
-      ]);
+      try{
 
-      Evento::find($id)->update($request->all());
+        $this->validate($request,[
+          'nombre' =>  'required',
+          'fecha_inicio' =>  'required',
+          'fecha_fin' =>  'required',
+          'cant_max_actividades' =>  'required|numeric',
+          'punt_min_aprobatorio' =>  'required|numeric', //50%
+        ]);
+
+        Evento::find($id)->update($request->all());
+
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al editar evento verifica los datos proporcionados']);
+      }
 
       return redirect()->route('evento.index')
               ->with('message','evento editado');
