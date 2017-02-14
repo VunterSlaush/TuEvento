@@ -151,7 +151,6 @@ class EventoController extends Controller
     public function update(Request $request, $id)
     {
       try{
-
         $this->validate($request,[
           'nombre' =>  'required',
           'fecha_inicio' =>  'required',
@@ -186,15 +185,7 @@ class EventoController extends Controller
 
     public function mis_eventos()
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
         $evento = Evento::where('creador',Auth::id())->get();
         return view('evento.index',['evento' => $evento]);
-      }
-
     }
 }

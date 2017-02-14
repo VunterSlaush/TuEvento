@@ -28,10 +28,12 @@
           <td> {{$value->estado}}</td>
           <td>
             <a href="{{route('evento.show',$value->id)}}"> Mostrar</a>
-            <a href="{{route('evento.edit',$value->id)}}"> Editar</a>
-            {{ Form::open(['method' => 'DELETE','route' => ['evento.destroy', $value->id],'style'=>'display:inline'])}}
-            {{ Form::submit('Eliminar')}}
-            {{ Form::close()}}
+            @can ('modify',$value)
+              <a href="{{route('evento.edit',$value->id)}}"> Editar</a>
+              {{ Form::open(['method' => 'DELETE','route' => ['evento.destroy', $value->id],'style'=>'display:inline'])}}
+              {{ Form::submit('Eliminar')}}
+              {{ Form::close()}}
+            @endcan
           </td>
         </tr>
         @endforeach
