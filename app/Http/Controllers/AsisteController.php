@@ -44,7 +44,7 @@ class AsisteController extends Controller
     {
       try{
         $asistencias = DB::table('asiste')
-              ->select('asiste.id as id','asiste.cedula','asiste.id_actividad','fecha','titulo','hora_inicio','hora_fin','asistio','ponente.nombre AS ponente')
+              ->select('asiste.codigo as id','asiste.cedula','asiste.id_actividad','fecha','titulo','hora_inicio','hora_fin','asistio','ponente.nombre AS ponente')
               ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
               ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
               ->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')

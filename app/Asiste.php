@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Asiste extends Model
 {
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'codigo';
     protected $table = "asiste";
 
-    protected $fillable = ['cedula',
+    protected $fillable = [ 'codigo',
+              'cedula',
     					'id_actividad',
-    					'codigo',
               'asistio',
     					'created_at',
     					'updated_at'];
