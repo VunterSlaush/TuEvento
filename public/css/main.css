@@ -1,3 +1,12 @@
+.content{
+  margin-left: 300px;
+  padding-top: 64px;
+}
+
+.side-nav {
+    margin-top: 64px !important;
+}
+
 a:hover,a:focus{
   text-decoration: none;
 }
@@ -53,4 +62,21 @@ input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]),
 strong {
     font-weight: bold !important;
     text-decoration: underline;
+}
+
+.profile-head{
+  width: 100%;
+  height: 200px;
+  background: url('/assets/materialbg.jpg') center;
+  background-size: cover;
+}
+.profile-head > .title{
+  color: white;
+}
+.profile-img>img{
+  width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
 }

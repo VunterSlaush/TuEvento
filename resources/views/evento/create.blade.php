@@ -36,8 +36,8 @@
       </div>
 
       <div class="col m6">
-        {{Form::label('adjunto','Adjunto')}}
-        {{Form::File('adjunto')}}
+        {{Form::label('image','Imagen')}}
+        {{Form::File('image')}}
       </div>
     </div>
     <div class="row">

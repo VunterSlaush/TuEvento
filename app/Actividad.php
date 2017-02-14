@@ -33,7 +33,7 @@ class Actividad extends Model
 
     public function asistencias(){
 
-        return $this->hasMany('App\Asiste','id_actividad','id');
+        return $this->hasMany('App\Asiste','id_actividad');
 
     }
 

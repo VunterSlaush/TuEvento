@@ -14,6 +14,9 @@ class CreateEncuestaTable extends Migration
         Schema::create('encuesta', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tipo');
+            $table->string('nombre');
+            $table->integer('id_evento');
+            $table->foreign('id_evento')->references('id')->on('evento')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

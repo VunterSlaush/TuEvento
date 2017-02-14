@@ -24,7 +24,7 @@
     </script>
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="navbar-fixed">
         <nav>
           <div class="nav-wrapper">
             <div class="container">
@@ -62,7 +62,50 @@
             </div>
           </div>
         </nav>
-        @yield('content')
+
+        <ul id="slide-out" class="side-nav fixed">
+          <li class="profile-head">
+            <div class="profile-img valign-wrapper">
+              <img class="circle valign" src="/assets/material-icon.png" alt="">
+            </div>
+            <h5 class="title center-align">{{Auth::user()->nombre}} </h5>
+          </li>
+          <li class="slide-content">
+            <ul class="collapsible" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header active"> Eventos </div>
+                <div class="collapsible-body">
+                  <ul class="collection">
+                    <a href="{{ url('/misEventos') }}" class="collection-item"> Mis Eventos</a>
+                    <a href="{{ url('/evento') }}" class="collection-item"> Ver todos</a>
+                    <a href="{{ url('/evento/create') }}" class="collection-item"> Crear Evento</a>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header"> Actividades </div>
+                <div class="collapsible-body">
+                  <ul class="collection">
+                    <a href="{{ url('/misActividades') }}" class="collection-item"> Mis Actividades</a>
+                    <a href="{{ url('/actividad') }}" class="collection-item"> Ver todas</a>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header"> Propuestas </div>
+                <div class="collapsible-body">
+                  <ul class="collection">
+                    <a href="{{ url('/propuesta') }}" class="collection-item"> Mis Propuestas</a>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a> -->
+        <div class="content">
+          @yield('content')
+        </div>
     </div>
 
     <!-- Scripts -->

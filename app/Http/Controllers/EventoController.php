@@ -56,7 +56,7 @@ class EventoController extends Controller
         'nombre' =>  'required',
         'fecha_inicio' =>  'required',
         'fecha_fin' =>  'required',
-        'adjunto' =>  'max:10000|image'
+        'image' =>  'max:10000|image'
       ]);
 
       try {
@@ -98,12 +98,12 @@ class EventoController extends Controller
           $tipo_evento->save();
         }
 
-        if ($request->hasFile('adjunto') && $request->file('adjunto')->isValid()){
+        if ($request->hasFile('image') && $request->file('image')->isValid()){
             $rel_path='uploads\\'.'evento_'.$nuevoEvento->id;
             $dest = base_path($rel_path);
-            $ext = $request->file('adjunto')->getClientOriginalExtension();
+            $ext = $request->file('image')->getClientOriginalExtension();
             $fileName = 'imagen.'.$ext;
-            $request->file('adjunto')->move($dest,$fileName);
+            $request->file('image')->move($dest,$fileName);
 
             $nuevoEvento->adjunto =  $rel_path.'\\'.$fileName;
             $nuevoEvento->update();
