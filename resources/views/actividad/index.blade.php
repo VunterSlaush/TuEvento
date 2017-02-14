@@ -34,10 +34,12 @@
           <td>
             <a href="/actividad/{{$value->id}}/asistir"> Asistir</a>
             <a href="{{route('actividad.show',$value->id)}}"> Mostrar</a>
-            <a href="{{route('actividad.edit',$value->id)}}"> Editar</a>
-            {{ Form::open(['method' => 'DELETE','route' => ['actividad.destroy', $value->id],'style'=>'display:inline'])}}
-            {{ Form::submit('Eliminar')}}
-            {{ Form::close()}}
+            @can('modify',$value)
+              <a href="{{route('actividad.edit',$value->id)}}"> Editar</a>
+              {{ Form::open(['method' => 'DELETE','route' => ['actividad.destroy', $value->id],'style'=>'display:inline'])}}
+              {{ Form::submit('Eliminar')}}
+              {{ Form::close()}}
+            @endcan
           </td>
         </tr>
         @endforeach

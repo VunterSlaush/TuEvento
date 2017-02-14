@@ -16,9 +16,14 @@
         </ul>
       </li>
     </ul>
-    <a href="/actividad/{{$actividad->id}}/asistir"> Asistir</a>
-    <!--TODO VERIFICAR SI EL USUARIO ES COMITE JURADO O ENCARGADO DEL EVENTO y si el evento ya no esta en
-         Estado de Inscripciones -->
-    <a href="/actividad/{{$actividad->id}}/verificarAsistencia"> Verificar Asistencia!</a>
+    @cannot('attend',$actividad)
+      <a href="/actividad/{{$actividad->id}}/asistir"> Asistir</a>
+
+        <!--TODO VERIFICAR SI EL USUARIO ES COMITE JURADO O ENCARGADO DEL EVENTO y si el evento ya no esta en
+            Estado de Inscripciones -->
+    @endcannot
+    @can('attend',$actividad)
+      <a href="/actividad/{{$actividad->id}}/verificarAsistencia"> Verificar Asistencia!</a>
+    @endcan
   </div>
 @endsection

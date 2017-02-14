@@ -21,4 +21,15 @@ class ActividadPolicy
      {
          return $user->cedula === $actividad->id_user;
      }
+
+     public function attend(User $user, Actividad $actividad)
+     {
+       $asiste = false;
+       foreach ($actividad->asistencias as $asistencia)
+       {
+         if($user->cedula === $asistencia->cedula)
+           $asiste = true;
+       }
+       return $asiste;
+     }
 }
