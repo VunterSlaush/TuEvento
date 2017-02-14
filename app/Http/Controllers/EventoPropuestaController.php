@@ -27,15 +27,8 @@ class EventoPropuestaController extends Controller
      */
     public function index($id_evento)
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
         $propuesta = Propuesta::where('id_evento',$id_evento)->get();
         return view('eventoPropuesta.index',['propuesta' => $propuesta,'id_evento' => $id_evento]);
-      }
     }
 
     /**
@@ -59,7 +52,7 @@ class EventoPropuestaController extends Controller
     {
 
       $this->validate($request,[
-        'adjunto' =>  'size:10000',
+        'adjunto' =>  'max:10000',
       ]);
 
       try{
