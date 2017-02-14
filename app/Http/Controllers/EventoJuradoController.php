@@ -11,7 +11,16 @@ use App\AreaJurado;
 class EventoJuradoController extends Controller
 {
 
-
+  /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
+  
   /**
    * Show the form for creating a new resource.
    *
@@ -31,19 +40,23 @@ class EventoJuradoController extends Controller
    */
   public function store(Request $request,$id_evento)
   {
-    $evento = Evento::where('id','=',$id_evento)->first();
-    $request->merge(['id_evento' => $id_evento]);
-    $area_value = $request->input('area');
-    $id_user = $request->input('id_user');
-    $area = Area::where('nombre','=',$area_value)->first();
-    $jurado = Jurado::where('id_user','=',$id_user)->first();
-    if($jurado == null)
-    {
-        $jurado = Jurado::create($request->all());
+    try{
+      $evento = Evento::where('id','=',$id_evento)->first();
+      $request->merge(['id_evento' => $id_evento]);
+      $area_value = $request->input('area');
+      $id_user = $request->input('id_user');
+      $area = Area::where('nombre','=',$area_value)->first();
+      $jurado = Jurado::where('id_user','=',$id_user)->first();
+      if($jurado == null)
+      {
+          $jurado = Jurado::create($request->all());
+      }
+      $areaJurado = new AreaJurado(['id_area' => $area->id,
+                          'id_jurado' => $jurado->id]);
+      $areaJurado->save();
+    } catch (\Illuminate\Database\QueryException $qe) {
+      return redirect()->back()->withErrors(['Error al guardar jurado']);
     }
-    $areaJurado = new AreaJurado(['id_area' => $area->id,
-                        'id_jurado' => $jurado->id]);
-    $areaJurado->save();
 
     return redirect()->route('evento.show',$evento->id)
             ->with('message','Jurado Guardado');

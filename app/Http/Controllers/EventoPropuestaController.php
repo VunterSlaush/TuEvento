@@ -12,21 +12,23 @@ use Illuminate\Support\Facades\Auth;
 class EventoPropuestaController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index($id_evento)
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
         $propuesta = Propuesta::where('id_evento',$id_evento)->get();
         return view('eventoPropuesta.index',['propuesta' => $propuesta,'id_evento' => $id_evento]);
-      }
     }
 
     /**
@@ -50,29 +52,33 @@ class EventoPropuestaController extends Controller
     {
 
       $this->validate($request,[
-        'adjunto' =>  'size:10000',
+        'adjunto' =>  'max:10000',
       ]);
 
-      $request->merge(['autor' => Auth::id()]);
-      $request->merge(['id_evento' => $id_evento]);
-      $area_value = $request->input('area');
-      $tipo_value = $request->input('tipo');
-      $area = Area::where('nombre','=',$area_value)->first();
-      $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
-      $request->merge(['id_area' => $area->id]);
-      $request->merge(['id_tipo' => $tipo->id]);
+      try{
+        $request->merge(['autor' => Auth::id()]);
+        $request->merge(['id_evento' => $id_evento]);
+        $area_value = $request->input('area');
+        $tipo_value = $request->input('tipo');
+        $area = Area::where('nombre','=',$area_value)->first();
+        $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
+        $request->merge(['id_area' => $area->id]);
+        $request->merge(['id_tipo' => $tipo->id]);
 
-      $propuesta = Propuesta::create($request->all());
+        $propuesta = Propuesta::create($request->all());
 
-      if ($request->hasFile('adjunto') && $request->file('adjunto')->isValid()){
-          $rel_path='uploads\\'.'evento_'.$id_evento.'\\propuestas';
-          $dest = base_path($rel_path);
-          $ext = $request->file('adjunto')->getClientOriginalExtension();
-          $fileName = 'propuesta_'.$propuesta->id.'.'.$ext;
-          $request->file('adjunto')->move($dest,$fileName);
+        if ($request->hasFile('adjunto') && $request->file('adjunto')->isValid()){
+            $rel_path='uploads\\'.'evento_'.$id_evento.'\\propuestas';
+            $dest = base_path($rel_path);
+            $ext = $request->file('adjunto')->getClientOriginalExtension();
+            $fileName = 'propuesta_'.$propuesta->id.'.'.$ext;
+            $request->file('adjunto')->move($dest,$fileName);
 
-          $propuesta->adjunto =  $rel_path.'\\'.$fileName;
-          $propuesta->update();
+            $propuesta->adjunto =  $rel_path.'\\'.$fileName;
+            $propuesta->update();
+        }
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al crear propuesta']);
       }
 
       return redirect()->route('evento.propuesta.index',['id_evento' => $id_evento])
@@ -119,7 +125,11 @@ class EventoPropuestaController extends Controller
      */
     public function update(Request $request, $id_evento,$id_propuesta)
     {
-      Propuesta::find($id_propuesta)->update($request->all());
+      try{
+        Propuesta::find($id_propuesta)->update($request->all());
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al editar propuesta ']);
+      }
 
       return redirect()->route('evento.propuesta.index',['id_evento' => $id_evento])
               ->with('success','propuesta editada');

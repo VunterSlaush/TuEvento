@@ -11,7 +11,16 @@ use View;
 
 class CertificadoController extends Controller
 {
-
+	/**
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+			$this->middleware('auth');
+	}
+	
 	/*
     SELECT users.nombre,users.cedula,id_actividad,fecha,titulo,evento.nombre as nombre_evento, lugar
     FROM asiste

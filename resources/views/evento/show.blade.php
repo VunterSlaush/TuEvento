@@ -60,8 +60,11 @@
           <a class="btn" href="{{ route('evento.propuesta.index',$evento->id)}}"> Ver propuestas</a>
           <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}"> Aplicar</a>
           <a class="btn" href="{{ route('evento.actividad.index',$evento->id)}}"> Ver actividades</a>
-          <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}"> Asignar Comite</a>
-          <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}"> Asignar Jurado</a>
+          @can ('modify',$evento)
+            <a class="btn" href="{{ route('evento.actividad.create',$evento->id)}}"> Crear actividades</a>
+            <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}"> Asignar Comite</a>
+            <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}"> Asignar Jurado</a>
+          @endcan
       </li>
     </ul>
   </div>

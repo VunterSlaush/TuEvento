@@ -20,13 +20,13 @@ class EventoPolicy
         //
     }
 
-  public function update(User $user, Evento $evento)
+  public function modify(User $user, Evento $evento)
   {
-      $esCreador = $user->id === $evento->creador;
+      $esCreador = $user->cedula=== $evento->creador;
       $esComite = false;
       foreach ($evento->comites as $comite)
       {
-        if($comite->user->id === $user->id)
+        if($comite->user->cedula === $user->cedula)
           $esComite = true;
       }
       return $esCreador || $esComite;

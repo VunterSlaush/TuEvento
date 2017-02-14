@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AsisteController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function mi_horario()
     {
         return $this->generarHorario();
@@ -32,14 +42,18 @@ class AsisteController extends Controller
     */
     public function generarHorario()
     {
-      $asistencias = DB::table('asiste')
-            ->select('asiste.id as id','asiste.cedula','asiste.id_actividad','fecha','titulo','hora_inicio','hora_fin','asistio','ponente.nombre AS ponente')
-            ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
-            ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
-            ->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')
-            ->where('asiste.cedula',Auth::id())
-            ->where('asiste.asistio',false)
-            ->get();
+      try{
+        $asistencias = DB::table('asiste')
+              ->select('asiste.id as id','asiste.cedula','asiste.id_actividad','fecha','titulo','hora_inicio','hora_fin','asistio','ponente.nombre AS ponente')
+              ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
+              ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
+              ->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')
+              ->where('asiste.cedula',Auth::id())
+              ->where('asiste.asistio',false)
+              ->get();
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al generar horario']);
+      }
 
       return view('horario',['horario' => $asistencias]);
     }

@@ -20,7 +20,7 @@ class CreatePropuestaTable extends Migration
             $table->integer('id_area');
             $table->integer('id_tipo');
             $table->string('titulo');
-            $table->string('adjunto');
+            $table->string('adjunto')->nullable();
             $table->string('demanda');
             $table->string('descripcion');
             $table->integer('duracion');
