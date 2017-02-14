@@ -9,22 +9,24 @@ use Illuminate\Support\Facades\Auth;
 class PropuestaController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
         $propuesta = Propuesta::where('autor',Auth::id())->get();
         return view('propuesta.index',['propuesta' => $propuesta]);
-      }
-
     }
 
     /**

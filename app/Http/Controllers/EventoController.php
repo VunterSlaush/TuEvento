@@ -13,7 +13,15 @@ use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
 {
-    protected $redirectTo = '/home';
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -22,15 +30,8 @@ class EventoController extends Controller
      */
     public function index()
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
         $evento = Evento::all();
         return view('evento.index',['evento' => $evento]);
-      }
     }
 
     /**

@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AsisteController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function mi_horario()
     {
         return $this->generarHorario();

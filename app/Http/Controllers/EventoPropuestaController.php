@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Auth;
 class EventoPropuestaController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -128,7 +137,7 @@ class EventoPropuestaController extends Controller
       } catch (\Illuminate\Database\QueryException $qe) {
         return redirect()->back()->withErrors(['Error al editar propuesta ']);
       }
-      
+
       return redirect()->route('evento.propuesta.index',['id_evento' => $id_evento])
               ->with('success','propuesta editada');
     }

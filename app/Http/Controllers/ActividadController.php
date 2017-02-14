@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\DB;
 class ActividadController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -123,7 +133,7 @@ class ActividadController extends Controller
         } catch (\Illuminate\Database\QueryException $qe) {
           return redirect()->back()->withErrors(['Error al editar Actividad']);
         }
-        
+
         return redirect()->route('actividad.index')
                 ->with('success','actividad editada');
     }
