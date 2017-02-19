@@ -69,24 +69,22 @@ class EventoActividadController extends Controller
       try{
         $request->merge(['id_user' => Auth::id()]);
         $request->merge(['id_evento' => $id_evento]);
-
+        $tipo_value = $request->input('tipo_actividad');
+        $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
+        $request->merge(['tipo' => $tipo->id]);
 
         $nueva_actividad = Actividad::create($request->all());
 
         $area_value = $request->input('area');
-        $tipo_value = $request->input('tipo');
+
         $area = Area::where('nombre','=',$area_value)->first();
-        $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
+
         $request->merge(['id_area' => $area->id]);
-        $request->merge(['id_tipo' => $tipo->id]);
+
 
         $area_actividad = new AreaActividad(['id_area' => $area->id,
                                        'id_actividad' => $nueva_actividad->id]);
         $area_actividad->save();
-
-        $tipo_actividad = new tipoActividadActividad(['id_tipo' => $tipo->id,
-                                       'id_actividad' => $nueva_actividad->id]);
-        $tipo_actividad->save();
 
         $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
       } catch (\Illuminate\Database\QueryException $qe) {

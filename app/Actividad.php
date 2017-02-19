@@ -11,6 +11,7 @@ class Actividad extends Model
     protected $fillable = [
     					'id_user',
               'id_evento',
+              'tipo',
     					'fecha',
     					'titulo',
     					'hora_inicio',
@@ -49,9 +50,9 @@ class Actividad extends Model
 
     }
 
-    public function tipoActividad(){
+    public function tipo_actividad(){
 
-    	return $this->hasMany('App\TipoActividadActividad','id_actividad');
+    	return $this->belongsTo('App\TipoActividad','tipo');
 
     }
 

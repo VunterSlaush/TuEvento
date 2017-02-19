@@ -90,7 +90,11 @@ class EventoController extends Controller
             $tipo = new TipoActividad(['nombre' => $value]);
             $tipo->save();
           }
-          $evaluable = array_key_exists ($key, $tipos_evaluable);
+          if($tipos_evaluable != null)
+            $evaluable = array_key_exists ($key, $tipos_evaluable);
+          else
+            $evaluable = false;
+
           $tipo_evento = new TipoActividadEvento(['id_tipo' => $tipo->id,
                                                   'id_evento' => $nuevoEvento->id,
                                                   'cant_maxima'=> $tipos_cantidad[$key],
@@ -105,12 +109,12 @@ class EventoController extends Controller
             $fileName = 'imagen.'.$ext;
             $request->file('image')->move($dest,$fileName);
 
-            $nuevoEvento->adjunto =  $rel_path.'\\'.$fileName;
+            $nuevoEvento->imagen =  $rel_path.'\\'.$fileName;
             $nuevoEvento->update();
         }
 
       } catch (\Illuminate\Database\QueryException $qe) {
-        return redirect()->back()->withErrors(['Error al crear evento verifica los datos proporcionados']);
+        return redirect()->back()->withErrors(['Error al crear evento verifica los datos proporcionados:'+$qe->getSql()]);
       }
 
       return redirect()->route('evento.show',$nuevoEvento->id)

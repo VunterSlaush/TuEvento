@@ -50,7 +50,7 @@
           <label>Selecciona un Area</label>
         </div>
         <div class="input-field col m6">
-          <select name='tipo'>
+          <select name='tipo_actividad'>
             <option value="" disabled selected>Selecciona un Tipo de Actividad</option>
             @foreach ($evento->tipoActividad as $tipo)
                 <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>

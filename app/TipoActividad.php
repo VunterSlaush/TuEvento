@@ -14,7 +14,7 @@ class TipoActividad extends Model
     	return $this->hasMany('App\TipoActividadEvento','id_tipo');
     }
 
-    public function tipoActividadActividad(){
-    	return $this->hasMany('App\TipoActividadActividad','id_tipo');
+    public function actividades(){
+    	return $this->hasMany('App\Actividad','tipo');
     }
 }

@@ -9,6 +9,7 @@
       <ul>
         <li> <strong>Creador</strong> {{$actividad->user->nombre}}</li>
         <li> <strong>Evento</strong> {{ $actividad->evento->nombre }}</li>
+        <li> <strong>Tipo</strong> {{ $actividad->tipo_actividad->nombre }}</li>
         <li> <strong>Fecha</strong> {{ $actividad->fecha }}</li>
         <li> <strong>Titulo</strong> {{ $actividad->titulo }}</li>
         <li> <strong>Inicio</strong> {{ $actividad->hora_inicio }}</li>

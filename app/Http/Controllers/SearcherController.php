@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use View;
 use App\Actividad;
+use App\Evento;
 
 
 class SearcherController extends Controller
@@ -30,6 +31,13 @@ class SearcherController extends Controller
 
       return view('search-activities',['actividades' => $actividades]);
 
+    }
+    //TODO Realizar mejor la Consulta! Buscar Las actividades de un eventos
+    // Las Actividades de un Area, Las Actividades de un tipo
+    public function searchAll($search)
+    {
+      $eventos = Evento::where('nombre', 'LIKE', '%'.$search.'%')->get();
+      return json_encode($eventos);
     }
 
 }
