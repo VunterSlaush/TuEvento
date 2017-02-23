@@ -129,7 +129,7 @@
                   <input id="search-field" placeholder="Ingrese Busqueda" type="text">
                 </div>
                 <div class="col s4">
-                  <select>
+                  <select id="search-select">
                     <option value="" disabled selected>Buscar Por</option>
                     <option value="1">Evento</option>
                     <option value="2">Area</option>
@@ -181,23 +181,51 @@
 
       $("#search-field").change(function()
       {
+            var select_value = $("#search-select").val();
+            searchBySelect(select_value,$(this).val());
+
+      });
+
+      function searchBySelect(value, searchValue)
+      {
+          console.log(value);
+          switch (value)
+          {
+            case "1": // Search por Evento
+                searchByEvento(searchValue);
+              break;
+            case "2": // Search Por Area
+              //TODO this, hay que cambiar relaciones en la BD
+              break;
+            case "3": // Search por Actividad
+                searchByActividad(searchValue);
+              break;
+            case 4: // Search por tipo
+              break;
+            default:
+
+          }
+      }
+
+      function searchByEvento(value)
+      {
             $.ajax({
-            url: '/search/'+$(this).val(),
+            url: '/searchEvento/'+value,
             type: 'GET',
             data: {_token: CSRF_TOKEN},
             dataType: 'JSON',
             success: function (data)
-            {   //TODO MODELAR LOS DATOS EN LA BUSQUEDA
-                //TODO Poner 1 o varios botones en la busqueda!
-                //TODO ehmmm ??
+            {
                 console.log(data);
                 $('.results-list').empty();
                 for (var i = 0; i < data.length; i++) {
                   $('.results-list').append('<div class="result">'+
-                                  '<div class="result-logo"></div>'+
+                                  '<div class="result-logo">'+
+                                  '<img src="'+data[i].imagen+'">'+
+                                  +'</div>'+
                                     '<div class="result-text">'+
                                       '<span class="b-name results-t-more">'+data[i].nombre+'</span>'+
-                                      //'<span class="b-sub results-t-more">Summary of Business</span>'+
+                                      '<a href="/evento/'+data[i].id+'" class="b-sub results-t-more">Entrar</a>'+
                                       //'<span class="b-info results-t-more">Apple Valley, MN</span>'+
                                     '</div>'+
                                     '</div>');
@@ -205,7 +233,35 @@
 
             }
         });
-      });
+      }
+
+      function searchByActividad(value)
+      {
+        $.ajax({
+        url: '/searchActividad/'+value,
+        type: 'GET',
+        data: {_token: CSRF_TOKEN},
+        dataType: 'JSON',
+        success: function (data)
+        {
+            console.log(data);
+            $('.results-list').empty();
+            for (var i = 0; i < data.length; i++) {
+              $('.results-list').append('<div class="result">'+
+                              '<div class="result-logo">'+
+                              '<img src="'+data[i].imagen+'">'+
+                              +'</div>'+
+                                '<div class="result-text">'+
+                                  '<span class="b-name results-t-more">'+data[i].titulo+'</span>'+
+                                  '<a href="/actividad/'+data[i].id+'" class="b-sub results-t-more">Entrar</a>'+
+                                  //'<span class="b-info results-t-more">Apple Valley, MN</span>'+
+                                '</div>'+
+                                '</div>');
+            }
+
+        }
+    });
+      }
     </script>
     @yield('scripts')
 </body>

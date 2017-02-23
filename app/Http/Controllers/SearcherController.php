@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use View;
 use App\Actividad;
 use App\Evento;
+use App\TipoActividad;
+use App\Area;
 
 
 class SearcherController extends Controller
@@ -23,21 +25,30 @@ class SearcherController extends Controller
         $this->middleware('auth');
     }
 
-    public function searchActivities(Request $request){
+    public function searchActividad($search){
 
-      $busqueda = $request->input('titulo');
-
-      $actividades = Actividad::where('titulo','=',$busqueda)->get();
-
-      return view('search-activities',['actividades' => $actividades]);
+      $actividades = Actividad::where('titulo', 'LIKE', '%'.$search.'%')->get();
+      return json_encode($actividades);
 
     }
     //TODO Realizar mejor la Consulta! Buscar Las actividades de un eventos
     // Las Actividades de un Area, Las Actividades de un tipo
-    public function searchAll($search)
+    public function searchEvento($search)
     {
       $eventos = Evento::where('nombre', 'LIKE', '%'.$search.'%')->get();
       return json_encode($eventos);
+    }
+
+    public function searchArea($search)
+    {
+      $actividades = Actividad::where('titulo', 'LIKE', '%'.$search.'%')->get();
+      return json_encode($actividades);
+    }
+
+    public function searchTipo($search)
+    {
+      $tipos = TipoActividad::where('nombre', 'LIKE', '%'.$search.'%')->get();
+      return json_encode($tipos->actividades);
     }
 
 }

@@ -43,8 +43,10 @@ Route::group(['middleware' => 'auth'], function ()
 
 
 Route::get('/home', 'EventoController@index');
-Route::get('/search/{search}','SearcherController@searchAll');
-
+Route::get('/searchEvento/{search}','SearcherController@searchEvento');
+Route::get('/searchActividad/{search}','SearcherController@searchActividad');
+Route::get('/searchArea/{search}','SearcherController@searchArea');
+Route::get('/searchTipo/{search}','SearcherController@searchTipo');
 Route::resource('propuesta', 'PropuestaController');
 Route::resource('actividad', 'ActividadController');
 Route::resource('evento', 'EventoController');
