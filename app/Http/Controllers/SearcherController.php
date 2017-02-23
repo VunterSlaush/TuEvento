@@ -26,29 +26,70 @@ class SearcherController extends Controller
     }
 
     public function searchActividad($search){
+      // TODO, A;adir la parte del Area!!
+      $search = strtolower($search);
+      $actividades = DB::table('actividad')->whereRaw("lower(titulo) LIKE '%".$search."%'")->
+        orWhereRaw("to_char(fecha,'DD-MM-YYYY') LIKE '%".str_replace("/", "-", $search)."%'")->
+        orWhereRaw("to_char(fecha,'YYYY-MM-DD') LIKE '%".str_replace("/", "-", $search)."%'")->limit(50)->get();
 
-      $actividades = Actividad::where('titulo', 'LIKE', '%'.$search.'%')->get();
-      return json_encode($actividades);
+      $actividades_tipo = DB::table('actividad')
+                    ->join('tipo_actividad', 'tipo_actividad.id', '=', 'actividad.tipo')
+                    ->whereRaw("lower(tipo_actividad.nombre) LIKE '%".$search."%'")
+                    ->limit(50)
+                    ->get();
+
+
+
+      return json_encode($this->mergeCollections($actividades,$actividades_tipo));
 
     }
-    //TODO Realizar mejor la Consulta! Buscar Las actividades de un eventos
-    // Las Actividades de un Area, Las Actividades de un tipo
+
     public function searchEvento($search)
     {
-      $eventos = Evento::where('nombre', 'LIKE', '%'.$search.'%')->get();
-      return json_encode($eventos);
+      $search = strtolower($search);
+      $eventos = Evento::whereRaw("lower(nombre) LIKE '%".$search."%'")->
+                orWhereRaw("lower(lugar) LIKE '%".$search."%'")->
+                orWhereRaw("to_char(fecha_inicio,'DD-MM-YYYY') LIKE '%".str_replace("/", "-", $search)."%'")->
+                orWhereRaw("to_char(fecha_fin,'DD-MM-YYYY') LIKE '%".str_replace("/", "-", $search)."%'")->
+                orWhereRaw("to_char(fecha_fin,'YYYY-MM-DD') LIKE '%".str_replace("/", "-", $search)."%'")->
+                orWhereRaw("to_char(fecha_inicio,'YYYY-MM-DD') LIKE '%".str_replace("/", "-", $search)."%'")->limit(35)->get();
+
+      $eventos_area = DB::table('evento')
+                      ->select('evento.*')
+                      ->join('area_evento','area_evento.id_evento','=','evento.id')
+                      ->join('area','area_evento.id_area','=','area.id')
+                      ->whereRaw("lower(area.nombre) LIKE '%".$search."%'")
+                      ->groupBy('evento.id')->limit(35)->get();
+
+      $eventos_tipo = DB::table('evento')
+                      ->select('evento.*')
+                      ->join('tipo_actividad_evento','tipo_actividad_evento.id_evento','=','evento.id')
+                      ->join('tipo_actividad','tipo_actividad_evento.id_tipo','=','tipo_actividad.id')
+                      ->whereRaw("lower(tipo_actividad.nombre) LIKE '%".$search."%'")
+                      ->groupBy('evento.id')->limit(35)->get();
+
+
+      return json_encode($this->mergeCollections($this->mergeCollections($eventos,$eventos_area),$eventos_tipo));
     }
 
-    public function searchArea($search)
+    private function mergeCollections($jsonArray1, $jsonArray2)
     {
-      $actividades = Actividad::where('titulo', 'LIKE', '%'.$search.'%')->get();
-      return json_encode($actividades);
+        for ($i=0; $i < count($jsonArray2) ; $i++)
+        {
+          if(!$this->existeIdEnCollection($jsonArray1,$jsonArray2[$i]->id))
+            $jsonArray1->push($jsonArray2[$i]);
+        }
+        return $jsonArray1;
     }
 
-    public function searchTipo($search)
+    private function existeIdEnCollection($jsonArray,$id)
     {
-      $tipos = TipoActividad::where('nombre', 'LIKE', '%'.$search.'%')->get();
-      return json_encode($tipos->actividades);
+      for ($i=0; $i < count($jsonArray) ; $i++)
+      {
+          if($jsonArray[$i]->id == $id)
+            return true;
+      }
+      return false;
     }
 
 }

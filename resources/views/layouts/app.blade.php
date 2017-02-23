@@ -130,11 +130,9 @@
                 </div>
                 <div class="col s4">
                   <select id="search-select">
-                    <option value="" disabled selected>Buscar Por</option>
+                    <option value="1" disabled selected>Buscar Por</option>
                     <option value="1">Evento</option>
-                    <option value="2">Area</option>
-                    <option value="4">Tipo</option>
-                    <option value="3">Actividad</option>
+                    <option value="2">Actividad</option>
                   </select>
                 </div>
               </form>
@@ -143,9 +141,9 @@
               <div class="results-header">
               Resultados de Busqueda
               </div>
-              <div class="results-list" style="overflow-y : auto;">
+              <ul class="results-list collection" style="overflow-y : auto;">
 
-              </div>
+              </ul>
             </div>
           </div>
         </div>
@@ -162,6 +160,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <script>
+    // TODO, PASAR TOOOOOODO ESTO A UN ARCHIVO !
 
       $(document).ready(function() {
         $('select').material_select();
@@ -179,11 +178,14 @@
         $('#overlay').toggle();
       });
 
-      $("#search-field").change(function()
+      $("#search-field").keyup(function()
       {
             var select_value = $("#search-select").val();
-            searchBySelect(select_value,$(this).val());
-
+            if($(this).val() != "")
+              searchBySelect(select_value,$(this).val());
+            else {
+              $('.results-list').empty();
+            }
       });
 
       function searchBySelect(value, searchValue)
@@ -194,16 +196,12 @@
             case "1": // Search por Evento
                 searchByEvento(searchValue);
               break;
-            case "2": // Search Por Area
-              //TODO this, hay que cambiar relaciones en la BD
-              break;
-            case "3": // Search por Actividad
+            case "2": // Search por Actividad
                 searchByActividad(searchValue);
               break;
-            case 4: // Search por tipo
-              break;
             default:
-
+              searchByActividad(searchValue);
+              break;
           }
       }
 
@@ -219,16 +217,15 @@
                 console.log(data);
                 $('.results-list').empty();
                 for (var i = 0; i < data.length; i++) {
-                  $('.results-list').append('<div class="result">'+
-                                  '<div class="result-logo">'+
-                                  '<img src="'+data[i].imagen+'">'+
-                                  +'</div>'+
-                                    '<div class="result-text">'+
-                                      '<span class="b-name results-t-more">'+data[i].nombre+'</span>'+
-                                      '<a href="/evento/'+data[i].id+'" class="b-sub results-t-more">Entrar</a>'+
-                                      //'<span class="b-info results-t-more">Apple Valley, MN</span>'+
-                                    '</div>'+
-                                    '</div>');
+                  //TODO, front de estos datos!
+                  $('.results-list').append(
+                                '<a href="/evento/'+data[i].id+'" class="collection-item avatar">'+
+                                  '<i class="material-icons circle">folder</i>'+
+                                      '<span class="title">'+data[i].nombre+'</span>'+
+                                      '<p>'+data[i].lugar+ '<br>'+
+                                         data[i].fecha_inicio+' - '+data[i].fecha_fin+
+                                      '</p>'+
+                                '</a>');
                 }
 
             }
@@ -243,25 +240,24 @@
         data: {_token: CSRF_TOKEN},
         dataType: 'JSON',
         success: function (data)
-        {
-            console.log(data);
-            $('.results-list').empty();
-            for (var i = 0; i < data.length; i++) {
-              $('.results-list').append('<div class="result">'+
-                              '<div class="result-logo">'+
-                              '<img src="'+data[i].imagen+'">'+
-                              +'</div>'+
-                                '<div class="result-text">'+
-                                  '<span class="b-name results-t-more">'+data[i].titulo+'</span>'+
-                                  '<a href="/actividad/'+data[i].id+'" class="b-sub results-t-more">Entrar</a>'+
-                                  //'<span class="b-info results-t-more">Apple Valley, MN</span>'+
-                                '</div>'+
-                                '</div>');
-            }
+          {
+              console.log(data);
+              $('.results-list').empty();
+              for (var i = 0; i < data.length; i++) {
+                $('.results-list').append(
+                                    '<a href="/actividad/'+data[i].id+'" class="collection-item avatar">'+
+                                        '<i class="material-icons circle">folder</i>'+
+                                          '<span class="title">'+data[i].titulo+'</span>'+
+                                          '<p>'+data[i].fecha+ '<br>'+
+                                           data[i].hora_inicio+' - '+data[i].hora_fin+
+                                          '</p>'+
+                                    '</a>');
+              }
 
-        }
-    });
+          }
+        });
       }
+
     </script>
     @yield('scripts')
 </body>
