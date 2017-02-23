@@ -43,8 +43,8 @@ Route::group(['middleware' => 'auth'], function ()
 
 
 Route::get('/home', 'EventoController@index');
-Route::get('/search/{search}','SearcherController@searchAll');
-
+Route::get('/searchEvento/{search}','SearcherController@searchEvento')->where('search', '(.*)');
+Route::get('/searchActividad/{search}','SearcherController@searchActividad')->where('search', '(.*)');
 Route::resource('propuesta', 'PropuestaController');
 Route::resource('actividad', 'ActividadController');
 Route::resource('evento', 'EventoController');
