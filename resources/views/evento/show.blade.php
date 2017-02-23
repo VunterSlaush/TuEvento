@@ -64,6 +64,7 @@
             <a class="btn" href="{{ route('evento.actividad.create',$evento->id)}}"> Crear actividades</a>
             <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}"> Asignar Comite</a>
             <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}"> Asignar Jurado</a>
+            <a class="btn" href="{{ route('evento.organizar',$evento->id) }}"> Ordenar Actividades</a>
           @endcan
       </li>
     </ul>

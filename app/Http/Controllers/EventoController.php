@@ -192,4 +192,9 @@ class EventoController extends Controller
         $evento = Evento::where('creador',Auth::id())->get();
         return view('evento.index',['evento' => $evento]);
     }
+
+    public function organizar($id){
+      $evento = Evento::find($id);
+      return view('evento.organizar',['evento' => $evento]);
+    }
 }
