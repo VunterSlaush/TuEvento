@@ -35,14 +35,15 @@
                     <li><a href="{{ url('/login') }}">Ingreso</a></li>
                     <li><a href="{{ url('/register') }}">Registro</a></li>
                 @else
-                <li>
-                <div style="margin-right:5px;">
-                  {{ Auth::user()->nombre }}
-                </div>
-                </li>
+
                 <li>
                   <a id="search-btn">
                     <i class="material-icons">search</i>
+                  </a>
+                </li>
+                <li>
+                  <a id="user-btn">
+                    <i class="material-icons">person_pin</i>
                   </a>
                 </li>
 
@@ -129,10 +130,9 @@
                   <input id="search-field" placeholder="Ingrese Busqueda" type="text">
                 </div>
                 <div class="col s4">
-                  <select id="search-select">
-                    <option value="1" disabled selected>Buscar Por</option>
-                    <option value="1">Evento</option>
-                    <option value="2">Actividad</option>
+                  <select id="search-select" class="white">
+                    <option  value="1" selected>Evento</option>
+                    <option  value="2">Actividad</option>
                   </select>
                 </div>
               </form>
