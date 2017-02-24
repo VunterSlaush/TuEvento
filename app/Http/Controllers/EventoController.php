@@ -10,6 +10,7 @@ use App\TipoActividad;
 use App\TipoActividadEvento;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 
 class EventoController extends Controller
 {
@@ -195,6 +196,9 @@ class EventoController extends Controller
 
     public function organizar($id){
       $evento = Evento::find($id);
-      return view('evento.organizar',['evento' => $evento]);
+      $collection = collect ($evento->actividades);
+      $actividades = $collection->sortBy('hora_inicio')->values()->all();
+
+      return view('evento.organizar',['evento' => $evento, 'actividades' => $actividades]);
     }
 }
