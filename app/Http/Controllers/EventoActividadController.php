@@ -67,15 +67,38 @@ class EventoActividadController extends Controller
       ]);
 
       try{
-        $request->merge(['id_user' => Auth::id()]);
         $request->merge(['id_evento' => $id_evento]);
         $tipo_value = $request->input('tipo_actividad');
+
+        if ($tipo_value == "") {
+          return redirect()->back()->withErrors(['Por favor ingrese un area']);
+        }
+
         $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
         $request->merge(['tipo' => $tipo->id]);
 
-        $nueva_actividad = Actividad::create($request->all());
+        $hora_inicio = $request->input('hora_inicio');
+        $hora_fin = $request->input('hora_fin');
+
+        if ($hora_inicio == "" && $hora_fin == ""){
+          $nueva_actividad = Actividad::create($request->except('hora_inicio','hora_fin'));
+        } else{
+          if ( $hora_inicio != "" && $hora_fin != ""){
+            if ($hora_inicio < $hora_fin){
+              $nueva_actividad = Actividad::create($request->all());
+            }else{
+              return redirect()->back()->withErrors(['La hora de inicio debe ser menor a la final']);
+            }
+          }else{
+            return redirect()->back()->withErrors(['Por favor complete Hora de Inicio y Hora de fin']);
+          }
+        }
 
         $area_value = $request->input('area');
+
+        if ($area_value == "") {
+          return redirect()->back()->withErrors(['Por favor ingrese un area']);
+        }
 
         $area = Area::where('nombre','=',$area_value)->first();
 

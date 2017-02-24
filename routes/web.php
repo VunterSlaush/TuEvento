@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth'], function ()
 {
 
   Route::get('/misEventos','EventoController@mis_eventos');
+  Route::get('evento/{id}/organizar','EventoController@organizar')->name('evento.organizar');
   Route::get('/miHorario','AsisteController@mi_horario');
   Route::get('/misActividades','ActividadController@mis_actividades');
   Route::get('/misCertificados',['uses' => 'CertificadoController@verCertificados']);
