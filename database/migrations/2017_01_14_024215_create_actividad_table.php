@@ -15,8 +15,8 @@ class CreateActividadTable extends Migration
             $table->increments('id');
             $table->date('fecha');
             $table->string('titulo');
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
+            $table->time('hora_inicio')->nullable();
+            $table->time('hora_fin')->nullable();
             $table->string('resumen');
             $table->integer('id_evento');
             $table->integer('tipo');
