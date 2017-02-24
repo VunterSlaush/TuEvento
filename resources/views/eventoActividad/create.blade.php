@@ -22,13 +22,17 @@
       </div>
 
       <div class="row">
-        <div class="col m6">
+        <div class="col m4">
           {{Form::label('hora_inicio','Hora de Inicio')}}
           {{Form::time('hora_inicio','20:00')}}
         </div>
-        <div class="col m6">
+        <div class="col m4">
           {{Form::label('hora_fin','Hora de Finaliz.')}}
           {{Form::time('hora_fin','20:00')}}
+        </div>
+        <div class="col m4">
+          {{Form::label('id_user','Ponente')}}
+          {{Form::text('id_user')}}
         </div>
       </div>
 

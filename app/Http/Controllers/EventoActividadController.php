@@ -67,7 +67,6 @@ class EventoActividadController extends Controller
       ]);
 
       try{
-        $request->merge(['id_user' => Auth::id()]);
         $request->merge(['id_evento' => $id_evento]);
         $tipo_value = $request->input('tipo_actividad');
         $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
