@@ -33,6 +33,7 @@ class SearcherController extends Controller
         orWhereRaw("to_char(fecha,'YYYY-MM-DD') LIKE '%".str_replace("/", "-", $search)."%'")->limit(50)->get();
 
       $actividades_tipo = DB::table('actividad')
+                    ->select('actividad.*')
                     ->join('tipo_actividad', 'tipo_actividad.id', '=', 'actividad.tipo')
                     ->whereRaw("lower(tipo_actividad.nombre) LIKE '%".$search."%'")
                     ->limit(50)

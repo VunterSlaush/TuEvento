@@ -65,10 +65,11 @@ class EventoController extends Controller
 
 
         $nuevoEvento = Evento::create($request->all());
-
+        //TODO a;adir validaciones AQUI!
         $areas = $request->input('area');
         foreach ($areas as $a)
         {
+          $a = strtolower($a);
           $area = Area::where('nombre', '=', $a)->first();
           if ($area === null) {
             $area = new Area(['nombre' => $a]);
@@ -85,6 +86,7 @@ class EventoController extends Controller
         $tipos_evaluable = $request->input('tipo_evaluable');
         foreach ($tipos as $key => $value)
         {
+          $value = strtolower($value);
           $tipo = TipoActividad::where('nombre', '=', $value)->first();
           if ($tipo === null) {
             $tipo = new TipoActividad(['nombre' => $value]);

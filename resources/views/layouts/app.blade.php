@@ -71,27 +71,15 @@
                 <div class="collapsible-body">
                   <ul class="collection">
                     <a href="{{ url('/misEventos') }}" class="collection-item"> Mis Eventos</a>
-                    <a href="{{ url('/evento') }}" class="collection-item"> Ver todos</a>
                     <a href="{{ url('/evento/create') }}" class="collection-item"> Crear Evento</a>
                   </ul>
                 </div>
               </li>
               <li>
-                <div class="collapsible-header"> Actividades </div>
-                <div class="collapsible-body">
-                  <ul class="collection">
-                    <a href="{{ url('/misActividades') }}" class="collection-item"> Mis Actividades</a>
-                    <a href="{{ url('/actividad') }}" class="collection-item"> Ver todas</a>
-                  </ul>
-                </div>
+                <a href="{{ url('/misActividades') }}" class="collapsible-header"> Mis Actividades </a>
               </li>
               <li>
-                <div class="collapsible-header"> Propuestas </div>
-                <div class="collapsible-body">
-                  <ul class="collection">
-                    <a href="{{ url('/propuesta') }}" class="collection-item"> Mis Propuestas</a>
-                  </ul>
-                </div>
+                <a href="{{ url('/propuesta') }}" class="collapsible-header"> Mis Propuestas </a>
               </li>
               <li>
                 <a class="collapsible-header"  href="{{ url('/misCertificados') }}">Mis Certificados</a>

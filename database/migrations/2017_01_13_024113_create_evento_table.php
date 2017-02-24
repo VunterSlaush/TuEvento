@@ -18,8 +18,8 @@ class CreateEventoTable extends Migration
             $table->string('creador');
             $table->string('nombre');
             $table->string('lugar');
-            $table->timestamp('fecha_inicio');
-            $table->timestamp('fecha_fin');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
             $table->string('estado');
             $table->string('imagen')->nullable();
             $table->boolean('certificado_por_actividad')->default(false);
