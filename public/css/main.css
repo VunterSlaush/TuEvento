@@ -80,3 +80,7 @@ strong {
   margin-right: auto;
   margin-top: 40px;
 }
+
+tbody tr {
+    height: 97px;
+}
