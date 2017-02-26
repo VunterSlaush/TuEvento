@@ -32,18 +32,42 @@
           <td> {{$value->hora_fin}}</td>
           <td> {{$value->resumen}}</td>
           <td>
-            <a href="/actividad/{{$value->id}}/asistir"> Asistir</a>
-            <a href="{{route('actividad.show',$value->id)}}"> Mostrar</a>
-            @can('modify',$value)
-              <a href="{{route('actividad.edit',$value->id)}}"> Editar</a>
-              {{ Form::open(['method' => 'DELETE','route' => ['actividad.destroy', $value->id],'style'=>'display:inline'])}}
-              {{ Form::submit('Eliminar')}}
-              {{ Form::close()}}
-            @endcan
+            <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Acciones</a>
+
+            <!-- Dropdown Structure -->
+            <ul id='dropdown1' class='dropdown-content'>
+              <li><a href="/actividad/{{$value->id}}/asistir"> Asistir</a></li>
+              <li><a href="{{route('actividad.show',$value->id)}}"> Mostrar</a></li>
+              @can('modify',$value)
+                <li><a href="{{route('actividad.edit',$value->id)}}"> Editar</a></li>
+                <li><a href="javascript:deleteActivity('{{ $value->id }}');" data-method="delete">Eliminar</a></li>
+              @endcan
+            </ul>
+
+
           </td>
         </tr>
         @endforeach
       </tbody>
     </table>
   </div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+  function deleteActivity(id)
+  {
+    if (confirm('Borrar esta Actividad?')) {
+        $.ajax({
+            type: "DELETE",
+            data: {_token: CSRF_TOKEN},
+            url: '/actividad/' + id, //resource
+            success: function(affectedRows) {
+                console.log(affectedRows);
+                location.reload(true);
+            }
+        });
+    }
+  }
+</script>
 @endsection

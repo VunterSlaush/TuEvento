@@ -18,7 +18,7 @@ a:hover,a:focus{
 nav .dropdown-content{
   min-width: 168px;
   margin-top: 64px;
-  background-color: rgba(24, 7, 150, 0.78);
+  background-color: #1565C0;
 }
 nav .dropdown-content li>a, .dropdown-content li>span{
   color: #fff;
@@ -37,12 +37,12 @@ nav ul a:focus{
 }
 
 .collection a.collection-item:not(.active):hover {
-    background-color: #5b4cca !important;
+    background-color: #1565C0 !important;
     color: #fff !important;
 }
 
 .collection a.collection-item {
-    color: #5b4cca !important;
+    color: #000 !important;
 }
 
 .btn{
@@ -50,7 +50,7 @@ nav ul a:focus{
 }
 
 .btn:hover, .btn-large:hover {
-    background-color: #5b4cca !important;
+    background-color: #1e88e5 !important;
     color: #fff !important;
 }
 

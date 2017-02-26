@@ -14,8 +14,6 @@
           <li> <strong>Lugar</strong> {{ $evento['lugar'] }}</li>
           <li> <strong>Fecha de Inicio</strong> {{ $evento['fecha_inicio'] }}</li>
           <li> <strong>Fecha de Finalizacion</strong> {{ $evento['fecha_fin'] }}</li>
-          <li> <strong>Cantidad de Actividades max.</strong> {{ $evento['cant_max'] }}</li>
-          <li> <strong>Puntuacion minima </strong> {{ $evento['punt_min_aprobatorio'] }} puntos</li>
           <li> <strong>Estado</strong> {{ $evento['estado'] }}</li>
           <li>
             <strong>Areas:</strong>

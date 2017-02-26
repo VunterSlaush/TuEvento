@@ -28,14 +28,33 @@
           <td> {{$value->hora_inicio}}</td>
           <td> {{$value->hora_fin}}</td>
           <td>
-            <a <a href="{{route('actividad.show',$value->id_actividad)}}"> Ver Actividad</a>
-            {{ Form::open(['method' => 'DELETE','route' => ['asiste.destroy', $value->id],'style'=>'display:inline'])}}
-            {{ Form::submit('Eliminar')}}
-            {{ Form::close()}}
+            <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Acciones</a>
+            <ul id='dropdown1' class='dropdown-content'>
+              <li><a <a href="{{route('actividad.show',$value->id_actividad)}}"> Ver Actividad</a></li>
+              <li><a href="javascript:deleteAsistencia('{{ $value->id }}');" data-method="delete">No Asistir</a></li>
+            </ul>
           </td>
         </tr>
         @endforeach
       </tbody>
     </table>
   </div>
+@endsection
+
+@section('scripts')
+  <script type="text/javascript">
+    function deleteAsistencia(id)
+    {
+
+          $.ajax({
+              type: "DELETE",
+              data: {_token: CSRF_TOKEN},
+              url: '/asiste/' + id, //resource
+              success: function(affectedRows) {
+                  console.log(affectedRows);
+                  location.reload(true);
+              }
+          });
+    }
+  </script>
 @endsection
