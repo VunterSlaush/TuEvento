@@ -8,10 +8,12 @@ class Propuesta extends Model
 {
     protected $table = "propuesta";
 
-    protected $fillable = ['id',
+    protected $fillable = [
     					'autor',
     					'id_evento',
     					'titulo',
+              'id_area',
+              'id_tipo',
     					'adjunto',
     					'demanda',
     					'descripcion',
@@ -21,19 +23,28 @@ class Propuesta extends Model
 
     public function evento(){
 
-    	return $this->belongsTo('App\Evento','id');
+    	return $this->belongsTo('App\Evento','id_evento','id');
 
     }
-
-    public function calificas(){
-
-    	return $this->hasMany('App\Califica','id_propuesta');
-
-    }
+    /*TODO ADD EVALUACIONES */
 
     public function user(){
 
-    	return $this->belongsTo('App\User','autor');
+    	return $this->belongsTo('App\User','autor','cedula');
+    }
 
+    public function area()
+    {
+      return $this->belongsTo('App\Area','id','id_area');
+    }
+
+    public function tipo()
+    {
+      return $this->belongsTo('App\TipoActividad','id','id_tipo');
+    }
+
+    public function evaluaciones()
+    {
+      return $this->hasMany('App\Evalua','id_propuesta','id');
     }
 }

@@ -18,12 +18,12 @@ class CreateEventoTable extends Migration
             $table->string('creador');
             $table->string('nombre');
             $table->string('lugar');
-            $table->timestamp('fecha_inicio');
-            $table->timestamp('fecha_fin');
-            $table->integer('cant_max_actividades');
-            $table->integer('punt_min_aprobatorio');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
             $table->string('estado');
-            $table->foreign('creador')->references('cedula')->on('users');
+            $table->string('imagen')->nullable();
+            $table->boolean('certificado_por_actividad')->default(false);
+            $table->foreign('creador')->references('cedula')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

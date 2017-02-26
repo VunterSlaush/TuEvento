@@ -14,17 +14,56 @@
           <li> <strong>Lugar</strong> {{ $evento['lugar'] }}</li>
           <li> <strong>Fecha de Inicio</strong> {{ $evento['fecha_inicio'] }}</li>
           <li> <strong>Fecha de Finalizacion</strong> {{ $evento['fecha_fin'] }}</li>
-          <li> <strong>Cantidad de Actividades max.</strong> {{ $evento['cant_max'] }}</li>
-          <li> <strong>Puntuacion minima </strong> {{ $evento['punt_min_aprobatorio'] }} puntos</li>
           <li> <strong>Estado</strong> {{ $evento['estado'] }}</li>
+          <li>
+            <strong>Areas:</strong>
+            @foreach ($evento->areas as $area)
+                {{ $area->area->nombre }}
+            @endforeach
+          </li>
+          <li>
+            <strong>Actividades de Tipo:</strong>
+            @foreach ($evento->tipoActividad as $tipo)
+                {{ $tipo->tipoActividad->nombre }}
+            @endforeach
+          </li>
         </ul>
       </li>
+
+      <li class="collection-item">
+        <ul>
+          <li> <strong>Comite:</strong></li>
+          <ul>
+          @foreach ($evento->comites as $comite)
+              <li>{{ $comite->user->nombre }}</li>
+          @endforeach
+          </ul>
+          <li> <strong>Jurado:</strong></li>
+          <ul>
+          @foreach ($evento->jurados as $jurado)
+              <li>{{ $jurado->user->nombre }}
+                  (
+                  @foreach ($jurado->areas as $area)
+                    {{ $area->area->nombre }},
+                  @endforeach
+                  )
+              </li>
+          @endforeach
+          </ul>
+        </ul>
+
+      </li>
+
       <li class="collection-item">
           <a class="btn" href="{{ route('evento.propuesta.index',$evento->id)}}"> Ver propuestas</a>
           <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}"> Aplicar</a>
           <a class="btn" href="{{ route('evento.actividad.index',$evento->id)}}"> Ver actividades</a>
-          <a class="btn" href="{{ route('evento.comite.index',$evento->id) }}"> Ver comite</a>
-          <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}"> Asignar Jurado</a>
+          @can ('modify',$evento)
+            <a class="btn" href="{{ route('evento.actividad.create',$evento->id)}}"> Crear actividades</a>
+            <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}"> Asignar Comite</a>
+            <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}"> Asignar Jurado</a>
+            <a class="btn" href="{{ route('evento.organizar',$evento->id) }}"> Ordenar Actividades</a>
+          @endcan
       </li>
     </ul>
   </div>

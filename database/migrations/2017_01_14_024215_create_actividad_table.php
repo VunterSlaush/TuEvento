@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateActividadTable extends Migration
 {
     /**
@@ -15,19 +13,21 @@ class CreateActividadTable extends Migration
     {
         Schema::create('actividad', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ponente');
-            $table->integer('id_evento');
             $table->date('fecha');
             $table->string('titulo');
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
+            $table->time('hora_inicio')->nullable();
+            $table->time('hora_fin')->nullable();
             $table->string('resumen');
-            $table->foreign('ponente')->references('cedula')->on('users');
-            $table->foreign('id_evento')->references('id')->on('evento');
+            $table->integer('id_evento');
+            $table->integer('tipo');
+            $table->string('id_user');
+            $table->foreign('id_user')->references('cedula')->on('users')->onDelete('cascade');
+            $table->foreign('id_evento')->references('id')->on('evento')->onDelete('cascade');
+            $table->foreign('tipo')->references('id')->on('tipo_actividad')->onDelete('cascade');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -35,6 +35,6 @@ class CreateActividadTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('actividad');
+        Schema::drop('actividad');
     }
 }

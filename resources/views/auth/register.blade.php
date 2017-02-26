@@ -52,6 +52,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('organizacion') ? ' has-error' : '' }}">
+                            <label for="organizacion" class="col-md-4 control-label">Organizacion (Opcional)</label>
+
+                            <div class="col-md-6">
+                                <input id="organizacion" type="text" class="form-control" name="organizacion" value="{{ old('organizacion') }}">
+
+                                @if ($errors->has('organizacion'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('organizacion') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 

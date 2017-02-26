@@ -4,11 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Evento;
+use App\Area;
+use App\AreaEvento;
+use App\TipoActividad;
+use App\TipoActividadEvento;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 
 class EventoController extends Controller
 {
-    protected $redirectTo = '/home';
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -17,15 +31,8 @@ class EventoController extends Controller
      */
     public function index()
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
         $evento = Evento::all();
         return view('evento.index',['evento' => $evento]);
-      }
     }
 
     /**
@@ -50,17 +57,71 @@ class EventoController extends Controller
         'nombre' =>  'required',
         'fecha_inicio' =>  'required',
         'fecha_fin' =>  'required',
-        'cant_max_actividades' =>  'required|numeric',
-        'punt_min_aprobatorio' =>  'required|numeric', //50%
+        'image' =>  'max:10000|image'
       ]);
 
-      $request->merge(['creador' => Auth::id()]);
-      $request->merge(['estado' => 'inscripciones']);
+      try {
+        $request->merge(['creador' => Auth::id()]);
+        $request->merge(['estado' => 'inscripciones']);
 
-      Evento::create($request->all());
 
-      return redirect('/home')
-              ->with('success','evento creado');
+        $nuevoEvento = Evento::create($request->all());
+        //TODO a;adir validaciones AQUI!
+        $areas = $request->input('area');
+        foreach ($areas as $a)
+        {
+          $a = strtolower($a);
+          $area = Area::where('nombre', '=', $a)->first();
+          if ($area === null) {
+            $area = new Area(['nombre' => $a]);
+            $area->save();
+          }
+
+          $area_evento = new AreaEvento(['id_area' => $area->id,
+                                         'id_evento' => $nuevoEvento->id]);
+          $area_evento->save();
+        }
+
+        $tipos = $request->input('tipo');
+        $tipos_cantidad = $request->input('tipo_cantidad');
+        $tipos_evaluable = $request->input('tipo_evaluable');
+        foreach ($tipos as $key => $value)
+        {
+          $value = strtolower($value);
+          $tipo = TipoActividad::where('nombre', '=', $value)->first();
+          if ($tipo === null) {
+            $tipo = new TipoActividad(['nombre' => $value]);
+            $tipo->save();
+          }
+          if($tipos_evaluable != null)
+            $evaluable = array_key_exists ($key, $tipos_evaluable);
+          else
+            $evaluable = false;
+
+          $tipo_evento = new TipoActividadEvento(['id_tipo' => $tipo->id,
+                                                  'id_evento' => $nuevoEvento->id,
+                                                  'cant_maxima'=> $tipos_cantidad[$key],
+                                                  'evaluable' => $evaluable ]);
+          $tipo_evento->save();
+        }
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()){
+            $rel_path='uploads\\'.'evento_'.$nuevoEvento->id;
+            $dest = base_path($rel_path);
+            $ext = $request->file('image')->getClientOriginalExtension();
+            $fileName = 'imagen.'.$ext;
+            $request->file('image')->move($dest,$fileName);
+
+            $nuevoEvento->imagen =  $rel_path.'\\'.$fileName;
+            $nuevoEvento->update();
+        }
+
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al crear evento verifica los datos proporcionados:'+$qe->getSql()]);
+      }
+
+      return redirect()->route('evento.show',$nuevoEvento->id)
+              ->with('message','evento editado');
     }
 
     /**
@@ -96,15 +157,20 @@ class EventoController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $this->validate($request,[
-        'nombre' =>  'required',
-        'fecha_inicio' =>  'required',
-        'fecha_fin' =>  'required',
-        'cant_max_actividades' =>  'required|numeric',
-        'punt_min_aprobatorio' =>  'required|numeric', //50%
-      ]);
+      try{
+        $this->validate($request,[
+          'nombre' =>  'required',
+          'fecha_inicio' =>  'required',
+          'fecha_fin' =>  'required',
+          'cant_max_actividades' =>  'required|numeric',
+          'punt_min_aprobatorio' =>  'required|numeric', //50%
+        ]);
 
-      Evento::find($id)->update($request->all());
+        Evento::find($id)->update($request->all());
+
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al editar evento verifica los datos proporcionados']);
+      }
 
       return redirect()->route('evento.index')
               ->with('message','evento editado');
@@ -118,23 +184,23 @@ class EventoController extends Controller
      */
     public function destroy($id)
     {
-      Evento::find($id)->delete();
-
-      return redirect()->route('evento.index')
-              ->with('message','evento eliminado');
+      $evento = Evento::find($id);
+      $evento->delete();
+      return json_encode(["success" => true]);
     }
 
     public function mis_eventos()
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
         $evento = Evento::where('creador',Auth::id())->get();
         return view('evento.index',['evento' => $evento]);
-      }
+    }
 
+    public function organizar($id){
+      $evento = Evento::find($id);
+      $collection = collect ($evento->actividades);
+      $actividades = $collection->sortBy(function ($col){
+        return strtotime($col->fecha) + strtotime($col->hora_inicio);
+      })->values()->all();
+      return view('evento.organizar',['evento' => $evento, 'actividades' => $actividades]);
     }
 }

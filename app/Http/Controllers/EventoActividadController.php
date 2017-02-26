@@ -5,10 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Actividad;
 use App\Evento;
+use App\Area;
+use App\AreaActividad;
+use App\TipoActividad;
+use App\TipoActividadActividad;
 use Illuminate\Support\Facades\Auth;
 
 class EventoActividadController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -33,9 +46,11 @@ class EventoActividadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id_evento)
     {
-        //
+        $evento = Evento::where('id','=',$id_evento)->first();
+        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        return view('eventoActividad.create',['evento' => $evento,'nombre_evento' => $nombre_evento]);
     }
 
     /**
@@ -44,9 +59,63 @@ class EventoActividadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id_evento)
     {
-        //
+      $this->validate($request,[
+        'fecha' =>  'required',
+        'titulo' =>  'required'
+      ]);
+
+      try{
+        $request->merge(['id_evento' => $id_evento]);
+        $tipo_value = $request->input('tipo_actividad');
+
+        if ($tipo_value == "") {
+          return redirect()->back()->withErrors(['Por favor ingrese un Tipo']);
+        }
+
+        $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
+        $request->merge(['tipo' => $tipo->id]);
+
+        $hora_inicio = $request->input('hora_inicio');
+        $hora_fin = $request->input('hora_fin');
+
+        if ($hora_inicio == "" && $hora_fin == ""){
+          $nueva_actividad = Actividad::create($request->except('hora_inicio','hora_fin'));
+        } else{
+          if ( $hora_inicio != "" && $hora_fin != ""){
+            if ($hora_inicio < $hora_fin){
+              $nueva_actividad = Actividad::create($request->all());
+            }else{
+              return redirect()->back()->withErrors(['La hora de inicio debe ser menor a la final']);
+            }
+          }else{
+            return redirect()->back()->withErrors(['Por favor complete Hora de Inicio y Hora de fin']);
+          }
+        }
+
+        $area_value = $request->input('area');
+
+        if ($area_value == "") {
+          return redirect()->back()->withErrors(['Por favor ingrese un area']);
+        }
+
+        $area = Area::where('nombre','=',$area_value)->first();
+
+        $request->merge(['id_area' => $area->id]);
+
+
+        $area_actividad = new AreaActividad(['id_area' => $area->id,
+                                       'id_actividad' => $nueva_actividad->id]);
+        $area_actividad->save();
+
+        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al crear actividad']);
+      }
+
+      return redirect()->route('evento.actividad.show',['id_evento' => $id_evento,'nombre_evento' => $nombre_evento,'actividad' => $nueva_actividad])
+              ->with('success','actividad creada');
     }
 
     /**
@@ -63,8 +132,10 @@ class EventoActividadController extends Controller
       }
       else
       {
-        $actividad = Actividad::find($id)->where('id_evento',$id_evento)->get();
-        return view('eventoActividad.show',['actividad' => $actividad,'id_evento'=> $id_evento]);
+
+        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        $actividad = Actividad::find($id);
+        return view('eventoActividad.show',['actividad' => $actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento]);
       }
     }
 
@@ -74,9 +145,12 @@ class EventoActividadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_evento,$id_actvidad)
     {
-        //
+      $actividad = Actividad::find($id_actvidad);
+      $evento = Evento::where('id','=',$id_evento)->first();
+      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+      return view('eventoActividad.edit',['actividad' => $actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento,'evento' => $evento]);
     }
 
     /**
@@ -86,9 +160,20 @@ class EventoActividadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_evento,$id_actividad)
     {
-        //
+
+      Actividad::find($id_actividad)->update($request->all());
+      try{
+        $actividad = Actividad::find($id_actividad);
+        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        $evento = Evento::where('id','=',$id_evento)->first();
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al editar Actividad']);
+      }
+
+      return redirect()->route('evento.actividad.show',['id_evento' => $id_evento,'nombre_evento' => $nombre_evento,'actividad' => $actividad])
+              ->with('success','actividad creada');
     }
 
     /**

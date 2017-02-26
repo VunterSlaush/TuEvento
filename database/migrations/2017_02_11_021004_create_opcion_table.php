@@ -1,10 +1,8 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
-class CreateCalificaTable extends Migration
+class CreateOpcionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +11,15 @@ class CreateCalificaTable extends Migration
      */
     public function up()
     {
-        Schema::create('califica', function (Blueprint $table) {
+        Schema::create('opcion', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('cedula');
-            $table->integer('id_propuesta');
-            $table->integer('calificacion');
-            $table->foreign('cedula')->references('cedula')->on('users');
-            $table->foreign('id_propuesta')->references('id')->on('propuesta');
+            $table->integer('id_pregunta');
+            $table->string('opcion');
+            $table->integer('valor');
+            $table->foreign('id_pregunta')->references('id')->on('pregunta')->onDelete('cascade');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -31,6 +27,6 @@ class CreateCalificaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('califica');
+        Schema::dropIfExists('opcion');
     }
 }

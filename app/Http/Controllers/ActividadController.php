@@ -8,9 +8,20 @@ use App\Asiste;
 use App\Propuesta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ActividadController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,15 +46,19 @@ class ActividadController extends Controller
     public function createFromPropuesta($id){
       $propuesta = Propuesta::find($id);
 
-      Actividad::create([
-        'ponente' => $propuesta->autor,
-        'id_evento' => $propuesta->id_evento,
-        'fecha' => "2017-01-20",
-        'titulo' => $propuesta->titulo,
-        'hora_inicio' => "2017-01-20 00:00:00",
-        'hora_fin' => "2017-01-20 00:00:00",
-        'resumen' => $propuesta->descripcion
-      ]);
+      try{
+        Actividad::create([
+          'ponente' => $propuesta->autor,
+          'id_evento' => $propuesta->id_evento,
+          'fecha' => "2017-01-20",
+          'titulo' => $propuesta->titulo,
+          'hora_inicio' => "2017-01-20 00:00:00",
+          'hora_fin' => "2017-01-20 00:00:00",
+          'resumen' => $propuesta->descripcion
+        ]);
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al Aplicar propuesta']);
+      }
 
       //Esto es para pruebas, en realidad no te deberia retorna al index de las actividades.
       return redirect()->route('actividad.index')
@@ -66,7 +81,11 @@ class ActividadController extends Controller
         'titulo' =>  'required'
       ]);
 
+      try{
         Actividad::create($request->all());
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al crear Actividad']);
+      }
 
         return redirect()->route('actividad.index')
                 ->with('success','actividad creada');
@@ -110,8 +129,11 @@ class ActividadController extends Controller
           'fecha' =>  'required',
           'titulo' =>  'required'
         ]);
-
-        Actividad::find($id)->update($request->all());
+        try{
+          Actividad::find($id)->update($request->all());
+        } catch (\Illuminate\Database\QueryException $qe) {
+          return redirect()->back()->withErrors(['Error al editar Actividad']);
+        }
 
         return redirect()->route('actividad.index')
                 ->with('success','actividad editada');
@@ -139,39 +161,30 @@ class ActividadController extends Controller
     {
       Actividad::find($id)->delete();
 
-      return redirect()->route('actividad.index')
-              ->with('success','actividad eliminada');
+      //return redirect()->route('actividad.index')->with('success','actividad eliminada');
+      return json_encode(["success" => true]);
     }
 
     public function mis_actividades()
     {
-      if(Auth::guest())
-      {
-        return redirect('/');
-      }
-      else
-      {
-        $actividad = Actividad::where('ponente',Auth::id())->get();
+        $actividad = Actividad::where('id_user',Auth::id())->get();
         return view('actividad.index',['actividad' => $actividad]);
-      }
     }
 
     public function asistir($id)
     {
-      if(Auth::guest())
-      {
-        return redirect('/login');
-      }
-      else
-      {
-        $asiste = new Asiste;
-        $asiste->id_actividad = $id;
-        $asiste->cedula = Auth::id();
-        $asiste->codigo = $this->generateRandomString(8);
-        $asiste->asistio = false;
-        $asiste->save();
+        $this->createAsistencia($id,Auth::id());
         return redirect('/miHorario');
-      }
+    }
+
+    function createAsistencia($id,$cedula)
+    {
+      $asiste = new Asiste;
+      $asiste->id_actividad = $id;
+      $asiste->cedula = $cedula;
+      $asiste->codigo = $this->generateRandomString(8);
+      $asiste->asistio = false;
+      $asiste->save();
     }
 
     function generateRandomString($length = 10)
@@ -183,6 +196,17 @@ class ActividadController extends Controller
           $randomString .= $characters[rand(0, $charactersLength - 1)];
       }
       return $randomString;
+    }
+
+    function schedulerUpdate(Request $request){
+      $actividad = json_decode($request->actividad,true);
+      Log::info($actividad);
+      try{
+        Actividad::find($actividad["id"])->update($actividad);
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return json_encode(['success'=>'false']);
+      }
+      return json_encode(['success'=>'true']);
     }
 
 }

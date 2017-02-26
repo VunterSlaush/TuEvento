@@ -10,6 +10,16 @@ use App\Evento;
 class EventoComiteController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -23,7 +33,7 @@ class EventoComiteController extends Controller
       else
       {
         $comite = Comite::where('id_evento',$id_evento)->get();
-        return view('eventoComite.index',['comite' => $comite,'id_evento' => $id_evento]);
+        return redirect('eventoComite.index',['comite' => $comite,'id_evento' => $id_evento]);
       }
     }
 
@@ -45,13 +55,18 @@ class EventoComiteController extends Controller
      */
     public function store(Request $request,$id_evento)
     {
-      $request->merge(['cedula' => Auth::id()]);
+
       $request->merge(['id_evento' => $id_evento]);
 
+      try{
         Comite::create($request->all());
+        $evento = Evento::where('id','=',$id_evento)->first();
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al guardar comite']);
+      }
 
-        return redirect()->route('evento.comite.index',['id_evento' => $id_evento])
-                ->with('success','comite creado');
+        return redirect()->route('evento.show',$evento->id)
+                ->with('message','Comite Guardado');
     }
 
     /**
@@ -94,8 +109,11 @@ class EventoComiteController extends Controller
      */
     public function update(Request $request, $id_evento,$id)
     {
+      try{
       Comite::find($id)->update($request->all());
-
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return redirect()->back()->withErrors(['Error al editar comite']);
+      }
       return redirect()->route('evento.comite.index',['id_evento' => $id_evento])
               ->with('success','comite editada');
     }

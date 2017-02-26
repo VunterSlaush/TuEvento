@@ -10,6 +10,7 @@
       </div>
     @endif
 
+    <h3>Certificados Por Actividad</h3>
     <table>
       <thead>
         <th> Evento </th>
@@ -18,13 +19,30 @@
         <th> Acciones </th>
       </thead>
       <tbody>
-        @foreach($certificados as $value)
+        @foreach($certificados_actividad as $value)
         <tr>
           <td> {{$value->evento}}</td>
           <td> {{$value->ponente}}</td>
           <td> {{$value->titulo}}</td>
           <td>
             <a href="/certificado/{{$value->codigo}}" target="_blank"> Imprimir</a>
+          </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+    <h3>Certificados Por Evento</h3>
+    <table>
+      <thead>
+        <th> Evento </th>
+        <th> Acciones </th>
+      </thead>
+      <tbody>
+        @foreach($certificados_evento as $value)
+        <tr>
+          <td> {{$value->evento}}</td>
+          <td>
+            <a href="{{route('certificadoEvento',['evento' => $value->id_evento,'cedula'=>$value->cedula])}}" target="_blank"> Imprimir</a>
           </td>
         </tr>
         @endforeach

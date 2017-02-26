@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h1> Asignar Jurado</h1>
+    <h1> Asignar Comite:</h1>
 
     {{Html::ul($errors->all())}}
 
@@ -10,12 +10,8 @@
 
     <div class="row">
       <div class="col m6">
-        {{Form::label('cedula','Usuario id')}}
-        {{Form::text('cedula')}}
-      </div>
-      <div class="col m6">
-        {{Form::label('id_evento','Evento id')}}
-        {{Form::text('id_evento')}}
+        {{Form::label('Ingrese la Cedula','Usuario id')}}
+        {{Form::text('id_user')}}
       </div>
       {{Form::submit('Crear')}}
       {{Form::close()}}
