@@ -31,8 +31,14 @@
           {{Form::time('hora_fin')}}
         </div>
         <div class="col m4">
-          {{Form::label('id_user','Ponente')}}
-          {{Form::text('id_user')}}
+
+          <label for="id_user"> Ponente</label>
+          <select name='id_user' class="user-select">
+            <option value="" disabled selected>Selecciona un Ponente</option>
+            @foreach ($usuarios as $user)
+              <option value="{{$user->cedula}}"> {{$user->nombre}} </option>
+            @endforeach
+          </select>
         </div>
       </div>
 
@@ -45,22 +51,22 @@
 
       <div class="row">
         <div class="input-field col m6">
+          <label for="area"> Area de Conocimiento</label>
           <select name='area'>
             <option value="" disabled selected>Selecciona un Area</option>
             @foreach ($evento->areas as $area)
                 <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
             @endforeach
           </select>
-          <label>Selecciona un Area</label>
         </div>
         <div class="input-field col m6">
+          <label for="tipo_actividad"> Tipo Actividad</label>
           <select name='tipo_actividad'>
             <option value="" disabled selected>Selecciona un Tipo de Actividad</option>
             @foreach ($evento->tipoActividad as $tipo)
                 <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
             @endforeach
           </select>
-          <label>Seleccione un Tipo de Actividad</label>
         </div>
       </div>
 
@@ -76,7 +82,7 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
-    $('select').material_select();
+
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15 // Creates a dropdown of 15 years to control year

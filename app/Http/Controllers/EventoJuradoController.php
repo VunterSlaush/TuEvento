@@ -7,6 +7,7 @@ use App\Evento;
 use App\Jurado;
 use App\Area;
 use App\AreaJurado;
+use App\User;
 
 class EventoJuradoController extends Controller
 {
@@ -20,7 +21,7 @@ class EventoJuradoController extends Controller
   {
       $this->middleware('auth');
   }
-  
+
   /**
    * Show the form for creating a new resource.
    *
@@ -29,7 +30,8 @@ class EventoJuradoController extends Controller
   public function create($id_evento)
   {
       $evento = Evento::where('id','=',$id_evento)->first();
-      return view('eventoJurado.create',['evento' => $evento]);
+      $usuarios = User::all();
+      return view('eventoJurado.create',['evento' => $evento,'usuarios' => $usuarios]);
   }
 
   /**

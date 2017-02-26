@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Actividad;
 use App\Evento;
 use App\Area;
+use App\User;
 use App\AreaActividad;
 use App\TipoActividad;
 use App\TipoActividadActividad;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class EventoActividadController extends Controller
 {
@@ -50,7 +52,10 @@ class EventoActividadController extends Controller
     {
         $evento = Evento::where('id','=',$id_evento)->first();
         $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
-        return view('eventoActividad.create',['evento' => $evento,'nombre_evento' => $nombre_evento]);
+        $usuarios = User::all();
+        return view('eventoActividad.create',['evento' => $evento,
+                                              'nombre_evento' => $nombre_evento,
+                                              'usuarios' => $usuarios]);
     }
 
     /**
@@ -66,7 +71,6 @@ class EventoActividadController extends Controller
         'titulo' =>  'required'
       ]);
 
-      try{
         $request->merge(['id_evento' => $id_evento]);
         $tipo_value = $request->input('tipo_actividad');
 
@@ -77,6 +81,7 @@ class EventoActividadController extends Controller
         $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
         $request->merge(['tipo' => $tipo->id]);
 
+        $request->merge(['id_user' => $request->input('id_user')]);
         $hora_inicio = $request->input('hora_inicio');
         $hora_fin = $request->input('hora_fin');
 
@@ -110,12 +115,9 @@ class EventoActividadController extends Controller
         $area_actividad->save();
 
         $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
-      } catch (\Illuminate\Database\QueryException $qe) {
         return redirect()->back()->withErrors(['Error al crear actividad']);
-      }
 
-      return redirect()->route('evento.actividad.show',['id_evento' => $id_evento,'nombre_evento' => $nombre_evento,'actividad' => $nueva_actividad])
-              ->with('success','actividad creada');
+
     }
 
     /**
