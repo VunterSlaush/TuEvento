@@ -8,6 +8,7 @@ use App\Asiste;
 use App\Propuesta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ActividadController extends Controller
 {
@@ -190,6 +191,17 @@ class ActividadController extends Controller
           $randomString .= $characters[rand(0, $charactersLength - 1)];
       }
       return $randomString;
+    }
+
+    function schedulerUpdate(Request $request){
+      $actividad = json_decode($request->actividad,true);
+      Log::info($actividad);
+      try{
+        Actividad::find($actividad["id"])->update($actividad);
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return json_encode(['success'=>'false']);
+      }
+      return json_encode(['success'=>'true']);
     }
 
 }

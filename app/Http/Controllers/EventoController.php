@@ -199,8 +199,9 @@ class EventoController extends Controller
     public function organizar($id){
       $evento = Evento::find($id);
       $collection = collect ($evento->actividades);
-      $actividades = $collection->sortBy('hora_inicio')->values()->all();
-
+      $actividades = $collection->sortBy(function ($col){
+        return strtotime($col->fecha) + strtotime($col->hora_inicio);
+      })->values()->all();
       return view('evento.organizar',['evento' => $evento, 'actividades' => $actividades]);
     }
 }
