@@ -202,7 +202,6 @@ class EventoController extends Controller
       $actividades = $collection->sortBy(function ($col){
         return strtotime($col->fecha) + strtotime($col->hora_inicio);
       })->values()->all();
-
       return view('evento.organizar',['evento' => $evento, 'actividades' => $actividades]);
     }
 }

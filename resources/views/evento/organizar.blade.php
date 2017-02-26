@@ -17,7 +17,8 @@
           <tbody id="sortable">
             @foreach($actividades as $actividad)
               <tr>
-                <td id="{{$actividad->id}}">
+                <td>
+                  <input type="hidden" name="id" value="{{$actividad->id}}">
                   {{$actividad->titulo}}
                 </td>
               </tr>
@@ -39,23 +40,25 @@
         <tbody>
             @foreach($actividades as $actividad)
               <tr>
-                {{Form::model($evento, array('route' => array('evento.update', $evento->id), 'method' => 'PUT'))}}
-
-                <td>
-                  {{Form::time('hora_inicio',$actividad->hora_inicio)}}
-                </td>
-                <td>
-                  {{Form::time('hora_fin',$actividad->hora_fin)}}
-                </td>
-                <td>
-                {{Form::date('fecha',$actividad->fecha)}}
-                </td>
-                <td class="action">
-                  <input type="checkbox" class="button"/>
-                  <label>listo</label>
-                </td>
+                  <td>
+                    <input type="time" name="hora_inicio" value="{{$actividad->hora_inicio}}">
+                  </td>
+                  <td>
+                    <input type="time" name="hora_fin" value="{{$actividad->hora_fin}}">
+                  </td>
+                  <td>
+                    <input type="date" name="fecha" value="{{$actividad->fecha}}">
+                  </td>
+                  <td class="action">
+                    @if ($actividad->hora_inicio)
+                      <input type="checkbox" class="check" checked/>
+                      <label>listo</label>
+                    @else
+                      <input type="checkbox" class="check"/>
+                      <label>listo</label>
+                    @endif
+                  </td>
               </tr>
-           {{Form::close()}}
             @endforeach
         </tbody>
       </table>
@@ -74,7 +77,25 @@
       });
       $("#sortable").disableSelection();
     });
+
+    disableChecked();
   });
+
+  function disableChecked() {
+    $(".check").each(function() {
+      if ($(this).prop("checked")){
+          var contentTable = $(this).parent().parent();
+          var index = contentTable.index();
+          var titleTable = $("#title_table tr").eq(index+1);
+
+          console.log("hola");
+        titleTable.prop("class","ui-state-disabled");
+        contentTable.find("input").prop("disabled",true);
+        $(this).prop("disabled",false);
+
+      }
+    });
+  }
 
   $(".action").each(function(i){
     $(this).find("input").attr('id','button_' + i,'name','button_' + i);
@@ -83,30 +104,56 @@
 
   var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-  $(".button").click(function(e) {
-    var index = $(this).parent().parent().index();
-    var activityIndex = $("#title_table tr").eq(index+1).find("td").attr("id");
-    var content = $("#content_table tr");
-    var form_ = $('#content_table tr').eq(index).find('form');
-    var data = $(form_.serializeArray());
-    data.id = activityIndex;
-    data._token = CSRF_TOKEN;
+  $(".check").click(function(e) {
+    var contentTable = $(this).parent().parent();
+    var index = contentTable.index();
+    var titleTable = $("#title_table tr").eq(index+1);
 
-    console.log(data + " -- " + activityIndex);
-    updateActivity(data);
+    var checkCont = $(this).parent();
 
+    if (!$(this).prop("checked")){
+      contentTable.find("input").prop("disabled",false);
+      titleTable.removeProp("class","ui-state-disabled");
+    }else{
+      $(this).prop('checked',false);
+      checkCont.find("label[for='"+$(this).attr("id")+"']").text("Aplicando");
+
+      var activityIndex = titleTable.find("input[name='id']").attr("value");
+      var inputs = $('#content_table tr').eq(index+1).find("input");
+      var data = $(inputs.serializeArray());
+      var data_out = JSON.stringify({
+        id : activityIndex,
+        hora_inicio : data[0].value,
+        hora_fin : data[1].value,
+        fecha : data[2].value
+      });
+
+
+      contentTable.find("input").prop("disabled",true);
+      titleTable.prop("class","ui-state-disabled");
+
+      titleTable.find("input[name='id']").attr("value");
+      updateActivity(data_out,$(this));
+    }
   });
 
-  function updateActivity(data_out)
+  function updateActivity(data_out,check)
   {
         $.ajax({
         url: '/schedulerUpdate',
         type: 'POST',
-        data: data_out,
+        data: {_token:CSRF_TOKEN,actividad:data_out},
         dataType: 'JSON',
         success: function (data)
         {
-            console.log(data);
+            console.log(data.success);
+            if(data.success == 'true'){
+                check.prop('checked',true);
+                $("#content_table ").find("label[for='"+check.attr("id")+"']").text("listo");
+                check.removeAttr("disabled");
+            }
+            else
+              check.prop('checked',false);
         }
     });
   }
