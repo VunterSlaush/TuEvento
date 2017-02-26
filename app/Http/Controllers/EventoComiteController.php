@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Comite;
 use App\Evento;
+use App\User;
 
 class EventoComiteController extends Controller
 {
@@ -44,7 +45,9 @@ class EventoComiteController extends Controller
      */
     public function create($id_evento)
     {
-        return view('eventoComite.create',['id_evento' => $id_evento]);
+
+        $usuarios = User::all();
+        return view('eventoComite.create',['id_evento' => $id_evento,'usuarios' => $usuarios]);
     }
 
     /**
