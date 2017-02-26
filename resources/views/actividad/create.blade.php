@@ -28,8 +28,7 @@
         {{Form::text('evento')}}
       </div>
       <div class="">
-        {{Form::label('fecha','Fecha')}}
-        {{Form::Date('fecha',\Carbon\Carbon::now())}}
+         <input type="date" name="fecha" id="fecha" class="datepicker">
       </div>
       <div class="">
         {{Form::label('titulo','Titulo')}}

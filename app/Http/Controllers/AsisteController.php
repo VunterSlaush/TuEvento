@@ -27,7 +27,8 @@ class AsisteController extends Controller
     public function destroy($id)
     {
       Asiste::find($id)->delete();
-      return redirect('/miHorario')->with('success','actividad eliminada');
+      return json_encode(["success" => true]);
+      //return redirect('/miHorario')->with('success','actividad eliminada');
     }
     /*
     //ESTA FUNCION GENERA EL HORARIO DEL USUARIO!

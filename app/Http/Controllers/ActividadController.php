@@ -160,8 +160,8 @@ class ActividadController extends Controller
     {
       Actividad::find($id)->delete();
 
-      return redirect()->route('actividad.index')
-              ->with('success','actividad eliminada');
+      //return redirect()->route('actividad.index')->with('success','actividad eliminada');
+      return json_encode(["success" => true]);
     }
 
     public function mis_actividades()
@@ -172,13 +172,18 @@ class ActividadController extends Controller
 
     public function asistir($id)
     {
-        $asiste = new Asiste;
-        $asiste->id_actividad = $id;
-        $asiste->cedula = Auth::id();
-        $asiste->codigo = $this->generateRandomString(8);
-        $asiste->asistio = false;
-        $asiste->save();
+        $this->createAsistencia($id,Auth::id());
         return redirect('/miHorario');
+    }
+
+    function createAsistencia($id,$cedula)
+    {
+      $asiste = new Asiste;
+      $asiste->id_actividad = $id;
+      $asiste->cedula = $cedula;
+      $asiste->codigo = $this->generateRandomString(8);
+      $asiste->asistio = false;
+      $asiste->save();
     }
 
     function generateRandomString($length = 10)

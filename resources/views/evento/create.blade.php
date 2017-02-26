@@ -19,12 +19,12 @@
     </div>
     <div class="row">
       <div class="col m6">
-        {{Form::label('fecha_inicio','fecha_inicio')}}
-        {{Form::date('fecha_inicio','\Carbon\Carbon::now()')}}
+        {{Form::label('fecha_inicio','fecha inicio')}}
+        <input type="date" name="fecha_inicio" id="fecha_inicio" class="datepicker">
       </div>
       <div class="col m6">
-        {{Form::label('fecha_fin','fecha_fin')}}
-        {{Form::date('fecha_fin','\Carbon\Carbon::now()')}}
+        {{Form::label('fecha_fin','fecha fin')}}
+        <input type="date" name="fecha_fin" id="fecha_fin" class="datepicker">
       </div>
     </div>
     <div class="row">
@@ -151,6 +151,13 @@ $(document).ready(function(){
         e.preventDefault(); $(this).parent('div').remove();
         tipos--;
     })
+
+
+
+    $('.datepicker').pickadate({
+          selectMonths: true, // Creates a dropdown to control month
+          selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
 
 });
 

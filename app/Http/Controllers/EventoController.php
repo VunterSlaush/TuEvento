@@ -186,8 +186,7 @@ class EventoController extends Controller
     {
       $evento = Evento::find($id);
       $evento->delete();
-      return redirect()->route('evento.index')
-              ->with('message','evento eliminado');
+      return json_encode(["success" => true]);
     }
 
     public function mis_eventos()

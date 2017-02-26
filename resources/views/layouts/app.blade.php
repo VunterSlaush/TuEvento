@@ -11,12 +11,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
     <link href="/css/search_box.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -118,7 +119,7 @@
                   <input id="search-field" placeholder="Ingrese Busqueda" type="text">
                 </div>
                 <div class="col s4">
-                  <select id="search-select" class="white">
+                  <select id="search-select">
                     <option  value="1" selected>Evento</option>
                     <option  value="2">Actividad</option>
                   </select>

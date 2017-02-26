@@ -71,7 +71,7 @@ class EventoActividadController extends Controller
         $tipo_value = $request->input('tipo_actividad');
 
         if ($tipo_value == "") {
-          return redirect()->back()->withErrors(['Por favor ingrese un area']);
+          return redirect()->back()->withErrors(['Por favor ingrese un Tipo']);
         }
 
         $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
