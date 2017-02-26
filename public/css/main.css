@@ -84,3 +84,7 @@ strong {
 #title_table tbody tr {
     height: 97px;
 }
+
+.select2-container {
+  width: 100% !important;
+}
