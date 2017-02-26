@@ -26,11 +26,11 @@
           <td> {{$value->fecha_inicio}}</td>
           <td> {{$value->fecha_fin}}</td>
           <td> {{$value->estado}}</td>
-          <td>
-            <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Acciones</a>
+          <td class="action">
+            <a class='dropdown-button btn' href='#'>Acciones</a>
 
             <!-- Dropdown Structure -->
-            <ul id='dropdown1' class='dropdown-content'>
+            <ul class='dropdown-content'>
               <li><a href="{{route('evento.show',$value->id)}}"> Mostrar</a></li>
               @can('modify',$value)
                 <li><a href="{{route('evento.edit',$value->id)}}"> Editar</a></li>
@@ -47,6 +47,12 @@
 
 @section('scripts')
   <script type="text/javascript">
+
+    $(".action").each(function(i) {
+      console.log("hola");
+      $(this).find("a.dropdown-button").attr('data-activates','dropdown_'+ i);
+      $(this).find("ul.dropdown-content").attr('id','dropdown_' +i );
+    });
     function deleteEvent(id)
     {
       if (confirm('¿Seguro que desea Eliminar?')) {
