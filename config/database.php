@@ -1,4 +1,10 @@
 <?php
+$url = parse_url(getenv("DATABASE_URL"));
+
+$host = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$database = substr($url["path"], 1);
 
 return [
 
@@ -68,15 +74,14 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', 'POSTGRESQL_ADDON_HOST'),
+            'host' => $host,
             'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'POSTGRESQL_ADDON_DB'),
-            'username' => env('DB_USERNAME', 'POSTGRESQL_ADDON_USER'),
-            'password' => env('DB_PASSWORD', 'POSTGRESQL_ADDON_PASSWORD'),
+            'database' => $database,
+            'username' => $username,
+            'password' => $password,
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
-            'sslmode' => 'prefer',
         ],
 
     ],
