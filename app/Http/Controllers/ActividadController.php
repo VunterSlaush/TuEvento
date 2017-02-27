@@ -185,6 +185,7 @@ class ActividadController extends Controller
       $asiste->codigo = $this->generateRandomString(8);
       $asiste->asistio = false;
       $asiste->save();
+      return $asiste;
     }
 
     function generateRandomString($length = 10)

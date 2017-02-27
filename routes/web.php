@@ -60,8 +60,11 @@ Route::resource('evento.comite','EventoComiteController');
 Route::resource('evento.jurado','EventoJuradoController');
 
 Route::post('schedulerUpdate','ActividadController@schedulerUpdate');
-
-
+Route::get('/users/{param}','SearcherController@searchUsers');
+Route::get('/users/{param}/{actividad}','SearcherController@searchUsersNoAsistentes');
+Route::get('/usersPresentador/{param}/{actividad}','SearcherController@searchUsersNoPresentadores');
+Route::get('/usersEventoJurado/{param}/{evento}','SearcherController@searchUsersNoJurado');
+Route::get('/usersEventoComite/{param}/{evento}','SearcherController@searchUsersNoComite');
 
 
 Route::get('/search-activities','SearcherController@searchActivities');

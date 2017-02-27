@@ -155,8 +155,10 @@
     <script>
     // TODO, PASAR TOOOOOODO ESTO A UN ARCHIVO !
 
-      $(document).ready(function() {
-        $("select").select2();
+      $(document).ready(function()
+      {
+        $("#search-select").material_select();
+        
       });
 
 

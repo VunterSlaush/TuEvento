@@ -31,13 +31,8 @@
           {{Form::time('hora_fin')}}
         </div>
         <div class="col m4">
-
-          <label for="id_user"> Ponente</label>
-          <select name='id_user' class="user-select">
-            <option value="" disabled selected>Selecciona un Ponente</option>
-            @foreach ($usuarios as $user)
-              <option value="{{$user->cedula}}"> {{$user->nombre}} </option>
-            @endforeach
+          <label for='id_user'>ponente</label>
+          <select name='id_user' class="js-example-data-ajax" id="ponente">
           </select>
         </div>
       </div>
@@ -51,8 +46,7 @@
 
       <div class="row">
         <div class="input-field col m6">
-          <label for="area"> Area de Conocimiento</label>
-          <select name='area'>
+          <select name='area' id="area">
             <option value="" disabled selected>Selecciona un Area</option>
             @foreach ($evento->areas as $area)
                 <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
@@ -60,8 +54,7 @@
           </select>
         </div>
         <div class="input-field col m6">
-          <label for="tipo_actividad"> Tipo Actividad</label>
-          <select name='tipo_actividad'>
+          <select name='tipo_actividad' id='tipo_actividad'>
             <option value="" disabled selected>Selecciona un Tipo de Actividad</option>
             @foreach ($evento->tipoActividad as $tipo)
                 <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
@@ -87,6 +80,46 @@
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15 // Creates a dropdown of 15 years to control year
     });
+
+    function formatRepo (user)
+    {
+      if(user.loading) return user.cedula;
+      var markup = "<div class = 'collection-item'>" +
+                      "<div>" + user.nombre + "</div>" +
+                      "<div>" + user.cedula + "</div>"+
+                  "</div>";
+      return markup;
+    }
+
+    function formatRepoSelection (user)
+    {
+      return user.cedula;
+    }
+
+
+    $(".js-example-data-ajax").select2({
+          ajax: {
+            url: function (params) {
+              return "/users/"+params.term;
+            },
+            dataType: 'json',
+            delay: 250,
+            data:{_token: CSRF_TOKEN},
+            processResults: function (data)
+            {
+              _.each(data.results, function (item) { item.id = item.cedula; });
+              return {
+                results: data.results,
+              };
+            },
+            cache: true
+          },
+          escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 3,
+          templateResult: formatRepo,
+          templateSelection: formatRepoSelection
+        });
+    $("#tipo_actividad, #area").material_select();
   });
 </script>
 @endsection

@@ -40,10 +40,9 @@ class ActividadPresentadorController extends Controller
       $actividad = Actividad::where('id','=',$id_actividad)->first();
 
       $request->merge(['id_actividad' => $id_actividad]);
-      Presentador::create($request->all());
+      $presentador = Presentador::create($request->all());
 
-      return redirect()->route('actividad.show',$actividad->id)
-              ->with('message','Presentador Guardado');
+      return json_encode(["success" => true, "presentador" => $presentador]);
     }
 
     /**
