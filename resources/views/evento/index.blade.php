@@ -27,7 +27,7 @@
           <td> {{$value->fecha_fin}}</td>
           <td> {{$value->estado}}</td>
           <td>
-            <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Acciones</a>
+            <a class='dropdown-button btn' href='#' data-activates='dropdown1'><i class="material-icons">settings</i></a>
 
             <!-- Dropdown Structure -->
             <ul id='dropdown1' class='dropdown-content'>

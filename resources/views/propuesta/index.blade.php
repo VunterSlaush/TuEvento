@@ -13,10 +13,10 @@
 
     <table>
       <thead>
-        <th> Autor -</th>
-        <th> Evento -</th>
-        <th> Adjunto -</th>
-        <th> Demanda -</th>
+        <th>Autor</th>
+        <th>Evento</th>
+        <th>Adjunto</th>
+        <th>Demanda</th>
       </thead>
       <tbody>
         @foreach($propuesta as $key => $value)
