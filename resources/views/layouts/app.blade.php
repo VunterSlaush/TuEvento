@@ -45,7 +45,7 @@
                   </a>
                 </li>
                 <li>
-                  <a id="user-btn">
+                  <a id="user-btn" href="{{ url('/miPerfil') }}">
                     <i class="material-icons">person_pin</i>
                   </a>
                 </li>
@@ -116,14 +116,14 @@
                 <h5 class="col s3" style="color:white;">Buscar</h5>
             </div>
             <div>
-              <form class="row">
-                <div class="col s8">
-                  <input id="search-field" placeholder="Ingrese Busqueda" type="text">
+              <form class="row" style="color:white">
+                <div class="col s8" for="name_2">
+                  <input id="search-field" placeholder="Ingrese Búsqueda" type="text">
                 </div>
                 <div class="col s4">
                   <select id="search-select">
-                    <option  value="1" selected>Evento</option>
-                    <option  value="2">Actividad</option>
+                    <option value="1" selected>Evento</option>
+                    <option value="2">Actividad</option>
                   </select>
                 </div>
               </form>

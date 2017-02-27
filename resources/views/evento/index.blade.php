@@ -26,9 +26,9 @@
           <td> {{$value->fecha_inicio}}</td>
           <td> {{$value->fecha_fin}}</td>
           <td> {{$value->estado}}</td>
-          <td class="action">
-            <a class='dropdown-button btn' href='#'>Acciones</a>
 
+          <td class="action">
+            <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
             <!-- Dropdown Structure -->
             <ul class='dropdown-content'>
               <li><a href="{{route('evento.show',$value->id)}}"> Mostrar</a></li>

@@ -3,11 +3,13 @@
 @section('content')
   <div class="container">
     <h1> Crear evento</h1>
-
     {{Html::ul($errors->all())}}
 
     {{Form::open(array('url' => 'evento','files' => 'true'))}}
     <div class="row">
+      <p>&nbsp;</p>
+      <h4 style="text-align: center;">Información General</h4>
+      <p>&nbsp;</p>
       <div class="col m6">
         {{Form::label('nombre','Nombre')}}
         {{Form::text('nombre')}}
@@ -19,11 +21,11 @@
     </div>
     <div class="row">
       <div class="col m6">
-        {{Form::label('fecha_inicio','fecha inicio')}}
+        {{Form::label('fecha_inicio','Fecha de Inicio')}}
         <input type="date" name="fecha_inicio" id="fecha_inicio" class="datepicker">
       </div>
       <div class="col m6">
-        {{Form::label('fecha_fin','fecha fin')}}
+        {{Form::label('fecha_fin','Fecha de Finalización')}}
         <input type="date" name="fecha_fin" id="fecha_fin" class="datepicker">
       </div>
     </div>
@@ -36,57 +38,52 @@
       </div>
 
       <div class="col m6">
-        {{Form::label('image','Imagen')}}
-        {{Form::File('image')}}
+        <div class="col m1">{{Form::label('image','description',['class' => 'material-icons', 'style' => 'color:#1565c0;'])}}</div>
+        <div class="col m5">{{Form::file('file', ['class' => 'waves-light btn'])}}</div>        
       </div>
     </div>
     <div class="row">
-      <div class="col m12">
-        <div class="col m6">
-              <h4>Areas de Conocimiento del Evento</h4>
-        </div>
-        <div class="col m6">
-          <a class="waves-effect waves-light btn" id="add_area" name="add_area">Añadir area</a>
-        </div>
-      </div>
+      <h1>&nbsp;</h1>
+      <div class="col m12" style="text-align: center;"><h4>Áreas de Conocimiento del Evento</h4></div>      
     </div>
-    <div class="row" id="area_wrapper">
-      <div class="col m8">
-        <p class="col m3">Nombre del Area</p>
-        <input class="col m6" type="text"  name="area[0]" id='area[0]'>
-        <a href="#" class="col m3 remove_field">Remove</a>
-      </div>
+    <div class="container" id="chip_areas">              
+        <div class="chips chips-placeholder"></div>
     </div>
-      <div class="col m12">
-        <div class="col m6">
-              <h4>Tipos de Actividades</h4>
-        </div>
-        <div class="col m6">
-          <a class="waves-effect waves-light btn" id="add_tipo" name="add_tipo">Añadir Tipo</a>
-        </div>
-      </div>
-
+    <div class="col m12">
+          <center><a class="waves-effect waves-light btn" id="add_area" name="add_area">Añadir Áreas</a></center>
+    </div>
+    <div class="col m12">
+      <h1>&nbsp;</h1>
+    </div>
+    <div class="col m12" style="text-align: center;"><h4>Tipos de Actividades</h4></div>
+      <p>&nbsp;</p>
       <div class="row" id="tipo_wrapper">
-        <div class="row">
-          <p class="col m2">Nombre del Tipo</p>
-          <input class="col m2" type="text"  name="tipo[0]" id='tipo[0]'>
-          <p class="col m2">Vacantes Disponibles</p>
-          <input class="col m2" type="number"  name="tipo_cantidad[0]" id='tipo_cantidad[0]'>
+        <div class="col m12">
+          <div class="col m5">
+            <label>Nombre del Tipo</label>
+            <input type="text"  name="tipo[0]" id='tipo[0]'>
+          </div>
+          <div class="col m3">
+            <label>Vacantes Disponibles</label>
+            <input type="number"  name="tipo_cantidad[0]" id='tipo_cantidad[0]'></div>
           <div class="col m2">
             <p>
               <input type="checkbox" id="tipo_evaluable[0]" name="tipo_evaluable[0]" />
               <label for="tipo_evaluable[0]">Evaluable</label>
             </p>
           </div>
-          <a href="#" class="col m2 remove_field">Remove</a>
+          <div class="col m2"><a href="#" class="col m2 remove_field"><i class="small material-icons">delete</i></a></div>
+        </div>
+        <div class="col m12">
+          <center><a class="waves-effect waves-light btn" id="add_tipo" name="add_tipo">Añadir Tipos</a></center>
         </div>
 
       </div>
 
+      <div class="col m12"><h1>&nbsp;</h1></div>
 
       <div class="row">
-        {{Form::submit('Crear')}}
-
+        <center>{{Form::submit('Crear',['class' => 'waves-effect waves-light btn'])}}</center>
         {{Form::close()}}
       </div>
 
@@ -116,6 +113,7 @@ $(document).ready(function(){
                                 '<input class="col m6" type="text"  name="area['+areas+']" id="area['+areas+']">'+
                                 '<a href="#" class="col m3 remove_field">Remove</a></div>'+
                               '</div>');
+            console.log(document);            
         }
     });
 
@@ -152,14 +150,22 @@ $(document).ready(function(){
         tipos--;
     })
 
-
-
     $('.datepicker').pickadate({
           selectMonths: true, // Creates a dropdown to control month
           selectYears: 15 // Creates a dropdown of 15 years to control year
-        });
+        });  
 
 });
 
 </script>
+<script>
+  $(function(){
+    $('.chips').material_chip();
+    $('.chips-placeholder').material_chip({      
+      placeholder : 'otra área?',
+      secondaryPlaceholder: 'Añada área',
+    });
+  });
+</script>
+
 @endsection
