@@ -43,31 +43,31 @@ class PerfilController extends Controller
     {
       $pass = $request->input('pass');
       $confirm = $request->input('confirm_pass');
-      if($pass == $confirm)
+      if($pass != '' && $confirm != '' && $pass == $confirm)
       {
-            $pass =   Hash::make($pass);
-            if($pass == $user->password)
+            $pass = Hash::make($pass);
+            if(Hash::check($pass, $user->passwor))
               return ['modify'=> false,'succes' => true];
-            else
             {
               $user->password = $pass;
               return ['modify'=> true,'succes' => true];
-              return
             }
       }
+      else if($pass == '' || $confirm == '')
+        return ['modify'=> false,'succes' => true];
       else
       {
         return ['modify'=> false,'succes' => false, 'msg' => 'contraseñas diferentes!'];
       }
-
     }
-    private function modifyEmailIfIsNecesary($user, $request)
+
+    private function modifyEmailIfNecesary($user, $request)
     {
       $email = $request->input('email');
       if($email != $user->email)
       {
         $user->email = $email;
-        return ['modify'=> true,'succes' => true]
+        return ['modify'=> true,'succes' => true];
       }
       else
       {
@@ -75,26 +75,26 @@ class PerfilController extends Controller
       }
     }
 
-    private function modifyNameIfIsNecesary($user, $request)
+    private function modifyNameIfNecesary($user, $request)
     {
       $nombre = $request->input('nombre');
       if($nombre != $user->nombre)
       {
         $user->nombre = $nombre;
-        return ['modify'=> true,'succes' => true]
+        return ['modify'=> true,'succes' => true];
       }
       else
       {
         return ['modify'=> false,'succes' => true];
       }
     }
-    private function modifyOrgIfIsNecesary($user, $request)
+    private function modifyOrgIfNecesary($user, $request)
     {
-      $organizacion = $request->input('org');
-      if($organizacion != $user->organizacion)
+      $organizacion = $request->input('organization');
+      if($organizacion != $user->organizacion || $user->organizacion == null)
       {
         $user->organizacion = $organizacion;
-        return ['modify'=> true,'succes' => true]
+        return ['modify'=> true,'succes' => true];
       }
       else
       {

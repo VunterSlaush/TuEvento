@@ -62,7 +62,7 @@
             <div class="profile-img valign-wrapper">
               <img class="circle valign" src="https://d13yacurqjgara.cloudfront.net/users/759254/screenshots/2578941/calendar_1_1x.png" alt="">
             </div>
-            <h5 class="title center-align">{{Auth::user()->nombre}} </h5>
+            <h5 class="title center-align" id='user_name_horizontal'>{{Auth::user()->nombre}} </h5>
           </li>
             <li class="slide-content">
             <ul class="collapsible" data-collapsible="accordion">

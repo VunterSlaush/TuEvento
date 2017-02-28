@@ -144,7 +144,7 @@
 @section('scripts')
 
   <script type="text/javascript">
-    var user_id = {{!! $user->cedula !!}};
+    var user_id = {!! $user->cedula !!};
 
     $('#name_button').on('click',function () {
       $('#name_loaded').addClass('active');
@@ -201,19 +201,38 @@
       var mod = 0;
       if(data.pass.modify)
       {
+        Materialize.toast('Contraseña modificada satisfactoriamente', 3000, 'blue rounded');
+        mod++;
+      }
+      else if(!data.pass.succes)
+      {
+        Materialize.toast(data.pass.msg, 3000, 'red rounded');
         mod++;
       }
 
       if(data.org.modify)
       {
-
+        Materialize.toast('Organizacion modificada satisfactoriamente', 3000, 'blue rounded');
+        mod++;
       }
 
       if(data.name.modify)
       {
-
+        Materialize.toast('Nombre modificado satisfactoriamente', 3000, 'blue rounded');
+        $('#user_name_horizontal').text(data.user.nombre);
+        mod++;
       }
 
+      if(data.email.modify)
+      {
+        Materialize.toast('Correo modificado satisfactoriamente', 3000, 'blue rounded');
+        mod++;
+      }
+
+      if(mod == 0)
+      {
+        Materialize.toast('No hubo ninguna modificacion', 3000, 'blue rounded');
+      }
     }
   </script>
 @endsection
