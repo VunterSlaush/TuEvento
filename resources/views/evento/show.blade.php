@@ -180,7 +180,7 @@
       success: function (data)
       {
           console.log(data.success);
-          if(data.success != 'true'){
+          if(data.success == 'true'){
             $("input[name='estado']:checked").prop("checked","false");
             $("input[name='estado']:checked").removeAttr("disabled");
             state_input.prop("checked","true");
