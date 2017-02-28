@@ -32,7 +32,7 @@
           <td> {{$value->hora_fin}}</td>
           <td> {{$value->resumen}}</td>
           <td>
-            <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Acciones</a>
+            <a class='dropdown-button btn' href='#' data-activates='dropdown1'><i class="material-icons">settings</i></a>
 
             <!-- Dropdown Structure -->
             <ul id='dropdown1' class='dropdown-content'>

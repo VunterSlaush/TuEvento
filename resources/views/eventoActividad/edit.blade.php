@@ -59,7 +59,7 @@
         </div>
       </div>
 
-      {{Form::submit('Editar')}}
+      {{Form::submit('Editar',['class' => 'waves-effect waves-light btn'])}}
 
       {{Form::close()}}
 

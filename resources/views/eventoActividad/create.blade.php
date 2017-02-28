@@ -2,8 +2,8 @@
 
 @section('content')
   <div class="container">
-    <h1> Evento: {{$nombre_evento}}</h1>
-    <h2> Crear actividad</h2>
+    <h1> {{$nombre_evento}}</h1>
+    <h4> Crear actividad</h4>
 
     {{Html::ul($errors->all())}}
 
@@ -23,14 +23,22 @@
 
       <div class="row">
         <div class="col m4">
+          <!-- Modal Trigger -->
+          <a class="waves-effect waves-light btn" href="#modal1">
+          <i class="material-icons left">schedule</i>ver</a>
+        </div>
+        <div class="col m4">
           {{Form::label('hora_inicio','Hora de Inicio')}}
           {{Form::time('hora_inicio')}}
         </div>
         <div class="col m4">
           {{Form::label('hora_fin','Hora de Finaliz.')}}
           {{Form::time('hora_fin')}}
-        </div>
-        <div class="col m4">
+        </div>        
+      </div>
+
+      <div class="row">
+        <div class="col m8">
           <label for='id_user'>ponente</label>
           <select name='id_user' class="js-example-data-ajax" id="ponente">
           </select>
@@ -46,16 +54,16 @@
 
       <div class="row">
         <div class="input-field col m6">
-          <select name='area' id="area">
-            <option value="" disabled selected>Selecciona un Area</option>
+          <select multiple name='area' id="area">
+            <option value="" disabled selected>Áreas</option>
             @foreach ($evento->areas as $area)
                 <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
             @endforeach
           </select>
         </div>
         <div class="input-field col m6">
-          <select name='tipo_actividad' id='tipo_actividad'>
-            <option value="" disabled selected>Selecciona un Tipo de Actividad</option>
+          <select multiple name='tipo_actividad' id='tipo_actividad'>
+            <option value="" disabled selected>Tipo de Actividades</option>
             @foreach ($evento->tipoActividad as $tipo)
                 <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
             @endforeach
@@ -63,12 +71,36 @@
         </div>
       </div>
 
-      {{Form::submit('Crear')}}
+      <center>{{Form::submit('Crear',['class' => 'waves-effect waves-light btn'])}}</center>
 
       {{Form::close()}}
-    </div>
+    </div>    
 
+    <!-- Modal Structure -->
+  <div id="modal1" class="modal bottom-sheet">
+    <div class="modal-content">
+      <h4>Horarios de Actividades</h4>
+      <ul class="row collection"> 
+        @foreach($actividad as $key => $value)        
+        <li class="collection-item avatar col m4">
+          <p>&nbsp;</p>
+          <i class="material-icons circle" style="color:#1565c0;">description</i>
+          <span class="title">{{$value->titulo}}</span>
+          <p>Fecha: {{$value->fecha}} <br>
+              Hora de Inicio: {{$value->hora_inicio}} <br>
+              Hora de Finalización: {{$value->hora_fin}}
+          </p>
+          <p>&nbsp;</p>
+        </li>
+        @endforeach
+      </ul>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">De acuerdo</a>
+    </div>
+  </div>     
   </div>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -120,6 +152,21 @@
           templateSelection: formatRepoSelection
         });
     $("#tipo_actividad, #area").material_select();
+  });
+</script>
+
+<script>
+   $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+</script>
+
+<script>
+  $('#timepicker').pickatime({
+    autoclose: false,
+    twelvehour: false,
+    default: '14:20:00'
   });
 </script>
 @endsection

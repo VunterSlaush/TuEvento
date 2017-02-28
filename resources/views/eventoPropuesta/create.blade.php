@@ -4,6 +4,7 @@
   <div class="container">
 
     <h1> Crear propuesta</h1>
+    <p>&nbsp;</p>
 
     {{Html::ul($errors->all())}}
 
@@ -25,15 +26,17 @@
           {{Form::text('descripcion')}}
         </div>
         <div class="col m6">
-          {{Form::label('adjunto','Adjunto')}}
-          {{Form::File('adjunto')}}
-        </div>
+          <div class="col m1">
+            {{Form::label('adjunto','description',['class' => 'material-icons prefix', 'style' => 'color:#1565c0;'])}}</div>
+          <div class="col m5">
+            {{Form::File('adjunto',['class' => 'waves-light btn'])}}</div>                  
+          </div>
       </div>
 
       <div class="row">
         <div class="input-field col m6">
           <select name='area'>
-            <option value="" disabled selected>Selecciona un Area</option>
+            <option value="" disabled selected>Área</option>
             @foreach ($evento->areas as $area)
                 <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
             @endforeach
@@ -42,7 +45,7 @@
         </div>
         <div class="input-field col m6">
           <select name='tipo'>
-            <option value="" disabled selected>Selecciona un Tipo de Actividad</option>
+            <option value="" disabled selected>Actividad</option>
             @foreach ($evento->tipoActividad as $tipo)
                 <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
             @endforeach
@@ -56,8 +59,9 @@
         {{Form::text('demanda')}}
       </div>
 
+      <p>&nbsp;</p>
 
-      {{Form::submit('Crear')}}
+      <center>{{Form::submit('Crear', ['class' => 'waves-effect waves-light btn'])}}</center>
 
       {{Form::close()}}
     </div>

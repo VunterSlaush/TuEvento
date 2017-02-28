@@ -24,7 +24,8 @@
         {{Form::label('fecha_fin','fecha_fin')}}
         {{Form::date('fecha_fin')}}
       </div>
-      {{Form::submit('Editar')}}
+      <p>&nbsp;</p>
+      <center>{{Form::submit('Editar', ['class' => 'waves-effect waves-light btn'])}}</center>
 
       {{Form::close()}}
     </div>

@@ -53,9 +53,11 @@ class EventoActividadController extends Controller
         $evento = Evento::where('id','=',$id_evento)->first();
         $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
         $usuarios = User::all();
+        $actividades = Actividad::where('id_evento',$id_evento)->get();      
         return view('eventoActividad.create',['evento' => $evento,
                                               'nombre_evento' => $nombre_evento,
-                                              'usuarios' => $usuarios]);
+                                              'usuarios' => $usuarios,
+                                              'actividad' => $actividades,]);
     }
 
     /**
