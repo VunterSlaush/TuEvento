@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function ()
   Route::resource('califica', 'CalificaController');
   Route::resource('comite','ComiteController');
   Route::get('/miPerfil','PerfilController@index');
+  Route::post('updateProfile','PerfilController@updateProfile');
 });
 
 
