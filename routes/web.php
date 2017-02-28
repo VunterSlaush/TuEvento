@@ -60,6 +60,7 @@ Route::resource('evento.comite','EventoComiteController');
 Route::resource('evento.jurado','EventoJuradoController');
 
 Route::post('schedulerUpdate','ActividadController@schedulerUpdate');
+Route::post('stateUpdate','EventoController@stateUpdate');
 
 
 

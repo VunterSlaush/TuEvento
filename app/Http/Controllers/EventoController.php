@@ -203,4 +203,15 @@ class EventoController extends Controller
       })->values()->all();
       return view('evento.organizar',['evento' => $evento, 'actividades' => $actividades]);
     }
+
+    public function stateUpdate(Request $request){
+      $evento = json_decode($request->evento,true);
+      Log::info($evento);
+      try{
+        Evento::find($evento["id"])->update($evento);
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return json_encode(['success'=>'false']);
+      }
+      return json_encode(['success'=>'true']);
+    }
 }

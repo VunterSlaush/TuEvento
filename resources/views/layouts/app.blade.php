@@ -28,7 +28,8 @@
     </script>
 </head>
 <body>
-    <div id="app" class="navbar-fixed">
+    <div id="app">
+      <div  class="navbar-fixed">
         <nav>
           <div class="nav-wrapper">
             <div class="container">
@@ -55,7 +56,7 @@
             </div>
           </div>
         </nav>
-
+      </div>
         @if (!Auth::guest())
           <ul id="slide-out" class="side-nav fixed">
             <li class="profile-head">
