@@ -28,7 +28,7 @@
           <td> {{$value->hora_inicio}}</td>
           <td> {{$value->hora_fin}}</td>
           <td class ='action'>
-            <a class='dropdown-button btn' href='#'>Acciones</a>
+            <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
             <ul class='dropdown-content'>
               <li><a <a href="{{route('actividad.show',$value->id_actividad)}}"> Ver Actividad</a></li>
               <li><a href="javascript:deleteAsistencia('{{ $value->id }}');" data-method="delete">No Asistir</a></li>

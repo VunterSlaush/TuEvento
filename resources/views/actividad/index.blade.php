@@ -32,9 +32,7 @@
           <td> {{$value->hora_fin}}</td>
           <td> {{$value->resumen}}</td>
           <td class="action">
-            <a class='dropdown-button btn' href='#'>Acciones</a>
-
-            <!-- Dropdown Structure -->
+            <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
             <ul class='dropdown-content'>
               <li><a href="/actividad/{{$value->id}}/asistir"> Asistir</a></li>
               <li><a href="{{route('actividad.show',$value->id)}}"> Mostrar</a></li>

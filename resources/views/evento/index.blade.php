@@ -31,9 +31,9 @@
             <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
             <!-- Dropdown Structure -->
             <ul class='dropdown-content'>
-              <li><a href="{{route('evento.show',$value->id)}}"> Mostrar</a></li>
+              <li><a href="{{route('evento.show',$value->id)}}">Mostrar</a></li>
               @can('modify',$value)
-                <li><a href="{{route('evento.edit',$value->id)}}"> Editar</a></li>
+                <li><a href="{{route('evento.edit',$value->id)}}">Editar</a></li>
                 <li><a href="javascript:deleteEvent('{{ $value->id }}');" data-method="delete">Eliminar</a></li>
               @endcan
             </ul>
