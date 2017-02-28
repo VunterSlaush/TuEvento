@@ -61,16 +61,27 @@ class SearcherController extends Controller
                                   ->orWhereRaw("users.cedula LIKE '%".$param."%'")
                                   ->get();
       $asistencias = DB::table('asiste')->where('id_actividad',$actividad)->get();
-      $this->removeUsersWithAsist($users,$asistencias);
+      $this->removeUsersWithCedula($users,$asistencias);
       return json_encode(['results' => $users]);
     }
 
-    public function removeUsersWithAsist($users, $asists)
+    public function removeUsersWithCedula($users, $asists)
     {
       foreach ($asists as $key => $asist)
       {
         foreach ($users as $userKey => $value) {
-            if($value->cedula == $asist->cedula || $value->cedula == $asist->id_user)
+            if($value->cedula == $asist->cedula)
+              $users->forget($userKey);
+        }
+      }
+    }
+
+    public function removeUsersWithId($users, $asists)
+    {
+      foreach ($asists as $key => $asist)
+      {
+        foreach ($users as $userKey => $value) {
+            if($value->cedula == $asist->id_user)
               $users->forget($userKey);
         }
       }
@@ -84,7 +95,7 @@ class SearcherController extends Controller
                                   ->orWhereRaw("users.cedula LIKE '%".$param."%'")
                                   ->get();
       $asistencias = DB::table('presentador')->where('id_actividad',$actividad)->get();
-      $this->removeUsersWithAsist($users,$asistencias);
+      $this->removeUsersWithId($users,$asistencias);
       return json_encode(['results' => $users]);
     }
 
@@ -96,7 +107,7 @@ class SearcherController extends Controller
                                   ->orWhereRaw("users.cedula LIKE '%".$param."%'")
                                   ->get();
       $jurados = DB::table('jurado')->where('id_evento',$evento)->get();
-      $this->removeUsersWithAsist($users,$jurados);
+      $this->removeUsersWithId($users,$jurados);
       return json_encode(['results' => $users]);
     }
 
@@ -108,7 +119,7 @@ class SearcherController extends Controller
                                   ->orWhereRaw("users.cedula LIKE '%".$param."%'")
                                   ->get();
       $comites = DB::table('comite')->where('id_evento',$evento)->get();
-      $this->removeUsersWithAsist($users,$comites);
+      $this->removeUsersWithId($users,$comites);
       return json_encode(['results' => $users]);
     }
 

@@ -40,11 +40,11 @@ Route::group(['middleware' => 'auth'], function ()
   Route::get('califica/lista', 'CalificaController@calificada')->name('califica.calificada');
   Route::resource('califica', 'CalificaController');
   Route::resource('comite','ComiteController');
+  Route::get('/miPerfil','PerfilController@index');
 });
 
 
 Route::get('/home', 'EventoController@index');
-Route::get('/miPerfil','PerfilController@index');
 Route::get('/searchEvento/{search}','SearcherController@searchEvento')->where('search', '(.*)');
 Route::get('/searchActividad/{search}','SearcherController@searchActividad')->where('search', '(.*)');
 Route::resource('propuesta', 'PropuestaController');
@@ -59,6 +59,8 @@ Route::resource('actividad.presentador','ActividadPresentadorController');
 Route::resource('evento.propuesta','EventoPropuestaController');
 Route::resource('evento.comite','EventoComiteController');
 Route::resource('evento.jurado','EventoJuradoController');
+Route::post('/deleteJuradoArea','EventoJuradoController@deleteAreaJurado');
+
 
 Route::post('schedulerUpdate','ActividadController@schedulerUpdate');
 Route::get('/users/{param}','SearcherController@searchUsers');

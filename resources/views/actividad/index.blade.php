@@ -31,20 +31,18 @@
           <td> {{$value->hora_inicio}}</td>
           <td> {{$value->hora_fin}}</td>
           <td> {{$value->resumen}}</td>
-          <td>
-            <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Acciones</a>
+          <td class="action">
+            <a class='dropdown-button btn' href='#'>Acciones</a>
 
             <!-- Dropdown Structure -->
-            <ul id='dropdown1' class='dropdown-content'>
+            <ul class='dropdown-content'>
               <li><a href="/actividad/{{$value->id}}/asistir"> Asistir</a></li>
               <li><a href="{{route('actividad.show',$value->id)}}"> Mostrar</a></li>
               @can('modify',$value)
                 <li><a href="{{route('actividad.edit',$value->id)}}"> Editar</a></li>
-                <li><a href="javascript:deleteActivity('{{ $value->id }}');" data-method="delete">Eliminar</a></li>
+                <li><a href="deleteActivity({{ $value->id }});" data-method="delete">Eliminar</a></li>
               @endcan
             </ul>
-
-
           </td>
         </tr>
         @endforeach
@@ -55,6 +53,11 @@
 
 @section('scripts')
 <script type="text/javascript">
+$(".action").each(function(i) {
+  $(this).find("a.dropdown-button").attr('data-activates','dropdown_'+ i);
+  $(this).find("ul.dropdown-content").attr('id','dropdown_' +i );
+});
+
   function deleteActivity(id)
   {
     if (confirm('Borrar esta Actividad?')) {

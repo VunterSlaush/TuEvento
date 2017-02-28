@@ -98,6 +98,7 @@
 
 
     $(".js-example-data-ajax").select2({
+          language: "es",
           ajax: {
             url: function (params) {
               return "/users/"+params.term;

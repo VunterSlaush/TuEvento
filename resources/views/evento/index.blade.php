@@ -4,7 +4,7 @@
   <div class="container">
     <h1> Eventos</h1>
 
-    <table>
+    <table id="event_table">
       <thead>
         <tr>
           <th> Creador </th>
@@ -48,11 +48,16 @@
 @section('scripts')
   <script type="text/javascript">
 
+    $(document).ready(function(){
+      $('#event_table').DataTable();
+    });
+
     $(".action").each(function(i) {
-      console.log("hola");
       $(this).find("a.dropdown-button").attr('data-activates','dropdown_'+ i);
       $(this).find("ul.dropdown-content").attr('id','dropdown_' +i );
     });
+
+
     function deleteEvent(id)
     {
       if (confirm('¿Seguro que desea Eliminar?')) {

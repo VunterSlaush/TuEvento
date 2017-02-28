@@ -7,6 +7,27 @@
     <select name='id_user' class="js-example-data-ajax" id="seleccionado">
     </select>
   </div>
+  <table id="presentador_table">
+    <thead>
+      <tr>
+        <th> Nombre </th>
+        <th> Cedula </th>
+        <th> ¿Eliminar? </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @foreach($actividad->presentadores as $key => $value)
+      <tr id="presentador{{$value->id}}">
+        <td> {{$value->user->nombre}}</td>
+        <td> {{$value->user->cedula}}</td>
+        <td>
+            <a class='btn' href='#' onclick="eliminarPresentador({{$value->id}});"><i class="material-icons">delete</i></a>
+        </td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
 </div>
 @endsection
 @section('scripts')
@@ -29,6 +50,7 @@
 
 
   $(".js-example-data-ajax").select2({
+        language: "es",
         ajax: {
           url: function (params) {
             return "/usersPresentador/"+params.term+"/"+id_actividad;
@@ -60,14 +82,47 @@
           dataType: 'JSON',
           success: function (data)
           {
+            console.log(data);
             if(data.msg)
-              Materialize.toast(data.msg, 3000, 'rounded');
+              Materialize.toast(data.msg, 3000, 'rounded red');
             else
-              Materialize.toast('Presentador Añadido', 3000, 'rounded');
+            {
+              Materialize.toast('Presentador Añadido', 3000, 'rounded blue');
+              $('#presentador_table tbody').append('<tr id=presentador'+data.presentador.id+'>'+
+                                '<td>'+data.user.nombre+'</td>'+
+                                '<td>'+data.user.cedula+'</td>'+
+                                '<td>'+
+                                    '<a class="btn" href="#" onclick="eliminarPresentador('+data.presentador.id+');">'+
+                                    '<i class="material-icons">delete</i></a>'+
+                                '</td>'+
+                                              +'</tr>');
+            }
+
             $('#seleccionado').empty();
           }
           });
 
         });
+
+        function eliminarPresentador(presentador)
+        {
+          $.ajax({
+          url: '/actividad/'+id_actividad+'/presentador/'+presentador,
+          type: 'DELETE',
+          data: {_token: CSRF_TOKEN},
+          dataType: 'JSON',
+          success: function (data) // TODO no prioritario, a;adir el jurado a la tabla aqui! data trae user, jurado y area!
+          {
+            console.log(data);
+            if(data.msg)
+              Materialize.toast(data.msg, 3000, 'blue rounded');
+            else
+            {
+              Materialize.toast('Presentador Eliminado', 3000, 'blue rounded');
+              $('#presentador'+presentador).remove();
+            }
+          }
+          });
+        }
   </script>
 @endsection

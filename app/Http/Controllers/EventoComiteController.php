@@ -46,8 +46,8 @@ class EventoComiteController extends Controller
     public function create($id_evento)
     {
 
-        $usuarios = User::all();
-        return view('eventoComite.create',['id_evento' => $id_evento,'usuarios' => $usuarios]);
+        $evento = Evento::where('id','=',$id_evento)->first();
+        return view('eventoComite.create',['evento' => $evento]);
     }
 
     /**
@@ -62,14 +62,14 @@ class EventoComiteController extends Controller
       $request->merge(['id_evento' => $id_evento]);
 
       try{
-        Comite::create($request->all());
-        $evento = Evento::where('id','=',$id_evento)->first();
+        $comite = Comite::create($request->all());
+        $user = User::where('cedula',$comite->id_user)->first();
       } catch (\Illuminate\Database\QueryException $qe) {
-        return redirect()->back()->withErrors(['Error al guardar comite']);
+        return json_encode(['succes' =>false, 'msg'=>'Error al guardar comite']);
       }
 
-        return redirect()->route('evento.show',$evento->id)
-                ->with('message','Comite Guardado');
+      return json_encode(['succes' =>true, 'comite' => $comite, 'user'=>$user]);
+
     }
 
     /**
@@ -130,8 +130,6 @@ class EventoComiteController extends Controller
     public function destroy($id_evento,$id)
     {
       Comite::find($id)->delete();
-
-      return redirect()->route('evento.comite.index',['id_evento' => $id_evento])
-              ->with('success','comite eliminada');
+      return json_encode(['success' => true]);
     }
 }

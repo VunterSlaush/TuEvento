@@ -3,18 +3,13 @@
 @section('content')
   <div class="container">
     <h1> Asignar Jurado:</h1>
-
-    {{Html::ul($errors->all())}}
-
-    {{Form::open(array('url' => 'evento/'.$evento->id.'/jurado'))}}
-
     <div class="row">
       <div class="col m6">
         <label for="id_user"> Usuario</label>
-        <select name='id_user' class="js-example-data-ajax" id="seleccionado">
+        <select name='id_user' class="js-example-data-ajax" id="seleccionado" disabled>
         </select>
       </div>
-      <div class="input-field col m6">
+      <div class="input-field col m4">
         <select name='area' id="area">
           <option value="" disabled selected>Selecciona un Area</option>
           @foreach ($evento->areas as $area)
@@ -23,11 +18,38 @@
         </select>
         <label>Selecciona un Area</label>
       </div>
+      <div class="col m2">
+        <a class='btn' href='#' onclick="guardarJurado();"><i class="material-icons">send</i></a>
+      </div>
     </div>
-    <div class="row">
-      {{Form::submit('Crear')}}
-      {{Form::close()}}
-    </div>
+
+
+    <table id="event_table">
+      <thead>
+        <tr>
+          <th> Nombre </th>
+          <th> Cedula </th>
+          <th> Area </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @foreach($evento->jurados as $key => $value)
+        <tr id="jurado{{$value->id}}">
+          <td> {{$value->user->nombre}}</td>
+          <td> {{$value->user->cedula}}</td>
+          <td id="area_jurado{{$value->id}}">
+              @foreach($value->areas as $area)
+              <div class="chip">
+                {{$area->area->nombre}}
+                <i class="close material-icons" onclick="removeAreaFromUser({{$area}})">close</i>
+              </div>
+              @endforeach
+          </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
 
   </div>
 @endsection
@@ -54,9 +76,10 @@
   }
 
   $(".js-example-data-ajax").select2({
+        language: "es",
         ajax: {
           url: function (params) {
-            return "/usersEventoJurado/"+params.term+"/"+id_evento;
+            return "/users/"+params.term;
           },
           dataType: 'json',
           delay: 250,
@@ -75,6 +98,56 @@
         templateResult: formatRepo,
         templateSelection: formatRepoSelection
       });
+
+  function guardarJurado()
+  {
+    $.ajax({
+    url: '/evento/'+id_evento+'/jurado',
+    type: 'POST',
+    data: {_token: CSRF_TOKEN, id_user:$('#seleccionado').val(), id_evento:id_evento, area:$('#area').val()},
+    dataType: 'JSON',
+    success: function (data) // TODO no prioritario, a;adir el jurado a la tabla aqui! data trae user, jurado y area!
+    {
+      if(data.msg)
+        Materialize.toast(data.msg, 3000, 'rounded');
+      else
+      {
+        Materialize.toast('Jurado Añadido', 3000, 'rounded');
+        location.reload();
+      }
+      $('#seleccionado').empty();
+      $('#area').empty();
+      $('#seleccionad').prop("disabled",true);
+    }
+    });
+  }
+
+  function removeAreaFromUser(area)
+  {
+    $.ajax({
+    url: '/deleteJuradoArea',
+    type: 'POST',
+    data: {_token: CSRF_TOKEN, id_area:area.id_area, id_jurado:area.id_jurado},
+    dataType: 'JSON',
+    success: function (data)
+    {
+      console.log(data);
+      if($('#area_jurado'+area.id_jurado).children().length <= 1)
+          $('#jurado'+area.id_jurado).remove();
+          console.log($('#area_jurado'+area.id_jurado).children().length);
+        Materialize.toast('Jurado Eliminado', 3000, 'rounded');
+    }
+    });
+
+  }
+
+  $( "#area" ).change(function() {
+    if($(this).val() != '')
+      $('#seleccionado').prop("disabled", false);
+    else {
+      $('#seleccionado').prop("disabled", true);
+    }
+  });
 
 
 </script>

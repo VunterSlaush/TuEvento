@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Presentador;
 use App\Actividad;
+use App\User;
 
 class ActividadPresentadorController extends Controller
 {
@@ -41,8 +42,9 @@ class ActividadPresentadorController extends Controller
 
       $request->merge(['id_actividad' => $id_actividad]);
       $presentador = Presentador::create($request->all());
+      $user = User::where('cedula',$presentador->id_user)->first();
 
-      return json_encode(["success" => true, "presentador" => $presentador]);
+      return json_encode(["success" => true, "presentador" => $presentador, "user" => $user]);
     }
 
     /**
@@ -85,8 +87,9 @@ class ActividadPresentadorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_actividad,$id)
     {
-        //
+        Presentador::where('id',$id)->delete();
+        return json_encode(['success' => true]);
     }
 }
