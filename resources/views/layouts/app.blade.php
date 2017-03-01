@@ -25,7 +25,7 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
-    </script>    
+    </script>
 </head>
 <body>
     <div id="app">
@@ -133,7 +133,7 @@
               <div class="results-header">
               Resultados de Busqueda
               </div>
-              <ul class="results-list collection" style="overflow-y : auto;">
+              <ul class="results-list collection" style="overflow-y:true;">
 
               </ul>
             </div>
@@ -148,7 +148,7 @@
 
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>    
+    <script src="/js/app.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
@@ -166,13 +166,13 @@
 
 
       var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-      $('#search-btn').click(function(){
-            $('.search-drawer').removeClass('s-closed').addClass('s-opened');
-            $('#overlay').toggle();
-      });
 
-      $('#search-close, #overlay').click(function(){
-        $('.search-drawer').removeClass('s-opened').addClass('s-closed');
+      $('#search-close, #search-btn, #overlay').click(function()
+      {
+        if($('.search-drawer').hasClass('s-opened'))
+          $('.search-drawer').removeClass('s-opened').addClass('s-closed');
+        else
+          $('.search-drawer').addClass('s-opened').removeClass('s-closed');
         $('#overlay').toggle();
       });
 

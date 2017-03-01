@@ -62,7 +62,7 @@
           </select>
         </div>
         <div class="input-field col m6">
-          <selectname='tipo_actividad' id='tipo_actividad'>
+          <select name='tipo_actividad' id='tipo_actividad'>
             <option value="" disabled selected>Tipo de Actividades</option>
             @foreach ($evento->tipoActividad as $tipo)
                 <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
