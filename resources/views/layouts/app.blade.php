@@ -25,7 +25,7 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
-    </script>    
+    </script>
 </head>
 <body>
     <div id="app">
@@ -41,7 +41,7 @@
                 @else
 
                 <li>
-                  <a id="search-btn">
+                  <a id="search-btn" data-activates="search_sidenav">
                     <i class="material-icons">search</i>
                   </a>
                 </li>
@@ -108,7 +108,7 @@
           </ul>
         @endif
         <!-- <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a> -->
-        <div class="search-drawer z-16 s-closed">
+        <ul class="side-nav fixed" id='search_sidenav'>
           <div class="search-tool">
             <div class="row">
                 <div id="search-close" class="col s1">
@@ -134,12 +134,10 @@
               Resultados de Busqueda
               </div>
               <ul class="results-list collection" style="overflow-y : auto;">
-
               </ul>
             </div>
           </div>
-        </div>
-        <div id="overlay"></div>
+        </ul>
         <div class="content">
           @yield('content')
         </div>
@@ -148,7 +146,7 @@
 
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>    
+    <script src="/js/app.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
@@ -164,17 +162,17 @@
         $.fn.select2.defaults.set('language', 'es');
       });
 
-
       var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-      $('#search-btn').click(function(){
-            $('.search-drawer').removeClass('s-closed').addClass('s-opened');
-            $('#overlay').toggle();
-      });
 
-      $('#search-close, #overlay').click(function(){
-        $('.search-drawer').removeClass('s-opened').addClass('s-closed');
-        $('#overlay').toggle();
-      });
+      $('#search-btn').sideNav({
+         menuWidth: 350, // Default is 300
+         edge: 'right', // Choose the horizontal origin
+         closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+         draggable: true // Choose whether you can drag to open on touch screens
+       }
+     );
+
+     $('#search-btn').sideNav('show');
 
       $("#search-field").keyup(function()
       {
@@ -255,7 +253,7 @@
           }
         });
       }
-
+      setTimeout(function(){$('#search-btn').sideNav('destroy');},200);
     </script>
     @yield('scripts')
 </body>
