@@ -65,7 +65,6 @@ Route::post('/deleteJuradoArea','EventoJuradoController@deleteAreaJurado');
 
 Route::post('stateUpdate','EventoController@stateUpdate');
 
-Route::post('schedulerUpdate','ActividadController@schedulerUpdate');
 Route::get('/users/{param}','SearcherController@searchUsers');
 Route::get('/users/{param}/{actividad}','SearcherController@searchUsersNoAsistentes');
 Route::get('/usersPresentador/{param}/{actividad}','SearcherController@searchUsersNoPresentadores');

@@ -88,8 +88,9 @@
             <label for="estado-fin"> Finalizado</label>
         </li>
       @endcan
-
+      </li>
     </ul>
+
     <div class="modal modal-fixed-footer">
       <div class="modal-content">
         <div class="content-m content-ins" style="display:none">
@@ -121,6 +122,7 @@
         <a id="cancelar"href="#!" class="modal-action modal-close waves-effect waves-red btn-flat"> Cancelar</a>
       </div>
     </div>
+
   </div>
 
 @endsection
@@ -199,4 +201,3 @@
 
 </script>
 @endsection
->>>>>>> feature/alex_changes_6
