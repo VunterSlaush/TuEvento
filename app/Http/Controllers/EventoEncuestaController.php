@@ -15,22 +15,22 @@ class EventoEncuestaController extends Controller
 {
   public function createEncuesta($id_evento)
   {
-    $evento = Evento::where('id',$id_evento);
+    $evento = Evento::where('id',$id_evento)->first();
     return view('Encuesta.createEncuesta',['evento' => $evento]);
   }
 
   public function createPregunta($id_evento)
   {
-    $evento = Evento::where('id',$id_evento);
+    $evento = Evento::where('id',$id_evento)->first();
     return view('Encuesta.createPregunta',['evento' => $evento]);
   }
 
-  public function storeEncuesta(Request $request)
+  public function storeEncuesta($id_evento,Request $request)
   {
 
   }
 
-  public function storePregunta(Request $request)
+  public function storePregunta($id_evento,Request $request)
   {
 
   }

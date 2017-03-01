@@ -8,11 +8,12 @@
       <div class="col m5">
             <h3>Crear Pregunta</h3>
       </div>
-    {{Form::open(array('url' => 'evento//storePregunta'))}}
+    {{Form::open(array('url' => 'evento/'.$evento->id.'/storePregunta'))}}
       <div class="col m7" style="margin-top:30px;">
           <div class="col m4">
-            <a class="waves-effect waves-light btn">Finalizar</a>
+            <a class="waves-effect waves-light btn" type="subimit">Finalizar</a>
           </div>
+          <input type="hidden" name="json" value="false">
           <div class="col m8">
             <a class="waves-effect waves-light btn" onclick="enviarPregunta()">Añadir Otra Pregunta</a>
           </div>
@@ -49,7 +50,7 @@
 
 
   </div>
-
+        {{Form::close()}}
 @endsection
 
 @section('scripts')
@@ -80,17 +81,52 @@
     });
 
 });
+  var id_evento = {!!$evento->id!!};
+  var opciones = [];
+  function validarOpciones()
+  {
+    var error = false;
+    if($('#pregunta').val() == '')
+      error = true;
+
+    var divs = $("#opcion_wrapper").find()
+    $("#opcion_wrapper div").each(function( index ) {
+        var option_form = $(this).find($(".option"));
+        var option_value_form = $(this).find($(".option_value"));
+        opciones.push({opcion:option_form.val(), valor: option_value_form.val()});
+        if(option_form.val() == '')
+          error = true;
+        if(option_value_form.val() == '')
+          error = true;
+        console.log(opciones);
+      });
+      if(error)
+      {
+         Materialize.toast('Error en el Formulario', 3000, 'rounded red');
+         return false;
+      }
+      return true;
+  }
 
   function enviarPregunta()
   {
-    var opciones = [];
-    var divs = $("#opcion_wrapper").find()
-    $( "#opcion_wrapper div" ).each(function( index ) {
-        console.log($(this));
-        var option_form = $(this).find($(".option"));
-        console.log(option_form.val());
-        opciones.push()
-      });
+    if(validarOpciones())
+    {
+      $.ajax({
+      url: '/evento/'+id_evento+'/storePregunta',
+      type: 'POST',
+      data: {_token: CSRF_TOKEN, json:true, pregunta:$('#pregunta').val(), opciones:opciones},
+      dataType: 'JSON',
+      success: function (data)
+      {
+        console.log(data);
+        if(data.msg)
+          Materialize.toast(data.msg, 3000, 'red rounded');
+        else
+        {
+          Materialize.toast('Pregunta Añadida', 3000, 'blue rounded');
+        }
+    }
   }
 </script>
 @endsection
