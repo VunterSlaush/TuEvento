@@ -42,13 +42,23 @@
                 @else
 
                 <li>
-                  <a id="search-btn">
+                  <a id="search-btn" class="tooltipped" data-delay="50" data-tooltip="Buscar" data-position="bottom">
                     <i class="material-icons">search</i>
                   </a>
                 </li>
                 <li>
-                  <a id="user-btn" href="{{ url('/miPerfil') }}">
+                  <a id="user-btn" href="{{ url('/miPerfil') }}" class="tooltipped" data-delay="50" data-tooltip="Configuraciones" data-position="bottom">
                     <i class="material-icons">person_pin</i>
+                  </a>
+                </li>
+                <li>
+                  <a id="exit-btn" href="{{ url('/logout') }}"
+                    class="tooltipped" data-delay="50" data-tooltip="Salir" data-position="bottom"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                         {{ csrf_field() }}
+                     </form>
+                     <i class="material-icons">power_settings_new</i>
                   </a>
                 </li>
 
@@ -92,16 +102,6 @@
               <li>
                 <ul>
                   <a  class="collapsible-header" href="{{ url('/califica') }}">Calificar</a>
-                </ul>
-              </li>
-              <li>
-                <ul>
-                  <a  class="collapsible-header" href="{{ url('/logout') }}"
-                    onclick="event.preventDefault();
-                             document.getElementById('logout-form').submit();">Cerrar Sesion</a>
-                             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                 {{ csrf_field() }}
-                             </form>
                 </ul>
               </li>
             </ul>
