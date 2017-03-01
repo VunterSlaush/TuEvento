@@ -9,27 +9,32 @@ function iniciarDatatable(table){
   console.log("iniciando datatable: " + table);
 
   $('#' +  table + '_table').DataTable( {
-    "pageLength": 4
-  } );
+    "pageLength": 4,
+    "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+     },
+    "initComplete": function(settings, json) {
+      styleInputs(table);
 
-  styleInputs(table);
+      $('#' +  table + '_table_paginate').wrap('<ul class="pagination"></ul>'); // Encierra la paginacion con ul
 
-  $('#' +  table + '_table_paginate').wrap('<ul class="pagination"></ul>'); // Encierra la paginacion con ul
+      $('input').on('input', function(event) {
+        stylePagination(table);
+      });
 
-  $('input').on('input', function(event) {
-    stylePagination(table);
+      $('.dataTables_paginate').on('click', function(event) {
+        stylePagination(table);
+      });
+
+      stylePagination(table);
+    }
   });
-
-  $('.dataTables_paginate').on('click', function(event) {
-    stylePagination(table);
-  });
-
-  stylePagination(table);
 }
 
 // Agrega estilos css a la seccion de inputs
 function styleInputs(table){
-  $('#' +  table + '_table_length').css('display', 'none');
+  $('#' + table + '_table_filter label').css('color', 'black');
+  $('#' + table + '_table_length').css('display', 'none');
   // $('#' +  table + '_table_filter').css('width', '50%'); descomentar si lo quieres pequeño
 }
 

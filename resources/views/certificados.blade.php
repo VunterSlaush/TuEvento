@@ -2,8 +2,7 @@
 
 @section('content')
   <div class="container">
-    <h1> Todos Los Certificados</h1>
-
+  
     @if (Session::has('message'))
       <div class="">
         {{Sesion::get('message')}}
@@ -11,7 +10,7 @@
     @endif
     <h4>&nbsp;</h4>
     <h3>Certificados Por Actividad</h3>
-    <table>
+    <table id="event_table">
       <thead>
         <th>Evento</th>
         <th>Ponente</th>
@@ -33,7 +32,7 @@
     </table>
     <h1>&nbsp;</h1>
     <h3>Certificados Por Evento</h3>
-    <table>
+    <table id="comite_table">
       <thead>
         <th> Evento </th>
         <th> Acciones </th>
