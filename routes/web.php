@@ -42,6 +42,10 @@ Route::group(['middleware' => 'auth'], function ()
   Route::resource('comite','ComiteController');
   Route::get('/miPerfil','PerfilController@index');
   Route::post('updateProfile','PerfilController@updateProfile');
+  Route::get('/evento/{id_evento}/createEncuesta','EventoEncuestaController@createEncuesta');
+  Route::get('/evento/{id_evento}/createPregunta','EventoEncuestaController@createPregunta');
+  Route::post('/evento/{id_evento}/createEncuesta','EventoEncuestaController@storeEncuesta');
+  Route::post('/evento/{id_evento}/createPregunta','EventoEncuestaController@storePregunta');
 });
 
 

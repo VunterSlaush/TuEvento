@@ -10,7 +10,7 @@ class Pregunta extends Model
 
     public function encuesta()
     {
-        return $this->belongsTo('App\Encuesta','id','id_encuesta');
+      return $this->belongsTo('App\EncuestaPregunta','id_pregunta','id');
     }
 
     public function opciones()
