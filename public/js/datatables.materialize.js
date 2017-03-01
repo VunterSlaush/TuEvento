@@ -50,7 +50,7 @@ function stylePagination(table) {
   });
   $('.paginate_button').wrap('<li></li>'); // Encierra cada opcion con li
   $('li').has('.current').addClass('active'); // Si el li es el activo, agrega clase
-  $('li .active').css('background-color', '#1565c0');
+  $('li.active').css('background-color', '#1565c0'); 
   $('ul div li').not('.active').addClass('waves-effect'); // Si no es activo, agrega efecto
   $('#' +  table + '_table_previous').html('<i class="material-icons">chevron_left</i>'); // Icono izq
   $('#' +  table + '_table_next').html('<i class="material-icons">chevron_right</i>'); // Icono der
