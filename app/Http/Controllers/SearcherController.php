@@ -60,7 +60,7 @@ class SearcherController extends Controller
                                   ->whereRaw("lower(users.nombre) LIKE '%".$param."%'")
                                   ->orWhereRaw("users.cedula LIKE '%".$param."%'")
                                   ->get();
-      $asistencias = DB::table('asiste')->where('id_actividad',$actividad)->get();
+      $asistencias = DB::table('asiste')->where('id_actividad',$actividad)->where('asistio',true)->get();
       $this->removeUsersWithCedula($users,$asistencias);
       return json_encode(['results' => $users]);
     }
