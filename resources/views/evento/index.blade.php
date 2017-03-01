@@ -46,17 +46,13 @@
 @endsection
 
 @section('scripts')
+  
   <script type="text/javascript">
-
-    $(document).ready(function(){
-      $('#event_table').DataTable();
-    });
 
     $(".action").each(function(i) {
       $(this).find("a.dropdown-button").attr('data-activates','dropdown_'+ i);
       $(this).find("ul.dropdown-content").attr('id','dropdown_' +i );
     });
-
 
     function deleteEvent(id)
     {

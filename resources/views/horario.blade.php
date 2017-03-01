@@ -10,7 +10,7 @@
       </div>
     @endif
 
-    <table>
+    <table id="event_table">
       <thead>
         <th> Ponente</th>
         <th> Actividad</th>
