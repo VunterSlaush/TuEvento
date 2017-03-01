@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-
+  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
@@ -26,6 +26,7 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+
 </head>
 <body>
     <div id="app" class="navbar-fixed">
@@ -256,6 +257,7 @@
       }
 
     </script>
+    <script type="text/javascript" src="/js/datatables.materialize.js"></script>
     @yield('scripts')
 </body>
 </html>

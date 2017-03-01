@@ -11,12 +11,13 @@
   </div>
   @endif
 
-    <table>
+    <table id="event_table">
       <thead>
         <th>Autor</th>
         <th>Evento</th>
         <th>Adjunto</th>
         <th>Demanda</th>
+        <th>Acciones</th>
       </thead>
       <tbody>
         @foreach($propuesta as $key => $value)
