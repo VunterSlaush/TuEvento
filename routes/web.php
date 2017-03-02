@@ -44,8 +44,8 @@ Route::group(['middleware' => 'auth'], function ()
   Route::post('updateProfile','PerfilController@updateProfile');
   Route::get('/evento/{id_evento}/createEncuesta','EventoEncuestaController@createEncuesta');
   Route::get('/evento/{id_evento}/createPregunta','EventoEncuestaController@createPregunta');
-  Route::post('/evento/{id_evento}/createEncuesta','EventoEncuestaController@storeEncuesta');
-  Route::post('/evento/{id_evento}/createPregunta','EventoEncuestaController@storePregunta');
+  Route::post('/evento/{id_evento}/storeEncuesta',['as'=>'storeEncuesta', 'uses' => 'EventoEncuestaController@storeEncuesta']);
+  Route::post('/evento/{id_evento}/storePregunta',['as'=>'storePregunta', 'uses' => 'EventoEncuestaController@storePregunta']);
 });
 
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 class Encuesta extends Model
 {
     protected $table = "encuesta";
-    protected $fillable = ['tipo'];
+    protected $fillable = ['tipo','nombre','id_evento'];
 
     public function preguntas()
     {

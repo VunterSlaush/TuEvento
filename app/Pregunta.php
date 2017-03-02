@@ -4,9 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pregunta extends Model
 {
     protected $table = "pregunta";
-    protected $fillable = [
-                        'id_encuesta',
-                        'pregunta'];
+    protected $fillable = ['id_evento','pregunta'];
 
     public function encuesta()
     {

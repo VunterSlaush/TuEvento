@@ -5,17 +5,14 @@
 
 
     <div class="row">
-      <div class="col m5">
+      <div class="col m6">
             <h3>Crear Pregunta</h3>
       </div>
-    {{Form::open(array('url' => 'evento/'.$evento->id.'/storePregunta'))}}
-      <div class="col m7" style="margin-top:30px;">
-          <div class="col m4">
-            <a class="waves-effect waves-light btn" type="subimit">Finalizar</a>
-          </div>
-          <input type="hidden" name="json" value="false">
+    <form method="post" action="{{ route('storePregunta',$evento->id)  }}">
+      <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+      <div class="col m6" style="margin-top:30px;">
           <div class="col m8">
-            <a class="waves-effect waves-light btn" onclick="enviarPregunta()">Añadir Otra Pregunta</a>
+            <a class="waves-effect waves-light btn" onclick="enviarPregunta()">Guardar Pregunta</a>
           </div>
       </div>
     </div>
@@ -50,7 +47,7 @@
 
 
   </div>
-        {{Form::close()}}
+  </form>
 @endsection
 
 @section('scripts')
@@ -115,7 +112,7 @@
       $.ajax({
       url: '/evento/'+id_evento+'/storePregunta',
       type: 'POST',
-      data: {_token: CSRF_TOKEN, json:true, pregunta:$('#pregunta').val(), opciones:opciones},
+      data: {_token: CSRF_TOKEN, json:true, pregunta:$('#pregunta').val(), opciones:opciones, id_evento:id_evento},
       dataType: 'JSON',
       success: function (data)
       {
@@ -125,7 +122,10 @@
         else
         {
           Materialize.toast('Pregunta Añadida', 3000, 'blue rounded');
+          $('#pregunta').val('');
+          $('#opcion_wrapper').empty();
         }
+      }});
     }
   }
 </script>
