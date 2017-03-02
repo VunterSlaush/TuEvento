@@ -41,10 +41,10 @@ class CertificadoController extends Controller
     		}
 
       	$certificado = DB::table('asiste')
-	            ->select('evento.nombre as evento','asiste.cedula as cedula', 'lugar','user.nombre as nombre','id_actividad','fecha','titulo','asistio','ponente.nombre as ponente','codigo')
+	            ->select('evento.nombre as evento','asiste.cedula as cedula', 'lugar','imagen','user.nombre as nombre','id_actividad','fecha','titulo','asistio','ponente.nombre as ponente','codigo')
 	            ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
 	            ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
-							->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')
+							->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')	
 	            ->join('evento','actividad.id_evento','=','evento.id')
 	            ->where('asiste.cedula',Auth::id())
 	            ->where('asiste.asistio','=', true)
@@ -95,7 +95,7 @@ class CertificadoController extends Controller
 
             $certificate = $this->generarCertificado($codigo);
             $certificado = \PDF::loadview('certificado',['certificate' => $certificate]);
-            return $certificado->setPaper('a4','landscape')->stream('certificate.pdf');
+            return $certificado->setPaper('a4','landscape')->stream('certificate.pdf');           
         }
 
     }
@@ -110,12 +110,12 @@ class CertificadoController extends Controller
 
 						$certificate = $this->generarCertificadoEvento($evento,$cedula);
 						$certificado = \PDF::loadview('certificado',['certificate' => $certificate]);
-						return $certificado->setPaper('a4','landscape')->stream('certificate.pdf');
+						return $certificado->setPaper('a4','landscape')->stream('certificate.pdf');						
 				}
 
 		}
 
-
+	//return view('actividad.index',['actividad' => $actividad]);
 
 		/*
 		SELECT evento.nombre as evento, lugar, imagen, fecha_inicio, fecha_fin, asistidor.cedula, asistidor.nombre as nombre_user FROM evento
