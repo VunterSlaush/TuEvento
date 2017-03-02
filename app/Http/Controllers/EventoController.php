@@ -11,6 +11,7 @@ use App\TipoActividadEvento;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class EventoController extends Controller
 {
@@ -55,23 +56,28 @@ class EventoController extends Controller
     {
       $this->validate($request,[
         'nombre' =>  'required',
-        'fecha_inicio' =>  'required',
-        'fecha_fin' =>  'required',
+        'fecha_inicio' =>  'required|date|after:today',
+        'fecha_fin' =>  'required|date|after:fecha_inicio',
         'image' =>  'max:10000|image'
       ]);
 
       try {
+        DB::beginTransaction();
+
         $request->merge(['creador' => Auth::id()]);
         $request->merge(['estado' => 'inscripciones']);
 
-
         $nuevoEvento = Evento::create($request->all());
-        //TODO a;adir validaciones AQUI!
+
         $areas = $request->input('area');
+        $tipos = $request->input('tipo');
+
+        //TODO a;adir validaciones AQUI!
         foreach ($areas as $a)
         {
           $a = strtolower($a);
           $area = Area::where('nombre', '=', $a)->first();
+
           if ($area === null) {
             $area = new Area(['nombre' => $a]);
             $area->save();
@@ -82,7 +88,7 @@ class EventoController extends Controller
           $area_evento->save();
         }
 
-        $tipos = $request->input('tipo');
+
         $tipos_cantidad = $request->input('tipo_cantidad');
         $tipos_evaluable = $request->input('tipo_evaluable');
         foreach ($tipos as $key => $value)
@@ -113,11 +119,14 @@ class EventoController extends Controller
             $request->file('image')->move($dest,$fileName);
 
             $nuevoEvento->imagen =  $rel_path.'\\'.$fileName;
-            $nuevoEvento->update();
+            $nuevoEvento->save();
         }
 
+        DB::commit();
+
       } catch (\Illuminate\Database\QueryException $qe) {
-        return redirect()->back()->withErrors(['Error al crear evento verifica los datos proporcionados:'+$qe->getSql()]);
+        DB::rollBack();
+        return view('evento.create')->withErrors(['Error al crear evento verifica los datos proporcionados']);
       }
 
       return redirect()->route('evento.show',$nuevoEvento->id)

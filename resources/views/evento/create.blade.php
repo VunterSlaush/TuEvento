@@ -19,20 +19,18 @@
     </div>
     <div class="row">
       <div class="col m6">
-        {{Form::label('fecha_inicio','fecha inicio')}}
+        {{Form::label('fecha_inicio','Fecha de Inicio')}}
         <input type="date" name="fecha_inicio" id="fecha_inicio" class="datepicker">
       </div>
       <div class="col m6">
-        {{Form::label('fecha_fin','fecha fin')}}
+        {{Form::label('fecha_fin','Fecha Final')}}
         <input type="date" name="fecha_fin" id="fecha_fin" class="datepicker">
       </div>
     </div>
     <div class="row">
       <div class="col m6">
-        <p>
           <input type="checkbox" id="certificado_por_actividad" name="certificado_por_actividad" />
           <label for="certificado_por_actividad">Certificado Por Actividad</label>
-        </p>
       </div>
 
       <div class="col m6">
@@ -41,22 +39,23 @@
       </div>
     </div>
     <div class="row">
-      <div class="col m12">
-        <div class="col m6">
-              <h4>Areas de Conocimiento del Evento</h4>
+      <div class="col m6">
+        <div class="col m8">
+              <h4>Areas de Conocimiento</h4>
         </div>
-        <div class="col m6">
-          <a class="waves-effect waves-light btn" id="add_area" name="add_area">Añadir area</a>
+        <div class="col m3">
+          <a class="waves-effect waves-light btn" id="add_area" name="add_area"><i class="material-icons">add_circle</i></a>
         </div>
       </div>
     </div>
     <div class="row" id="area_wrapper">
-      <div class="col m8">
-        <p class="col m3">Nombre del Area</p>
+      <div class="col m6">
+        <a href="#" class="col btn remove_field"><i class="material-icons">clear</i></a>
+        <p class="col m3">Nombre</p>
         <input class="col m6" type="text"  name="area[0]" id='area[0]'>
-        <a href="#" class="col m3 remove_field">Remove</a>
       </div>
     </div>
+
       <div class="col m12">
         <div class="col m6">
               <h4>Tipos de Actividades</h4>
@@ -83,13 +82,10 @@
 
       </div>
 
-
       <div class="row">
         {{Form::submit('Crear')}}
-
-        {{Form::close()}}
       </div>
-
+        {{Form::close()}}
     </div>
 
 @endsection
@@ -146,7 +142,8 @@ $(document).ready(function(){
     })
     $('.datepicker').pickadate({
           selectMonths: true, // Creates a dropdown to control month
-          selectYears: 15 // Creates a dropdown of 15 years to control year
+          selectYears: 15, // Creates a dropdown of 15 years to control year
+          format: 'dd-mm-yyyy'
         });
 });
 </script>
