@@ -60,11 +60,15 @@ $(document).ready(function()
       Materialize.toast('Encuesta sin preguntas', 3000, 'red rounded');
       return;
     }
+    if($('#tipo').prop('checked'))
+      tipo = 'evaluacion';
+    else
+      tipo = 'satisfaccion';
 
       $.ajax({
       url: '/evento/'+id_evento+'/storeEncuesta',
       type: 'POST',
-      data: {_token: CSRF_TOKEN, nombre:$('#nombre').val(), preguntas:$('#preguntas').val(), tipo:$('#tipo').prop('checked'),id_evento:id_evento},
+      data: {_token: CSRF_TOKEN, nombre:$('#nombre').val(), preguntas:$('#preguntas').val(), tipo:tipo,id_evento:id_evento},
       dataType: 'JSON',
       success: function (data)
       {
@@ -75,7 +79,7 @@ $(document).ready(function()
         {
           Materialize.toast('Encuesta Guardada', 3000, 'blue rounded');
           $('#nombre').val('');
-          $('#preguntas').empty();
+          $("option:selected").prop("selected", false);
           $('select').material_select();
           $('#tipo').prop('checked',false);
         }

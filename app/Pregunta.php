@@ -8,11 +8,11 @@ class Pregunta extends Model
 
     public function encuesta()
     {
-      return $this->belongsTo('App\EncuestaPregunta','id_pregunta','id');
+      return $this->hasMany('App\EncuestaPregunta','id_pregunta','id');
     }
 
     public function opciones()
     {
-      return $this->hasMany('App\Pregunta','id_pregunta','id');
+      return $this->hasMany('App\Opcion','id_pregunta','id');
     }
 }

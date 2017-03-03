@@ -8,7 +8,7 @@ class Encuesta extends Model
 
     public function preguntas()
     {
-        return $this->hasMany('App\Pregunta','id_encuesta','id');
+        return $this->hasMany('App\EncuestaPregunta','id_encuesta','id');
     }
 
     public function evaluacion()

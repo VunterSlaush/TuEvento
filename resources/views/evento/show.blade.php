@@ -74,6 +74,14 @@
         @endcan
       </li>
 
+      <li class="collection-item">
+        <p>Encuestas y Preguntas</p>
+        @can ('modify',$evento)
+          <a class="btn" href="{{ route('createPregunta',$evento->id) }}">Crear Pregunta</a>
+          <a class="btn" href="{{ route('createEncuesta',$evento->id) }}">Crear Encuesta</a>
+        @endcan
+      </li>
+
 
       @can ('modify',$evento)
         <li class="collection-item">

@@ -6,6 +6,7 @@ use App\User;
 use App\Evento;
 use App\Encuesta;
 use App\Pregunta;
+use App\Actividad;
 use App\Opcion;
 use App\EncuestaPregunta;
 use Illuminate\Http\Request;
@@ -26,10 +27,7 @@ class EventoEncuestaController extends Controller
 
   public function storeEncuesta(Request $request,$id_evento)
   {
-    if($request->input('tipo'))
-      $tipo = 'evaluacion';
-    else
-      $tipo = 'satisfaccion';
+    $tipo = $request->input('tipo');
     $encuesta = Encuesta::create(['nombre'=> $request->input('nombre'), 'id_evento' => $id_evento, 'tipo' => $tipo ]);
     $preguntas = $request->input('preguntas');
     foreach ($preguntas as $key => $value) {
@@ -52,5 +50,20 @@ class EventoEncuestaController extends Controller
         Opcion::create(['opcion'=>$value['opcion'], 'valor'=> $value['valor'], 'id_pregunta'=>$pregunta->id]);
     }
     return json_encode(['success'=>true]);
+  }
+
+  public function responderEncuestaActividad($id_actividad)
+  {
+    $actividad = Actividad::find($id_actividad);
+    $encuesta = Encuesta::where('id_evento',$actividad->id_evento)->where('tipo','satisfaccion')->first();
+    if($encuesta != null)
+    {
+      return view('Encuesta.responder',['encuesta' => $encuesta, 'id_actividad'=> $id_actividad]);
+    }
+    else
+    {
+      return redirect('/home');//TODO redireccionar bien ..?
+    }
+
   }
 }

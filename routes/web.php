@@ -42,10 +42,14 @@ Route::group(['middleware' => 'auth'], function ()
   Route::resource('comite','ComiteController');
   Route::get('/miPerfil','PerfilController@index');
   Route::post('updateProfile','PerfilController@updateProfile');
-  Route::get('/evento/{id_evento}/createEncuesta','EventoEncuestaController@createEncuesta');
-  Route::get('/evento/{id_evento}/createPregunta','EventoEncuestaController@createPregunta');
+  Route::get('/evento/{id_evento}/createEncuesta',['as'=>'createEncuesta','uses'=> 'EventoEncuestaController@createEncuesta']);
+  Route::get('/evento/{id_evento}/createPregunta',['as'=>'createPregunta','uses'=> 'EventoEncuestaController@createPregunta']);
   Route::post('/evento/{id_evento}/storeEncuesta',['as'=>'storeEncuesta', 'uses' => 'EventoEncuestaController@storeEncuesta']);
   Route::post('/evento/{id_evento}/storePregunta',['as'=>'storePregunta', 'uses' => 'EventoEncuestaController@storePregunta']);
+  Route::get('/actividad/{id_actividad}/responderEncuesta',['as'=>'responderEncuestaActividad',
+                                                           'uses' => 'EventoEncuestaController@responderEncuestaActividad']);
+  Route::get('/actividad/{id_actividad}/guardarEncuesta',['as'=>'guardarEncuestaActividad',
+                                                          'uses' => 'EventoEncuestaController@guardarEncuestaActividad']);
 });
 
 
