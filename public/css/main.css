@@ -41,7 +41,7 @@ nav ul a:focus{
     color: #000 !important;
 }
 
-.btn{
+.btn,.btn-floating{
       background-color: #1565C0 !important;
 }
 
