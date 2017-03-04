@@ -123,7 +123,6 @@ $(document).ready(function(){
     today: 'Hoy',
     clear: 'Limpiar',
     close: 'Listo',
-    format: 'mm-dd-yyyy'
   });
   Materialize.updateTextFields();
     var max_fields      = 10; //maximum input boxes allowed
