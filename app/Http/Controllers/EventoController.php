@@ -57,8 +57,8 @@ class EventoController extends Controller
     {
       $this->validate($request,[
         'nombre' =>  'required',
-        'fecha_inicio' =>  'required|date|after:today',
-        'fecha_fin' =>  'required|date|after:fecha_inicio',
+        'fecha_inicio' =>  'required|after:today',
+        'fecha_fin' =>  'required|after:fecha_inicio',
         'image' =>  'max:10000|image'
       ]);
 
