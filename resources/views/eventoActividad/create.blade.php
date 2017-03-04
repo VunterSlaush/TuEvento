@@ -133,7 +133,6 @@
       today: 'Hoy',
       clear: 'Limpiar',
       close: 'Listo',
-      format: 'dd-mm-yyyy'
     });
 
     function formatRepo (user)
