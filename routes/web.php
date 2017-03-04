@@ -70,6 +70,8 @@ Route::post('areaDelete','EventoController@areaDelete');
 Route::post('tipoUpdate','EventoController@tipoUpdate');
 Route::post('tipoDelete','EventoController@tipoDelete');
 
+Route::post('/schedulerUpdate','ActividadController@schedulerUpdate');
+
 Route::get('/users/{param}','SearcherController@searchUsers');
 Route::get('/users/{param}/{actividad}','SearcherController@searchUsersNoAsistentes');
 Route::get('/usersPresentador/{param}/{actividad}','SearcherController@searchUsersNoPresentadores');
