@@ -24,7 +24,7 @@
           <td>{{$value->ponente}}</td>
           <td>{{$value->titulo}}</td>
           <td>
-            <a href="/certificado/{{$value->codigo}}" target="_blank"> Imprimir</a>
+            <a href="/certificado/{{$value->codigo}}" target="_blank"><i class="material-icons">print</i></a>
           </td>
         </tr>
         @endforeach
@@ -42,7 +42,7 @@
         <tr>
           <td> {{$value->evento}}</td>
           <td>
-            <a href="{{route('certificadoEvento',['evento' => $value->id_evento,'cedula'=>$value->cedula])}}" target="_blank"> Imprimir</a>
+            <a href="{{route('certificadoEvento',['evento' => $value->id_evento,'cedula'=>$value->cedula])}}" target="_blank"><i class="material-icons">print</i></a>
           </td>
         </tr>
         @endforeach
