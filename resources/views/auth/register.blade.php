@@ -3,18 +3,16 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col m6 offset-m3">
             <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+                <div class="panel-heading"><h4>Registro</h4></div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
+                    <form class="col s12" role="form" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
-
-                            <div class="col-md-6">
-                                <input id="nombre" type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" required autofocus>
+                        <div class="row">
+                            <div class="input-field col m6">
+                                <label for="nombre">Nombre</label>
+                                <input class="validate" placeholder="Ingrese su nombre" id="nombre" type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" required autofocus>
 
                                 @if ($errors->has('nombre'))
                                     <span class="help-block">
@@ -22,14 +20,10 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-group{{ $errors->has('cedula') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Cedula</label>
-
-                            <div class="col-md-6">
-                                <input id="cedula" type="text" class="form-control" name="cedula" value="{{ old('cedula') }}" required autofocus>
-
+                            <div class="input-field col m6">
+                                <label for="cedula">Cedula</label>
+                                <input class="validate" placeholder="Ingrese su Cedula" id="cedula" type="text" class="form-control" name="cedula" value="{{ old('cedula') }}" required autofocus>
                                 @if ($errors->has('cedula'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('cedula') }}</strong>
@@ -38,12 +32,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
+                        <div class="row">
+                            <div class="input-field col m12">
+                                <label for="email">Correo Electrónico</label>
+                                <input class="validate" placeholder="Ingrese su correp" id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -52,12 +44,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('organizacion') ? ' has-error' : '' }}">
-                            <label for="organizacion" class="col-md-4 control-label">Organizacion (Opcional)</label>
-
-                            <div class="col-md-6">
-                                <input id="organizacion" type="text" class="form-control" name="organizacion" value="{{ old('organizacion') }}">
-
+                        <div class="row">
+                            <div class="input-field col m12">
+                                <label for="organizacion">Organizacion (Opcional)</label>
+                                <input class="validate" placeholder="Organizacion" id="organizacion" type="text" class="form-control" name="organizacion" value="{{ old('organizacion') }}">
                                 @if ($errors->has('organizacion'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('organizacion') }}</strong>
@@ -66,30 +56,25 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
+                        <div class="row">
+                            <div class="input-field col m6">
+                                <label for="password">Contraseña</label>
+                                <input class="validate" placeholder="Contraseña" id="password" type="password" class="form-control" name="password" required>
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                            <div class="input-field col m6">
+                                <label for="password-confirm">Confirmar Contraseña</label>
+                                <input class="validate" placeholder="Confirmar Contraseña"id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col m6 offset-m4">
                                 <button type="submit" class="btn btn-primary">
                                     Register
                                 </button>

@@ -64,6 +64,11 @@ Route::resource('evento.jurado','EventoJuradoController');
 Route::post('/deleteJuradoArea','EventoJuradoController@deleteAreaJurado');
 
 Route::post('stateUpdate','EventoController@stateUpdate');
+Route::post('areaUpdate','EventoController@areaUpdate');
+Route::post('areaDelete','EventoController@areaDelete');
+
+Route::post('tipoUpdate','EventoController@tipoUpdate');
+Route::post('tipoDelete','EventoController@tipoDelete');
 
 Route::get('/users/{param}','SearcherController@searchUsers');
 Route::get('/users/{param}/{actividad}','SearcherController@searchUsersNoAsistentes');
