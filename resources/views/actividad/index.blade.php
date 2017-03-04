@@ -35,10 +35,10 @@
             <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
             <ul class='dropdown-content'>
               <li><a href="/actividad/{{$value->id}}/asistir"> Asistir</a></li>
-              <li><a href="{{route('actividad.show',$value->id)}}"> Mostrar</a></li>
+              <li><a href="{{route('evento.actividad.show',[$value->evento->id,$value->id])}}"> Mostrar</a></li>
               @can('modify',$value)
-                <li><a href="{{route('actividad.edit',$value->id)}}"> Editar</a></li>
-                <li><a href="deleteActivity({{ $value->id }});" data-method="delete">Eliminar</a></li>
+                <li><a href="{{route('evento.actividad.edit',[$value->evento->id,$value->id])}}"> Editar</a></li>
+                <li><a onclick="deleteActivity({{ $value->id }});" data-method="delete">Eliminar</a></li>
               @endcan
             </ul>
           </td>
