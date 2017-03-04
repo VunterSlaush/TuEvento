@@ -127,7 +127,7 @@ class EventoController extends Controller
 
       } catch (\Illuminate\Database\QueryException $qe) {
         DB::rollBack();
-        return view('evento.create')->withErrors(['Error al crear evento verifica los datos proporcionados']);
+        return view('evento.create')->withErrors(['Error al crear evento verifica los datos proporcionados '.$qe]);
       }
 
       return redirect()->route('evento.show',$nuevoEvento->id)
