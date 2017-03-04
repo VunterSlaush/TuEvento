@@ -105,18 +105,20 @@
               </div>
               <div class="col m2">
                 <a class="waves-effect waves-light btn-floating" id="add_tipo" name="add_tipo"><i class="material-icons">add</i></a>
+                <a class="waves-effect waves-light btn-floating" id="edit_tipo" name="edit_tipo" style="display:none;"><i class="material-icons">edit</i></a>
               </div>
             </div>
             <div class="row" id="tipo_wrapper">
               @foreach ($evento->tipoActividad as $key => $tipo)
               <span>
-                <input class="validate" type="text"  name="tipo[{{$key}}]" id="tipo[{{$key}}]" value="{{$tipo->tipoActividad->nombre}}" style="display:none;"/>
-                <input class="validate" type="number"  name="tipo_cantidad[{{$key}}]" id="tipo_cantidad[{{$key}}" value="{{$tipo->cant_maxima}}" style="display:none;"/>
-                <input type="checkbox" id="tipo_evaluable[{{$key}}]" name="tipo_evaluable[{{$key}}]" value="{{$tipo->evaluable}}" style="display:none;"/>
+                <input class="validate tipo-nombre" type="text"  name="tipo[{{$key}}]" id="tipo[{{$key}}]" value="{{$tipo->tipoActividad->nombre}}" style="display:none;"/>
+                <input class="validate tipo-cantidad" type="number"  name="tipo_cantidad[{{$key}}]" id="tipo_cantidad[{{$key}}" value="{{$tipo->cant_maxima}}" style="display:none;"/>
+                <input class="tipo-evaluable" type="checkbox" id="tipo_evaluable[{{$key}}]" name="tipo_evaluable[{{$key}}]" value="{{$tipo->evaluable}}" style="display:none;"/>
+                <input class="tipo-id" type="hidden" name="tipo_id[{{$key}}]" value="{{$tipo->tipoActividad->id}}"/>
                 @if ($tipo->evaluable == true)
-                  <div class="chip" style="background-color: #1565C0 !important; color:#fff"> <a href="#"> {{$tipo->cant_maxima}} | {{$tipo->tipoActividad->nombre}}</a> <i class="close material-icons"> close </i> </div>
+                  <div class="chip" style="background-color: #1565C0 !important; color:#fff"> <a class="tipo-edit" style="color:#fff" href="#"> {{$tipo->cant_maxima}} | {{$tipo->tipoActividad->nombre}}</a> <i class="close material-icons"> close </i> </div>
                 @else
-                <div class="chip"><a href="#"> {{$tipo->cant_maxima}} | {{$tipo->tipoActividad->nombre}}</a>  <i class="close material-icons"> close </i> </div>
+                  <div class="chip"><a class="tipo-edit" href="#"> {{$tipo->cant_maxima}} | {{$tipo->tipoActividad->nombre}}</a>  <i class="close material-icons"> close </i> </div>
                 @endif
               </span>
               @endforeach
@@ -181,14 +183,14 @@ $(document).ready(function(){
                                     '<input class="validate" type="text"  name="tipo['+tipos+']" id="tipo['+tipos+']" value="'+ tipo_nombre.prop("value")+'" style="display:none;"/>'+
                                     '<input class="validate" type="number"  name="tipo_cantidad['+tipos+']" id="tipo_cantidad['+tipos+']" value="'+ tipo_vacante.prop("value")+'" style="display:none;"/>'+
                                     '<input type="text" id="tipo_evaluable['+tipos+']" name="tipo_evaluable['+tipos+']" value="'+ tipo_evaluable.prop("checked")+'" style="display:none;"/>'+
-                                    '<div class="chip" style="background-color: #1565C0 !important; color:#fff">'+ tipo_vacante.prop('value') +' | '+ tipo_nombre.prop('value') +' <i class="close material-icons"> close </i> </div>' +
+                                    '<div class="chip" style="background-color: #1565C0 !important; color:#fff"> <a class="tipo-edit" href="#" style="color:#fff"> '+ tipo_vacante.prop('value') +' | '+ tipo_nombre.prop('value') +'</a> <i class="close material-icons"> close </i> </div>' +
                                     '</span>');
             }else{
               $(wrapper_tipo).append('<span>'+
                                     '<input class="validate" type="text"  name="tipo['+tipos+']" id="tipo['+tipos+']" value="'+ tipo_nombre.prop("value")+'" style="display:none;"/>'+
                                     '<input class="validate" type="number"  name="tipo_cantidad['+tipos+']" id="tipo_cantidad['+tipos+']" value="'+ tipo_vacante.prop("value")+'" style="display:none;"/>'+
                                     '<input type="text" id="tipo_evaluable['+tipos+']" name="tipo_evaluable['+tipos+']" value="'+ tipo_evaluable.prop("checked")+'" style="display:none;"/>'+
-                                    '<div class="chip">'+ tipo_vacante.prop('value') +' | '+ tipo_nombre.prop('value') +' <i class="close material-icons"> close </i> </div>' +
+                                    '<div class="chip"> <a class="tipo-edit" href="#"> '+ tipo_vacante.prop('value') +' | '+ tipo_nombre.prop('value') +'</a> <i class="close material-icons"> close </i> </div>' +
                                     '</span>');
             }
               tipo_nombre.prop('value',"");
@@ -203,13 +205,16 @@ $(document).ready(function(){
 
           edit_area_input = $(this).parent().parent().find('.area-name');
           current_id_input = $(this).parent().parent().find('.area-id');
-          var data_out = JSON.stringify({
-            id : current_id_input.prop("value"),
-            nombre : edit_area_input.prop("value")
-          });
 
-          deleteArea(data_out);
-          areas--;
+          if (current_id_input.prop("value") != null){
+            var data_out = JSON.stringify({
+              id : current_id_input.prop("value"),
+              nombre : edit_area_input.prop("value")
+            });
+
+            deleteArea(data_out);
+            areas--;
+          }
       });
 
       $(wrapper_area).on("click",".area-edit", function(e)
@@ -241,14 +246,73 @@ $(document).ready(function(){
         $("#add_area").show();
         $("#edit_area").hide();
 
-
         area_input.prop('value',"");
       });
 
       $(wrapper_tipo).on("click",".close", function(e)
       { //user click on remove text
           e.preventDefault(); $(this).parent().parent('span').remove();
-          tipos--;
+          
+          current_id_input = $(this).parent().parent().find('.tipo-id');
+
+          if (current_id_input.prop("value") != null){
+            var data_out = JSON.stringify({
+              id : current_id_input.prop("value")
+            });
+
+            deleteTipo(data_out);
+            tipos--;
+          }
+      });
+
+      $(wrapper_tipo).on("click",".tipo-edit", function(e)
+      { //user click on remove text
+        e.preventDefault();
+        tipo_nombre.removeClass("invalid");
+        tipo_vacante.removeClass("invalid");
+
+  // tipo_evaluable
+
+        edit_tipo_nombre_input = $(this).parent().parent().find('.tipo-nombre');
+        edit_tipo_cantidad_input = $(this).parent().parent().find('.tipo-cantidad');
+        edit_tipo_evaluable_input = $(this).parent().parent().find('.tipo-evaluable');
+        current_button = $(this);
+        current_id_input = $(this).parent().parent().find('.tipo-id');
+
+        tipo_nombre.prop('value',edit_tipo_nombre_input.prop('value'));
+        tipo_vacante.prop('value',edit_tipo_cantidad_input.prop('value'));
+        tipo_evaluable.prop('checked',edit_tipo_evaluable_input.prop('value'));
+
+        $("#add_tipo").hide();
+        $("#edit_tipo").show();
+      });
+
+      $("#edit_tipo").on("click",function(e) {
+        e.preventDefault();
+        edit_tipo_nombre_input.prop("value",tipo_nombre.prop("value"));
+        edit_tipo_cantidad_input.prop("value",tipo_vacante.prop("value"));
+        edit_tipo_evaluable_input.prop("value",tipo_evaluable.prop("checked"));
+        current_button.text(edit_tipo_cantidad_input.prop("value") + " | " + edit_tipo_nombre_input.prop("value"));
+
+        if (edit_tipo_evaluable_input.prop("value") == "false"){
+          current_button.parent().removeAttr("style");
+        }else{
+          current_button.parent().prop("style","background-color: #1565C0 !important; color:#fff");
+        }
+
+        var data_out = JSON.stringify({
+          id : current_id_input.prop("value"),
+          nombre : edit_tipo_nombre_input.prop("value"),
+          cant_maxima : edit_tipo_cantidad_input.prop("value"),
+          evaluable : edit_tipo_evaluable_input.prop("value"),
+        });
+
+        updateTipo(data_out);
+        //
+        $("#add_tipo").show();
+        $("#edit_tipo").hide();
+        //
+        // area_input.prop('value',"");
       });
 
       $('.datepicker').pickadate({
@@ -295,5 +359,32 @@ function deleteArea(data_out)
   });
 }
 
+function updateTipo(data_out)
+{
+      $.ajax({
+      url: '/tipoUpdate',
+      type: 'POST',
+      data: {_token:CSRF_TOKEN,tipo:data_out},
+      dataType: 'JSON',
+      success: function (data)
+      {
+          console.log(data.success);
+      }
+  });
+}
+
+function deleteTipo(data_out)
+{
+      $.ajax({
+      url: '/tipoDelete',
+      type: 'POST',
+      data: {_token:CSRF_TOKEN,tipo:data_out},
+      dataType: 'JSON',
+      success: function (data)
+      {
+          console.log(data.success);
+      }
+  });
+}
 </script>
 @endsection

@@ -84,3 +84,7 @@ strong {
 .select2-container {
   width: 100% !important;
 }
+
+.content .form-container{
+  margin-top: 20px !important;
+}

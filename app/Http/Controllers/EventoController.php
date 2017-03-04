@@ -286,7 +286,7 @@ class EventoController extends Controller
         $area_exist = Area::where('nombre', '=', $area["nombre"])->first();
 
         if ($area_exist  === null) {
-            Area::find($area["id"])->update($area);
+            $updateArea = Area::find($area["id"])->update($area);
         }else{
           $area_evento=AreaEvento::where('id_area','=',$area["id"])->first();
           $area_evento->id_area = $area_exist->id;
@@ -306,6 +306,49 @@ class EventoController extends Controller
       try{
         $area_evento=AreaEvento::where('id_area','=',$area["id"])->first();
         $area_evento->delete();
+
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return json_encode(['success'=>'false']);
+      }
+      return json_encode(['success'=>'true']);
+    }
+
+    public function tipoUpdate(Request $request)
+    {
+      $tipo = json_decode($request->tipo,true);
+      Log::info($tipo);
+      try{
+        $tipo_exist = TipoActividad::where('nombre', '=', $tipo["nombre"])->first();
+
+        if ($tipo_exist  === null) {
+            $tipoUpdate = TipoActividad::find($tipo["id"]);
+            $tipoUpdate->nombre = $tipo["nombre"];
+            $tipoUpdate->save();
+
+            $tipoEventoUpdate = TipoActividadEvento::where('id_tipo','=',$tipo["id"])->first();
+            $tipoEventoUpdate->cant_maxima = $tipo["cant_maxima"];
+            $tipoEventoUpdate->evaluable = $tipo["evaluable"];
+            $tipoEventoUpdate->save();
+        }
+        else{
+          $tipo_evento=TipoActividadEvento::where('id_tipo','=',$tipo["id"])->first();
+          $tipo_evento->id_tipo = $tipo_exist->id;
+          $tipo_evento->save();
+        }
+
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return json_encode(['success'=>'false']);
+      }
+
+      return json_encode(['success'=>'true']);
+    }
+
+    public function tipoDelete(Request $request)
+    {
+      $tipo = json_decode($request->tipo,true);
+      try{
+        $tipo_evento=TipoActividadEvento::where('id_tipo','=',$tipo["id"])->first();
+        $tipo_evento->delete();
 
       } catch (\Illuminate\Database\QueryException $qe) {
         return json_encode(['success'=>'false']);
