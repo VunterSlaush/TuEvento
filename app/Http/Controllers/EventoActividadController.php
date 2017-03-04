@@ -51,12 +51,10 @@ class EventoActividadController extends Controller
      */
     public function create($id_evento)
     {
-        $evento = Evento::where('id','=',$id_evento)->first();
-        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        $evento = Evento::find($id_evento);
         $usuarios = User::all();
         $actividades = Actividad::where('id_evento',$id_evento)->get();
         return view('eventoActividad.create',['evento' => $evento,
-                                              'nombre_evento' => $nombre_evento,
                                               'usuarios' => $usuarios,
                                               'actividad' => $actividades,]);
     }
@@ -126,7 +124,8 @@ class EventoActividadController extends Controller
         return redirect()->back()->withInput()->withErrors(['Error al crear actividad verifica los datos proporcionados']);
       }
 
-      return redirect()->back()->with('message','Actividad creada');
+      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+      return view('eventoActividad.show',['actividad' => $nueva_actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento])->with('message','Actividad creada');
 
     }
 
@@ -160,9 +159,8 @@ class EventoActividadController extends Controller
     public function edit($id_evento,$id_actvidad)
     {
       $actividad = Actividad::find($id_actvidad);
-      $evento = Evento::where('id','=',$id_evento)->first();
-      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
-      return view('eventoActividad.edit',['actividad' => $actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento,'evento' => $evento]);
+      $evento = Evento::find($id_evento);
+      return view('eventoActividad.edit',['actividad' => $actividad,'evento' => $evento]);
     }
 
     /**
@@ -175,16 +173,15 @@ class EventoActividadController extends Controller
     public function update(Request $request, $id_evento,$id_actividad)
     {
 
-      Actividad::find($id_actividad)->update($request->all());
       try{
+        Actividad::find($id_actividad)->update($request->all());
         $actividad = Actividad::find($id_actividad);
-        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
         $evento = Evento::where('id','=',$id_evento)->first();
       } catch (\Illuminate\Database\QueryException $qe) {
         return redirect()->back()->withErrors(['Error al editar Actividad']);
       }
 
-      return redirect()->route('evento.actividad.show',['id_evento' => $id_evento,'nombre_evento' => $nombre_evento,'actividad' => $actividad])
+      return redirect()->route('evento.actividad.show',['actividad' => $actividad])
               ->with('success','actividad creada');
     }
 
