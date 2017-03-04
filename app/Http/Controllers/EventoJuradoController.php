@@ -7,6 +7,7 @@ use App\Evento;
 use App\Jurado;
 use App\Area;
 use App\AreaJurado;
+use App\User;
 
 class EventoJuradoController extends Controller
 {
@@ -20,7 +21,7 @@ class EventoJuradoController extends Controller
   {
       $this->middleware('auth');
   }
-  
+
   /**
    * Show the form for creating a new resource.
    *
@@ -45,21 +46,34 @@ class EventoJuradoController extends Controller
       $request->merge(['id_evento' => $id_evento]);
       $area_value = $request->input('area');
       $id_user = $request->input('id_user');
+      $user = User::where('cedula','=',$id_user)->first();
       $area = Area::where('nombre','=',$area_value)->first();
-      $jurado = Jurado::where('id_user','=',$id_user)->first();
+      $jurado = Jurado::where('id_user','=',$id_user)->where('id_evento','=',$id_evento)->first();
       if($jurado == null)
       {
-          $jurado = Jurado::create($request->all());
+          $jurado = Jurado::create(['id_user' =>$id_user,'id_evento' => $id_evento]);
       }
       $areaJurado = new AreaJurado(['id_area' => $area->id,
-                          'id_jurado' => $jurado->id]);
+                                  'id_jurado' => $jurado->id]);
       $areaJurado->save();
-    } catch (\Illuminate\Database\QueryException $qe) {
-      return redirect()->back()->withErrors(['Error al guardar jurado']);
     }
+    catch (\Illuminate\Database\QueryException $qe)
+    {
+        return json_encode(['success'=>false,'msg' => 'Error al añadir jurado']);
+    }
+    return json_encode(['success'=>true,'jurado'=>$jurado, 'area' => $area, 'user' => $user]);
+  }
 
-    return redirect()->route('evento.show',$evento->id)
-            ->with('message','Jurado Guardado');
+
+  public function deleteAreaJurado(Request $request)
+  {
+    $areaId = $request->input('id_area');
+    $juradoId = $request->input('id_jurado');
+    $result = AreaJurado::where('id_area',$areaId)->where('id_jurado',$juradoId)->delete();
+    if(AreaJurado::where('id_jurado',$juradoId)->count() == 0)
+      Jurado::where('id',$juradoId)->delete();
+
+    return json_encode(['success'=>true, 'result'=> $result]);
   }
 
   /**

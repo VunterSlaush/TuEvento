@@ -16,11 +16,12 @@
       </div>
     @endif
 
-    <table>
+    <table id="#event_table">
       <thead>
         <td> usuario </td>
         <td> -es jurado en- </td>
         <td> evento</td>
+        <td>Acciones</td>
       </thead>
       <tbody>
         @foreach($comite as $key => $value)

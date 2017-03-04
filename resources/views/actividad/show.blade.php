@@ -28,6 +28,7 @@
     @can('modify',$actividad)
       <a class="btn" href="/actividad/{{$actividad->id}}/verificarAsistencia"> Verificar Asistencia!</a>
       <a class="btn" href="{{ route('actividad.presentador.create',$actividad->id) }}"> Asignar Presentador</a>
+      <a class="btn" href="{{ route('responderEncuestaActividad',$actividad->id) }}"> Calificar</a>
     @endcan
   </div>
 @endsection

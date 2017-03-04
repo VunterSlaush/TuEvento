@@ -40,6 +40,16 @@ Route::group(['middleware' => 'auth'], function ()
   Route::get('califica/lista', 'CalificaController@calificada')->name('califica.calificada');
   Route::resource('califica', 'CalificaController');
   Route::resource('comite','ComiteController');
+  Route::get('/miPerfil','PerfilController@index');
+  Route::post('updateProfile','PerfilController@updateProfile');
+  Route::get('/evento/{id_evento}/createEncuesta',['as'=>'createEncuesta','uses'=> 'EventoEncuestaController@createEncuesta']);
+  Route::get('/evento/{id_evento}/createPregunta',['as'=>'createPregunta','uses'=> 'EventoEncuestaController@createPregunta']);
+  Route::post('/evento/{id_evento}/storeEncuesta',['as'=>'storeEncuesta', 'uses' => 'EventoEncuestaController@storeEncuesta']);
+  Route::post('/evento/{id_evento}/storePregunta',['as'=>'storePregunta', 'uses' => 'EventoEncuestaController@storePregunta']);
+  Route::get('/actividad/{id_actividad}/responderEncuesta',['as'=>'responderEncuestaActividad',
+                                                           'uses' => 'EventoEncuestaController@responderEncuestaActividad']);
+  Route::get('/actividad/{id_actividad}/guardarEncuesta',['as'=>'guardarEncuestaActividad',
+                                                          'uses' => 'EventoEncuestaController@guardarEncuestaActividad']);
 });
 
 
@@ -59,9 +69,22 @@ Route::resource('evento.propuesta','EventoPropuestaController');
 Route::resource('evento.comite','EventoComiteController');
 Route::resource('evento.jurado','EventoJuradoController');
 
-Route::post('schedulerUpdate','ActividadController@schedulerUpdate');
+Route::post('/deleteJuradoArea','EventoJuradoController@deleteAreaJurado');
 
+Route::post('stateUpdate','EventoController@stateUpdate');
+Route::post('areaUpdate','EventoController@areaUpdate');
+Route::post('areaDelete','EventoController@areaDelete');
 
+Route::post('tipoUpdate','EventoController@tipoUpdate');
+Route::post('tipoDelete','EventoController@tipoDelete');
+
+Route::post('/schedulerUpdate','ActividadController@schedulerUpdate');
+
+Route::get('/users/{param}','SearcherController@searchUsers');
+Route::get('/users/{param}/{actividad}','SearcherController@searchUsersNoAsistentes');
+Route::get('/usersPresentador/{param}/{actividad}','SearcherController@searchUsersNoPresentadores');
+Route::get('/usersEventoJurado/{param}/{evento}','SearcherController@searchUsersNoJurado');
+Route::get('/usersEventoComite/{param}/{evento}','SearcherController@searchUsersNoComite');
 
 
 Route::get('/search-activities','SearcherController@searchActivities');

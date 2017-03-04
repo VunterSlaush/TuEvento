@@ -23,7 +23,6 @@ class CreatePropuestaTable extends Migration
             $table->string('adjunto')->nullable();
             $table->string('demanda');
             $table->string('descripcion');
-            $table->integer('duracion');
             $table->foreign('autor')->references('cedula')->on('users')->onDelete('cascade');
             $table->foreign('id_evento')->references('id')->on('evento')->onDelete('cascade');
             $table->foreign('id_area')->references('id')->on('area')->onDelete('cascade');

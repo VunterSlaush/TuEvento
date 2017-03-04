@@ -1,29 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Certificado</title>
+    <title>Certificado</title>
+    <link href="css/certificado.css" rel="stylesheet">
 </head>
 <body>
-	<h1>Certificado que se otorga a:</h1>
-	<p>&nbsp;</p>
+	<br />
 
-		<h4>{{ $certificate->nombre }}</h4>
+	<center>
+
+	@if($certificate->imagen != '')
+
+	<img src="{{$certificate->imagen}}" style="height:150px; width:150px;">
+
+	@endif
+
+		<h3>Certificado que se otorga a:</h3>
+
+		<br />
+
+		<h1>{{ $certificate->nombre }}</h1>
+
+		<br />
 
 		@if(property_exists($certificate,'titulo'))
-		<p>Por asistir a: {{ $certificate->titulo }}</p>
+			<h3>Por su valiosa asistencia y participación en <br /> <i>{{ $certificate->titulo }}</i>,</h3><h4>durante el evento <b><i>{{ $certificate->evento }},</i></b></h4><h4>llevado a cabo en {{ $certificate->lugar }} el {{$certificate->fecha }}.</h4>
+		@else
+			<h3>Por su valiosa asistencia y participación en el evento <br /> <i>{{ $certificate->evento }}</i>,</h3>
+			<h4>llevado a cabo en {{ $certificate->lugar }}, el {{$certificate->fecha }}.</h4>
 		@endif
-		<p>En el evento: {{ $certificate->evento }}</p>
+
+		<br>
 
 		@if(property_exists($certificate,'ponente'))
-				<p>Por el Ponente: {{ $certificate->ponente }}</p>
+			<p>Actividad dictada por: </p> <h3><b>{{ $certificate->ponente }}.</b></h3>
 		@endif
 
+		<br>
 
-		<p>Lugar y Fecha: {{ $certificate->lugar }} {{ $certificate->fecha }}</p>
 		@if(property_exists($certificate,'codigo'))
-		<p>Codigo Para verificar la validez de este certficado: {{$certificate->codigo}} </p>
+			<p>Código de verificación: {{$certificate->codigo}}. </p>
 		@else
-		<p>Codigo Para verificar la validez de este certficado: {{$certificate->cedula}}-{{$certificate->evento_id}} </p>
+			<p>Código de verificación: {{$certificate->cedula}}-{{$certificate->evento_id}}.</p>
 		@endif
+
+	</center>
 </body>
 </html>

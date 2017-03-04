@@ -10,7 +10,7 @@
       </div>
     @endif
 
-    <table>
+    <table id="event_table">
       <thead>
         <th> Ponente</th>
         <th> Actividad</th>
@@ -21,15 +21,15 @@
       </thead>
       <tbody>
         @foreach($horario as $value)
-        <tr>
+        <tr id='asiste{{$value->id}}'>
           <td> {{$value->ponente}}</td>
           <td> {{$value->titulo}}</td>
           <td> {{$value->fecha}}</td>
           <td> {{$value->hora_inicio}}</td>
           <td> {{$value->hora_fin}}</td>
-          <td>
-            <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Acciones</a>
-            <ul id='dropdown1' class='dropdown-content'>
+          <td class ='action'>
+            <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
+            <ul class='dropdown-content'>
               <li><a <a href="{{route('actividad.show',$value->id_actividad)}}"> Ver Actividad</a></li>
               <li><a href="javascript:deleteAsistencia('{{ $value->id }}');" data-method="delete">No Asistir</a></li>
             </ul>
@@ -43,6 +43,11 @@
 
 @section('scripts')
   <script type="text/javascript">
+  $(".action").each(function(i) {
+    $(this).find("a.dropdown-button").attr('data-activates','dropdown_'+ i);
+    $(this).find("ul.dropdown-content").attr('id','dropdown_' +i );
+  });
+
     function deleteAsistencia(id)
     {
 
@@ -52,7 +57,7 @@
               url: '/asiste/' + id, //resource
               success: function(affectedRows) {
                   console.log(affectedRows);
-                  location.reload(true);
+                  $('#asiste'+id).remove();
               }
           });
     }

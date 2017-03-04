@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'Tu Evento',
 
     /*
     |--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -181,7 +181,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
 
         /* Custom */
-        Collective\Html\HtmlServiceProvider::class,    
+        Collective\Html\HtmlServiceProvider::class,
 
     ],
 

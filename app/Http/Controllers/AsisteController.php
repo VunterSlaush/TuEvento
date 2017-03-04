@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Asiste;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
-class AsisteController extends Controller
+class AsisteController extends ActividadController
 {
     /**
      * Create a new controller instance.
@@ -65,17 +66,23 @@ class AsisteController extends Controller
       $cedula = $request->input('cedula');
       //<!--TODO si la asistencia no existe crear una nueva ! con asistio = true
       $asistencia = Asiste::where([['id_actividad','=',$actividad],['cedula','=',$cedula]])->first();
-      $ruta = "/actividad/" + $actividad + "/verificarAsistencia";
       if($asistencia != null)
       {
         $asistencia->asistio = true;
         $asistencia->save();
-        return \Redirect::route('verificarAsistencia', $actividad)->with('success','Asistencia Marcada!');
+        return json_encode(["asistencia"=> $asistencia, "success" => true]);
       }
       else
       {
-        //TODO agregar Error de que el user no existe!!
-        return \Redirect::route('verificarAsistencia', $actividad);
+        if(User::where('cedula',$cedula)->first() != null)
+        {
+          $asistencia = $this->createAsistencia($actividad,$cedula);
+          $asistencia->asistio = true;
+          $asistencia->save();
+          return json_encode(["asistencia"=> $asistencia, "success" => true, "msg" => "asistencia creada y marcada"]);
+        }
+        else
+          return json_encode(["error" =>"usuario no registrado", "success" => false]);
       }
 
 

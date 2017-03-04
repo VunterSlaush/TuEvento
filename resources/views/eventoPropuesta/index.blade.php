@@ -9,8 +9,8 @@
         {{Sesion::get('message')}}
       </div>
     @endif
-
-    <table>
+  
+    <table id="event_table">
       <thead>
         <th> Autor </th>
         <th> Adjunto </th>

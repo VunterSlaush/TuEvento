@@ -1,7 +1,3 @@
-.content{
-  margin-left: 300px;
-  padding-top: 64px;
-}
 
 .side-nav {
     margin-top: 64px !important;
@@ -45,7 +41,7 @@ nav ul a:focus{
     color: #000 !important;
 }
 
-.btn{
+.btn,.btn-floating{
       background-color: #1565C0 !important;
 }
 
@@ -55,7 +51,7 @@ nav ul a:focus{
 }
 
 input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid #180796 !important;
+    border-bottom: 0px solid #180796 !important;
     box-shadow: 0 1px 0 0 #180796 !important;
 }
 
@@ -67,7 +63,7 @@ strong {
 .profile-head{
   width: 100%;
   height: 200px;
-  background: url('https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-9.jpg') center;
+  background: url('http://www.img.lirent.net/2014/10/Android-Lollipop-wallpapers-a.jpg') center;
   background-size: cover;
 }
 .profile-head > .title{
@@ -81,6 +77,14 @@ strong {
   margin-top: 40px;
 }
 
-tbody tr {
+#title_table tbody tr {
     height: 97px;
+}
+
+.select2-container {
+  width: 100% !important;
+}
+
+.content .form-container{
+  margin-top: 20px !important;
 }

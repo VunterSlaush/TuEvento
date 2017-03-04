@@ -17,8 +17,8 @@
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
     <link href="/css/search_box.css" rel="stylesheet">
-
-
+    <link href="/css/materialize.clockpicker.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <link href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
 
     <!-- Scripts -->
@@ -27,9 +27,11 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+
 </head>
 <body>
-    <div id="app" class="navbar-fixed">
+    <div id="app">
+      <div  class="navbar-fixed">
         <nav>
           <div class="nav-wrapper">
             <div class="container">
@@ -41,13 +43,23 @@
                 @else
 
                 <li>
-                  <a id="search-btn">
+                  <a id="search-btn" class="tooltipped" data-delay="50" data-tooltip="Buscar" data-position="bottom">
                     <i class="material-icons">search</i>
                   </a>
                 </li>
                 <li>
-                  <a id="user-btn">
+                  <a id="user-btn" href="{{ url('/miPerfil') }}" class="tooltipped" data-delay="50" data-tooltip="Configuraciones" data-position="bottom">
                     <i class="material-icons">person_pin</i>
+                  </a>
+                </li>
+                <li>
+                  <a id="exit-btn" href="{{ url('/logout') }}"
+                    class="tooltipped" data-delay="50" data-tooltip="Salir" data-position="bottom"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                         {{ csrf_field() }}
+                     </form>
+                     <i class="material-icons">power_settings_new</i>
                   </a>
                 </li>
 
@@ -56,14 +68,14 @@
             </div>
           </div>
         </nav>
-
+      </div>
         @if (!Auth::guest())
           <ul id="slide-out" class="side-nav fixed">
             <li class="profile-head">
             <div class="profile-img valign-wrapper">
               <img class="circle valign" src="https://d13yacurqjgara.cloudfront.net/users/759254/screenshots/2578941/calendar_1_1x.png" alt="">
             </div>
-            <h5 class="title center-align">{{Auth::user()->nombre}} </h5>
+            <h5 class="title center-align" id='user_name_horizontal'>{{Auth::user()->nombre}} </h5>
           </li>
             <li class="slide-content">
             <ul class="collapsible" data-collapsible="accordion">
@@ -93,16 +105,6 @@
                   <a  class="collapsible-header" href="{{ url('/califica') }}">Calificar</a>
                 </ul>
               </li>
-              <li>
-                <ul>
-                  <a  class="collapsible-header" href="{{ url('/logout') }}"
-                    onclick="event.preventDefault();
-                             document.getElementById('logout-form').submit();">Cerrar Sesion</a>
-                             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                 {{ csrf_field() }}
-                             </form>
-                </ul>
-              </li>
             </ul>
           </li>
           </ul>
@@ -117,14 +119,14 @@
                 <h5 class="col s3" style="color:white;">Buscar</h5>
             </div>
             <div>
-              <form class="row">
-                <div class="col s8">
-                  <input id="search-field" placeholder="Ingrese Busqueda" type="text">
+              <form class="row" style="color:white">
+                <div class="col s8" for="name_2">
+                  <input id="search-field" placeholder="Ingrese Búsqueda" type="text">
                 </div>
                 <div class="col s4">
                   <select id="search-select">
-                    <option  value="1" selected>Evento</option>
-                    <option  value="2">Actividad</option>
+                    <option value="1" selected>Evento</option>
+                    <option value="2">Actividad</option>
                   </select>
                 </div>
               </form>
@@ -133,16 +135,23 @@
               <div class="results-header">
               Resultados de Busqueda
               </div>
-              <ul class="results-list collection" style="overflow-y : auto;">
+              <ul class="results-list collection" style="overflow-y:true;">
 
               </ul>
             </div>
           </div>
         </div>
         <div id="overlay"></div>
-        <div class="content">
+
+        @if (Auth::guest())
+          <div class="content">
+            @yield('content')
+          </div>
+        @else
+        <div class="content" style="margin-left: 300px;">
           @yield('content')
         </div>
+        @endif
     </div>
 
 
@@ -152,22 +161,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="/js/materialize.clockpicker.js"></script>
     <script>
     // TODO, PASAR TOOOOOODO ESTO A UN ARCHIVO !
 
-      $(document).ready(function() {
-        $('select').material_select();
+      $(document).ready(function()
+      {
+        $("#search-select").material_select();
+        $.fn.select2.defaults.set('language', 'es');
       });
 
 
       var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-      $('#search-btn').click(function(){
-            $('.search-drawer').removeClass('s-closed').addClass('s-opened');
-            $('#overlay').toggle();
-      });
 
-      $('#search-close, #overlay').click(function(){
-        $('.search-drawer').removeClass('s-opened').addClass('s-closed');
+      $('#search-close, #search-btn, #overlay').click(function()
+      {
+        if($('.search-drawer').hasClass('s-opened'))
+          $('.search-drawer').removeClass('s-opened').addClass('s-closed');
+        else
+          $('.search-drawer').addClass('s-opened').removeClass('s-closed');
         $('#overlay').toggle();
       });
 
@@ -252,6 +267,7 @@
       }
 
     </script>
+    <script type="text/javascript" src="/js/datatables.materialize.js"></script>
     @yield('scripts')
 </body>
 </html>

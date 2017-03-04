@@ -45,6 +45,84 @@ class SearcherController extends Controller
 
     }
 
+    public function searchUsers($param)
+    {
+      $param = strtolower($param);
+      $users = DB::table('users')->select('nombre','cedula')->whereRaw("lower(users.nombre) LIKE '%".$param."%'")->
+                                   orWhereRaw("users.cedula LIKE '%".$param."%'")->get();
+      return json_encode(['results' => $users]);
+    }
+
+    public function searchUsersNoAsistentes($param, $actividad)
+    {
+      $param = strtolower($param);
+      $users = DB::table('users')->select('nombre','cedula')
+                                  ->whereRaw("lower(users.nombre) LIKE '%".$param."%'")
+                                  ->orWhereRaw("users.cedula LIKE '%".$param."%'")
+                                  ->get();
+      $asistencias = DB::table('asiste')->where('id_actividad',$actividad)->where('asistio',true)->get();
+      $this->removeUsersWithCedula($users,$asistencias);
+      return json_encode(['results' => $users]);
+    }
+
+    public function removeUsersWithCedula($users, $asists)
+    {
+      foreach ($asists as $key => $asist)
+      {
+        foreach ($users as $userKey => $value) {
+            if($value->cedula == $asist->cedula)
+              $users->forget($userKey);
+        }
+      }
+    }
+
+    public function removeUsersWithId($users, $asists)
+    {
+      foreach ($asists as $key => $asist)
+      {
+        foreach ($users as $userKey => $value) {
+            if($value->cedula == $asist->id_user)
+              $users->forget($userKey);
+        }
+      }
+    }
+
+    public function searchUsersNoPresentadores($param,$actividad)
+    {
+      $param = strtolower($param);
+      $users = DB::table('users')->select('nombre','cedula')
+                                  ->whereRaw("lower(users.nombre) LIKE '%".$param."%'")
+                                  ->orWhereRaw("users.cedula LIKE '%".$param."%'")
+                                  ->get();
+      $asistencias = DB::table('presentador')->where('id_actividad',$actividad)->get();
+      $this->removeUsersWithId($users,$asistencias);
+      return json_encode(['results' => $users]);
+    }
+
+    public function searchUsersNoJurado($param,$evento)
+    {
+      $param = strtolower($param);
+      $users = DB::table('users')->select('nombre','cedula')
+                                  ->whereRaw("lower(users.nombre) LIKE '%".$param."%'")
+                                  ->orWhereRaw("users.cedula LIKE '%".$param."%'")
+                                  ->get();
+      $jurados = DB::table('jurado')->where('id_evento',$evento)->get();
+      $this->removeUsersWithId($users,$jurados);
+      return json_encode(['results' => $users]);
+    }
+
+    public function searchUsersNoComite($param,$evento)
+    {
+      $param = strtolower($param);
+      $users = DB::table('users')->select('nombre','cedula')
+                                  ->whereRaw("lower(users.nombre) LIKE '%".$param."%'")
+                                  ->orWhereRaw("users.cedula LIKE '%".$param."%'")
+                                  ->get();
+      $comites = DB::table('comite')->where('id_evento',$evento)->get();
+      $this->removeUsersWithId($users,$comites);
+      return json_encode(['results' => $users]);
+    }
+
     public function searchEvento($search)
     {
       $search = strtolower($search);
