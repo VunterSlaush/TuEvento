@@ -8,12 +8,10 @@
 	<br />
 
 	<center>
-	
-	<img src="http://vignette4.wikia.nocookie.net/batman/images/a/a7/Batman_Logo_04.png/revision/latest/scale-to-width-down/640?cb=20160614170334" style="height:150px; width:150px;">
-	
+
 	@if($certificate->imagen != '')
 
-	<img src="http://vignette4.wikia.nocookie.net/batman/images/a/a7/Batman_Logo_04.png/revision/latest/scale-to-width-down/640?cb=20160614170334" style="height:150px; width:150px;">
+	<img src="{{$certificate->imagen}}" style="height:150px; width:150px;">
 
 	@endif
 

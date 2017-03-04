@@ -16,7 +16,7 @@
             <div class="col m4">
                 {{Form::label('image','Imagen')}}
                 <div id="event-image"
-                style="background-image:url({{$evento->imagen}});
+                style="background-image:url({{$img_path}});
                         background-size:cover;
                         width: 150px;
                         height:150px;
@@ -252,7 +252,7 @@ $(document).ready(function(){
       $(wrapper_tipo).on("click",".close", function(e)
       { //user click on remove text
           e.preventDefault(); $(this).parent().parent('span').remove();
-          
+
           current_id_input = $(this).parent().parent().find('.tipo-id');
 
           if (current_id_input.prop("value") != null){

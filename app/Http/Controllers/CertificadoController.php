@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Storage;
 use View;
 
 
@@ -44,7 +45,7 @@ class CertificadoController extends Controller
 	            ->select('evento.nombre as evento','asiste.cedula as cedula', 'lugar','imagen','user.nombre as nombre','id_actividad','fecha','titulo','asistio','ponente.nombre as ponente','codigo')
 	            ->join('actividad', 'asiste.id_actividad', '=', 'actividad.id')
 	            ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
-							->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')	
+							->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')
 	            ->join('evento','actividad.id_evento','=','evento.id')
 	            ->where('asiste.cedula',Auth::id())
 	            ->where('asiste.asistio','=', true)
@@ -94,8 +95,15 @@ class CertificadoController extends Controller
         }else{
 
             $certificate = $this->generarCertificado($codigo);
+
+						if ($certificate->imagen != ''){
+							$img_path = Storage::url($certificate->imagen);
+							$img_url = url($img_path);
+								$certificate->imagen = $img_url;
+						}
+
             $certificado = \PDF::loadview('certificado',['certificate' => $certificate]);
-            return $certificado->setPaper('a4','landscape')->stream('certificate.pdf');           
+            return $certificado->setPaper('a4','landscape')->stream('certificate.pdf');
         }
 
     }
@@ -108,9 +116,14 @@ class CertificadoController extends Controller
 
 				}else{
 
-						$certificate = $this->generarCertificadoEvento($evento,$cedula);
+						if ($certificate->imagen != ''){
+							$img_path = Storage::url($certificate->imagen);
+							$img_url = url($img_path);
+								$certificate->imagen = $img_url;
+						}
+
 						$certificado = \PDF::loadview('certificado',['certificate' => $certificate]);
-						return $certificado->setPaper('a4','landscape')->stream('certificate.pdf');						
+						return $certificado->setPaper('a4','landscape')->stream('certificate.pdf');
 				}
 
 		}
