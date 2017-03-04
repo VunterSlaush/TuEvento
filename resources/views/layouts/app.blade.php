@@ -17,6 +17,7 @@
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
     <link href="/css/search_box.css" rel="stylesheet">
+    <link href="/css/materialize.clockpicker.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <link href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
 
@@ -157,6 +158,7 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script src="/js/materialize.clockpicker.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
