@@ -12,6 +12,7 @@ use App\TipoActividad;
 use App\TipoActividadActividad;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class EventoActividadController extends Controller
 {
@@ -50,12 +51,10 @@ class EventoActividadController extends Controller
      */
     public function create($id_evento)
     {
-        $evento = Evento::where('id','=',$id_evento)->first();
-        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        $evento = Evento::find($id_evento);
         $usuarios = User::all();
-        $actividades = Actividad::where('id_evento',$id_evento)->get();      
+        $actividades = Actividad::where('id_evento',$id_evento)->get();
         return view('eventoActividad.create',['evento' => $evento,
-                                              'nombre_evento' => $nombre_evento,
                                               'usuarios' => $usuarios,
                                               'actividad' => $actividades,]);
     }
@@ -69,15 +68,18 @@ class EventoActividadController extends Controller
     public function store(Request $request,$id_evento)
     {
       $this->validate($request,[
-        'fecha' =>  'required',
-        'titulo' =>  'required'
+        'fecha' =>  'after:today',
+        'titulo' =>  'required',
+        'hora_fin' => 'after:hora_inicio'
       ]);
 
+      try {
+        DB::beginTransaction();
         $request->merge(['id_evento' => $id_evento]);
         $tipo_value = $request->input('tipo_actividad');
 
         if ($tipo_value == "") {
-          return redirect()->back()->withErrors(['Por favor ingrese un Tipo']);
+          return redirect()->back()->withInput()->withErrors(['Por favor ingrese un Tipo']);
         }
 
         $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
@@ -86,25 +88,22 @@ class EventoActividadController extends Controller
         $request->merge(['id_user' => $request->input('id_user')]);
         $hora_inicio = $request->input('hora_inicio');
         $hora_fin = $request->input('hora_fin');
+        $fecha = $request->input('fecha');
 
-        if ($hora_inicio == "" && $hora_fin == ""){
-          $nueva_actividad = Actividad::create($request->except('hora_inicio','hora_fin'));
+        if ($hora_inicio == "" && $hora_fin == "" && $fecha == ""){
+          $nueva_actividad = Actividad::create($request->except('hora_inicio','hora_fin','fecha'));
         } else{
-          if ( $hora_inicio != "" && $hora_fin != ""){
-            if ($hora_inicio < $hora_fin){
+          if ( $hora_inicio != "" && $hora_fin != "" && $fecha != ""){
               $nueva_actividad = Actividad::create($request->all());
-            }else{
-              return redirect()->back()->withErrors(['La hora de inicio debe ser menor a la final']);
-            }
           }else{
-            return redirect()->back()->withErrors(['Por favor complete Hora de Inicio y Hora de fin']);
+            return redirect()->back()->withInput()->withErrors(['Por favor complete Hora de Inicio, Hora de fin y Fecha o deje todos los campos en blanco']);
           }
         }
 
         $area_value = $request->input('area');
 
         if ($area_value == "") {
-          return redirect()->back()->withErrors(['Por favor ingrese un area']);
+          return redirect()->withInput()->back()->withErrors(['Por favor ingrese un area']);
         }
 
         $area = Area::where('nombre','=',$area_value)->first();
@@ -117,8 +116,16 @@ class EventoActividadController extends Controller
         $area_actividad->save();
 
         $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
-        return redirect()->back()->withErrors(['Error al crear actividad']);
 
+        DB::commit();
+
+      } catch (\Illuminate\Database\QueryException $qe) {
+        DB::rollBack();
+        return redirect()->back()->withInput()->withErrors(['Error al crear actividad verifica los datos proporcionados']);
+      }
+
+      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+      return view('eventoActividad.show',['actividad' => $nueva_actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento])->with('message','Actividad creada');
 
     }
 
@@ -152,9 +159,8 @@ class EventoActividadController extends Controller
     public function edit($id_evento,$id_actvidad)
     {
       $actividad = Actividad::find($id_actvidad);
-      $evento = Evento::where('id','=',$id_evento)->first();
-      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
-      return view('eventoActividad.edit',['actividad' => $actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento,'evento' => $evento]);
+      $evento = Evento::find($id_evento);
+      return view('eventoActividad.edit',['actividad' => $actividad,'evento' => $evento]);
     }
 
     /**
@@ -167,16 +173,15 @@ class EventoActividadController extends Controller
     public function update(Request $request, $id_evento,$id_actividad)
     {
 
-      Actividad::find($id_actividad)->update($request->all());
       try{
+        Actividad::find($id_actividad)->update($request->all());
         $actividad = Actividad::find($id_actividad);
-        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
         $evento = Evento::where('id','=',$id_evento)->first();
       } catch (\Illuminate\Database\QueryException $qe) {
         return redirect()->back()->withErrors(['Error al editar Actividad']);
       }
 
-      return redirect()->route('evento.actividad.show',['id_evento' => $id_evento,'nombre_evento' => $nombre_evento,'actividad' => $actividad])
+      return redirect()->route('evento.actividad.show',['actividad' => $actividad])
               ->with('success','actividad creada');
     }
 

@@ -2,79 +2,89 @@
 
 @section('content')
   <div class="container">
-    <h1> {{$nombre_evento}}</h1>
+    <h1> {{$evento->nombre}}</h1>
     <h4> Crear actividad</h4>
 
     {{Html::ul($errors->all())}}
 
     {{Form::open(array('url' => 'evento/'.$evento->id.'/actividad'))}}
 
-    <div class="container">
-      <div class="row">
-        <div class="col m6">
-          {{Form::label('titulo','Titulo')}}
-          {{Form::text('titulo')}}
-        </div>
-        <div class="col m6">
-          {{Form::label('fecha','Fecha')}}
-          <input type="date" name="fecha" id="fecha" class="datepicker">
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col m4">
-          <!-- Modal Trigger -->
-          <a class="waves-effect waves-light btn" href="#modal1">
-          <i class="material-icons left">schedule</i>ver</a>
-        </div>
-        <div class="col m4">
-          {{Form::label('hora_inicio','Hora de Inicio')}}
-          {{Form::time('hora_inicio')}}
-        </div>
-        <div class="col m4">
-          {{Form::label('hora_fin','Hora de Finaliz.')}}
-          {{Form::time('hora_fin')}}
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col m8">
-          <label for='id_user'>ponente</label>
-          <select name='id_user' class="js-example-data-ajax" id="ponente">
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col m12">
-          {{Form::label('resumen','Resumen')}}
-          {{Form::text('resumen')}}
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="input-field col m6">
-          <select name='area' id="area">
-            <option value="" disabled selected>Áreas</option>
-            @foreach ($evento->areas as $area)
-                <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
-            @endforeach
-          </select>
-        </div>
-        <div class="input-field col m6">
-          <select name='tipo_actividad' id='tipo_actividad'>
-            <option value="" disabled selected>Tipo de Actividades</option>
-            @foreach ($evento->tipoActividad as $tipo)
-                <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
-            @endforeach
-          </select>
-        </div>
-      </div>
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="col m6">
+                  {{Form::label('titulo','Titulo')}}
+                  {{Form::text('titulo')}}
+                </div>
+                <div class="col m6">
+                  <label for='id_user'>ponente</label>
+                  <select name='id_user' class="js-example-data-ajax" id="ponente">
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col m12 input-field">
+                  {{Form::label('resumen','Resumen')}}
+                  {{Form::textArea('resumen','',array('class' => 'materialize-textarea'))}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header active"><i class="material-icons">assignment</i> Fecha y Hora</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="col m4">
+                  {{Form::label('fecha','Fecha')}}
+                  {{Form::date('fecha','',array('class' => 'datepicker'))}}
+                </div>
+                <div class="col m4">
+                  {{Form::label('hora_inicio','Hora de Inicio')}}
+                  {{Form::time('hora_inicio','',array('class' => 'timepicker'))}}
+                </div>
+                <div class="col m4">
+                  {{Form::label('hora_fin','Hora de Finaliz.')}}
+                  {{Form::time('hora_fin','',array('class' => 'timepicker'))}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header active"><i class="material-icons">assignment</i> Información de Area y Tipo de Actividad*</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="input-field col m6">
+                  <select name='area' id="area">
+                    <option value="" disabled selected>Áreas</option>
+                    @foreach ($evento->areas as $area)
+                        <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="input-field col m6">
+                  <select name='tipo_actividad' id='tipo_actividad'>
+                    <option value="" disabled selected>Tipo de Actividades</option>
+                    @foreach ($evento->tipoActividad as $tipo)
+                        <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
 
       <center>{{Form::submit('Crear',['class' => 'waves-effect waves-light btn'])}}</center>
 
       {{Form::close()}}
-    </div>
 
     <!-- Modal Structure -->
   <div id="modal1" class="modal bottom-sheet">
@@ -101,16 +111,29 @@
   </div>
 </div>
 
+<div class="fixed-action-btn">
+  <a class="waves-effect waves-light btn-floating btn-large" href="#modal1">
+  <i class="material-icons left">schedule</i>ver</a>
+</div>
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
 
   $(document).ready(function() {
+      $('.timepicker').clockpicker({
+        autoclose: true,
+        twelvehour: false,
+        donetext: 'Aceptar'
+      });
 
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
-      selectYears: 15 // Creates a dropdown of 15 years to control year
+      selectYears: 15, // Creates a dropdown of 15 years to control year
+      today: 'Hoy',
+      clear: 'Limpiar',
+      close: 'Listo',
+      format: 'dd-mm-yyyy'
     });
 
     function formatRepo (user)
@@ -163,11 +186,4 @@
   });
 </script>
 
-<script>
-  $('#timepicker').pickatime({
-    autoclose: false,
-    twelvehour: false,
-    default: '14:20:00'
-  });
-</script>
 @endsection

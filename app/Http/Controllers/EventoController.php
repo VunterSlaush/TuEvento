@@ -61,7 +61,6 @@ class EventoController extends Controller
         'image' =>  'max:10000|image'
       ]);
 
-      Log::info($request->all());
       try {
         DB::beginTransaction();
 
