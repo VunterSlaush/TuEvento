@@ -4,11 +4,11 @@ use Illuminate\Database\Eloquent\Model;
 class Encuesta extends Model
 {
     protected $table = "encuesta";
-    protected $fillable = ['tipo'];
+    protected $fillable = ['tipo','nombre','id_evento'];
 
     public function preguntas()
     {
-        return $this->hasMany('App\Pregunta','id_encuesta','id');
+        return $this->hasMany('App\EncuestaPregunta','id_encuesta','id');
     }
 
     public function evaluacion()

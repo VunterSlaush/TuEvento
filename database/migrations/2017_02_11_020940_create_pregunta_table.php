@@ -14,8 +14,8 @@ class CreatePreguntaTable extends Migration
         Schema::create('pregunta', function (Blueprint $table) {
             $table->increments('id');
             $table->string('pregunta');
-            $table->integer('id_encuesta');
-            $table->foreign('id_encuesta')->references('id')->on('encuesta')->onDelete('cascade');
+            $table->integer('id_evento');
+            $table->foreign('id_evento')->references('id')->on('evento')->onDelete('cascade');
             $table->timestamps();
         });
     }
