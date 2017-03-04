@@ -46,11 +46,11 @@
             <div class="row">
               <div class="col m6">
                 {{Form::label('fecha_inicio','Fecha de Inicio*')}}
-                <input type="date" name="fecha_inicio" id="fecha_inicio" class="datepicker">
+                {{Form::date('fecha_inicio','',array('class' => 'datepicker'))}}
               </div>
               <div class="col m6">
                 {{Form::label('fecha_fin','Fecha Final*')}}
-                <input type="date" name="fecha_fin" id="fecha_fin" class="datepicker">
+                {{Form::date('fecha_fin','',array('class' => 'datepicker'))}}
               </div>
             </div>
           </div>
@@ -117,6 +117,14 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
+  $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year
+    today: 'Hoy',
+    clear: 'Limpiar',
+    close: 'Listo',
+    format: 'dd-mm-yyyy'
+  });
   Materialize.updateTextFields();
     var max_fields      = 10; //maximum input boxes allowed
     var wrapper_area         = $("#area_wrapper"); //Fields wrapper
@@ -180,12 +188,7 @@ $(document).ready(function(){
     { //user click on remove text
         e.preventDefault(); $(this).parent().parent('span').remove();
         tipos--;
-    })
-    $('.datepicker').pickadate({
-          selectMonths: true, // Creates a dropdown to control month
-          selectYears: 15, // Creates a dropdown of 15 years to control year
-          format: 'dd-mm-yyyy'
-        });
+    });
 
     $("input[name='image']").change(function() {
         readURL(this);

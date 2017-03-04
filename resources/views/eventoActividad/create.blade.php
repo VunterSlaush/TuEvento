@@ -29,11 +29,11 @@
         </div>
         <div class="col m4">
           {{Form::label('hora_inicio','Hora de Inicio')}}
-          {{Form::time('hora_inicio')}}
+          {{Form::time('hora_inicio','00:00',array('class' => 'timepicker'))}}
         </div>
         <div class="col m4">
           {{Form::label('hora_fin','Hora de Finaliz.')}}
-          {{Form::time('hora_fin')}}
+          {{Form::time('hora_fin','00:00',array('class' => 'timepicker'))}}
         </div>
       </div>
 
@@ -107,10 +107,19 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
+      $('.timepicker').clockpicker({
+        autoclose: true,
+        twelvehour: false,
+        donetext: 'Aceptar'
+      });
 
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
-      selectYears: 15 // Creates a dropdown of 15 years to control year
+      selectYears: 15, // Creates a dropdown of 15 years to control year
+      today: 'Hoy',
+      clear: 'Limpiar',
+      close: 'Listo',
+      format: 'dd-mm-yyyy'
     });
 
     function formatRepo (user)
@@ -163,11 +172,4 @@
   });
 </script>
 
-<script>
-  $('#timepicker').pickatime({
-    autoclose: false,
-    twelvehour: false,
-    default: '14:20:00'
-  });
-</script>
 @endsection
