@@ -153,14 +153,14 @@ $(document).ready(function(){
             $(wrapper_tipo).append('<span>'+
                                   '<input class="validate" type="text"  name="tipo['+tipos+']" id="tipo['+tipos+']" value="'+ tipo_nombre.prop("value")+'" style="display:none;"/>'+
                                   '<input class="validate" type="number"  name="tipo_cantidad['+tipos+']" id="tipo_cantidad['+tipos+']" value="'+ tipo_vacante.prop("value")+'" style="display:none;"/>'+
-                                  '<input type="checkbox" id="tipo_evaluable['+tipos+']" name="tipo_evaluable['+tipos+']" value="'+ tipo_evaluable.prop("value")+'" style="display:none;"/>'+
+                                  '<input type="text" id="tipo_evaluable['+tipos+']" name="tipo_evaluable['+tipos+']" value="'+ tipo_evaluable.prop("checked")+'" style="display:none;"/>'+
                                   '<div class="chip" style="background-color: #1565C0 !important; color:#fff">'+ tipo_vacante.prop('value') +' | '+ tipo_nombre.prop('value') +' <i class="close material-icons"> close </i> </div>' +
                                   '</span>');
           }else{
             $(wrapper_tipo).append('<span>'+
                                   '<input class="validate" type="text"  name="tipo['+tipos+']" id="tipo['+tipos+']" value="'+ tipo_nombre.prop("value")+'" style="display:none;"/>'+
                                   '<input class="validate" type="number"  name="tipo_cantidad['+tipos+']" id="tipo_cantidad['+tipos+']" value="'+ tipo_vacante.prop("value")+'" style="display:none;"/>'+
-                                  '<input type="checkbox" id="tipo_evaluable['+tipos+']" name="tipo_evaluable['+tipos+']" value="'+ tipo_evaluable.prop("value")+'" style="display:none;"/>'+
+                                  '<input type="text" id="tipo_evaluable['+tipos+']" name="tipo_evaluable['+tipos+']" value="'+ tipo_evaluable.prop("checked")+'" style="display:none;"/>'+
                                   '<div class="chip">'+ tipo_vacante.prop('value') +' | '+ tipo_nombre.prop('value') +' <i class="close material-icons"> close </i> </div>' +
                                   '</span>');
           }
@@ -175,6 +175,7 @@ $(document).ready(function(){
         e.preventDefault(); $(this).parent().parent('span').remove();
         areas--;
     });
+
     $(wrapper_tipo).on("click",".close", function(e)
     { //user click on remove text
         e.preventDefault(); $(this).parent().parent('span').remove();
@@ -194,6 +195,7 @@ $(document).ready(function(){
       console.log("hola borrando el form que no va pal baile");
       $(this).children("#area-info").remove();
     });
+
 
 });
 

@@ -61,6 +61,7 @@ class EventoController extends Controller
         'image' =>  'max:10000|image'
       ]);
 
+      Log::info($request->all());
       try {
         DB::beginTransaction();
 
@@ -73,7 +74,7 @@ class EventoController extends Controller
         $tipos = $request->input('tipo');
 
         //TODO a;adir validaciones AQUI!
-        foreach ($areas as $a)
+        foreach ($areas as $key => $a)
         {
           $a = strtolower($a);
           $area = Area::where('nombre', '=', $a)->first();
@@ -100,9 +101,7 @@ class EventoController extends Controller
             $tipo->save();
           }
           if($tipos_evaluable != null)
-            $evaluable = array_key_exists ($key, $tipos_evaluable);
-          else
-            $evaluable = false;
+            $evaluable = $tipos_evaluable[$key];
 
           $tipo_evento = new TipoActividadEvento(['id_tipo' => $tipo->id,
                                                   'id_evento' => $nuevoEvento->id,
@@ -130,7 +129,7 @@ class EventoController extends Controller
       }
 
       return redirect()->route('evento.show',$nuevoEvento->id)
-              ->with('message','evento editado');
+              ->with('message','evento creado');
     }
 
     /**
@@ -166,23 +165,79 @@ class EventoController extends Controller
      */
     public function update(Request $request, $id)
     {
-      try{
+
         $this->validate($request,[
           'nombre' =>  'required',
-          'fecha_inicio' =>  'required',
-          'fecha_fin' =>  'required',
-          'cant_max_actividades' =>  'required|numeric',
-          'punt_min_aprobatorio' =>  'required|numeric', //50%
+          'fecha_inicio' =>  'required|date|after:today',
+          'fecha_fin' =>  'required|date|after:fecha_inicio',
+          'image' =>  'max:10000|image'
         ]);
 
-        Evento::find($id)->update($request->all());
+        try {
+          DB::beginTransaction();
+          Evento::find($id)->update($request->all());
+          $updatedEvento = Evento::find($id);
+          $areas = $request->input('area');
+          $area_id = $request->input('area_id');
 
-      } catch (\Illuminate\Database\QueryException $qe) {
-        return redirect()->back()->withErrors(['Error al editar evento verifica los datos proporcionados']);
-      }
+          $tipos = $request->input('tipo');
 
-      return redirect()->route('evento.index')
-              ->with('message','evento editado');
+          //TODO a;adir validaciones AQUI!
+          foreach ($areas as $key => $a)
+          {
+            $a = strtolower($a);
+            $area = Area::where('nombre', '=', $a)->first();
+
+            if ($area === null) {
+                $area = new Area(['nombre' => $a]);
+                $area->save();
+            }
+
+            $area_evento = AreaEvento::where('id_area', '=', $area->id)->first();
+
+            if ($area_evento === null){
+            $area_evento = new AreaEvento(['id_area' => $area->id,
+                                           'id_evento' => $updatedEvento->id]);
+            $area_evento->save();
+
+            }
+          }
+
+
+          $tipos_cantidad = $request->input('tipo_cantidad');
+          $tipos_evaluable = $request->input('tipo_evaluable');
+          foreach ($tipos as $key => $value)
+          {
+            $value = strtolower($value);
+            $tipo = TipoActividad::where('nombre', '=', $value)->first();
+            if ($tipo === null) {
+              $tipo = new TipoActividad(['nombre' => $value]);
+              $tipo->save();
+            }
+
+            $tipo_evento = TipoActividadEvento::where('id_tipo', '=', $tipo->id)->first();
+            if ($tipo_evento === null) {
+
+              $evaluable = $tipos_evaluable[$key];
+
+              $tipo_evento = new TipoActividadEvento(['id_tipo' => $tipo->id,
+                                                      'id_evento' => $updatedEvento->id,
+                                                      'cant_maxima'=> $tipos_cantidad[$key],
+                                                      'evaluable' => $evaluable ]);
+              Log::info("tipo evento".$tipo_evento);
+              $tipo_evento->save();
+            }
+          }
+
+          DB::commit();
+
+        } catch (\Illuminate\Database\QueryException $qe) {
+          DB::rollBack();
+          return redirect()->back()->withErrors(['Error al crear evento verifica los datos proporcionados']);
+        }
+
+        return redirect()->route('evento.show',$updatedEvento->id)
+                ->with('message','evento editado');
     }
 
     /**
@@ -215,9 +270,43 @@ class EventoController extends Controller
 
     public function stateUpdate(Request $request){
       $evento = json_decode($request->evento,true);
-      Log::info($evento);
       try{
         Evento::find($evento["id"])->update($evento);
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return json_encode(['success'=>'false']);
+      }
+      return json_encode(['success'=>'true']);
+    }
+
+    public function areaUpdate(Request $request)
+    {
+      $area = json_decode($request->area,true);
+
+      try{
+        $area_exist = Area::where('nombre', '=', $area["nombre"])->first();
+
+        if ($area_exist  === null) {
+            Area::find($area["id"])->update($area);
+        }else{
+          $area_evento=AreaEvento::where('id_area','=',$area["id"])->first();
+          $area_evento->id_area = $area_exist->id;
+          AreaEvento::find($area_evento->id)->update(['id' => $area_evento->id,'id_area' => $area_evento->id_area]);
+        }
+
+      } catch (\Illuminate\Database\QueryException $qe) {
+        return json_encode(['success'=>'false']);
+      }
+      return json_encode(['success'=>'true']);
+    }
+
+    public function areaDelete(Request $request)
+    {
+      $area = json_decode($request->area,true);
+
+      try{
+        $area_evento=AreaEvento::where('id_area','=',$area["id"])->first();
+        $area_evento->delete();
+
       } catch (\Illuminate\Database\QueryException $qe) {
         return json_encode(['success'=>'false']);
       }
