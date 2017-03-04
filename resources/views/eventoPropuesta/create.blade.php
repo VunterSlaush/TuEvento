@@ -20,12 +20,12 @@
                   {{Form::text('titulo')}}
                 </div>
                 <div class="col m6">
-                    {{Form::label('adjunto','Adjunto')}}
-                    {{Form::File('adjunto',['style' => 'display:none'])}}
-                    <br>
-                    <a class="btn waves-light" href="#!" onclick="inputFileClick()">
-                      <i class="material-icons left">file_upload</i>Subir
-                    </a>
+                  {{Form::label('adjunto','Adjunto')}}
+                  {{Form::File('adjunto',['style' => 'display:none'])}}
+                  <br>
+                  <a class="btn waves-light" href="#!" onclick="inputFileClick()">
+                    <i class="material-icons left">file_upload</i>Subir
+                  </a>
                 </div>
               </div>
               <div class="row">
