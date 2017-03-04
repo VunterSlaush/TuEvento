@@ -181,7 +181,7 @@ class EventoActividadController extends Controller
         return redirect()->back()->withErrors(['Error al editar Actividad']);
       }
 
-      return redirect()->route('evento.actividad.show',['actividad' => $actividad])
+      return redirect()->route('evento.actividad.show',['actividad' => $actividad,'evento' => $evento])
               ->with('success','actividad creada');
     }
 

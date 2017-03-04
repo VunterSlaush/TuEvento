@@ -8,6 +8,7 @@ use App\Evento;
 use App\TipoActividad;
 use App\Area;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EventoPropuestaController extends Controller
 {
@@ -52,10 +53,12 @@ class EventoPropuestaController extends Controller
     {
 
       $this->validate($request,[
+        'titulo' => 'required',
         'adjunto' =>  'max:10000',
       ]);
 
       try{
+        DB::beginTransaction();
         $request->merge(['autor' => Auth::id()]);
         $request->merge(['id_evento' => $id_evento]);
         $area_value = $request->input('area');
@@ -77,8 +80,11 @@ class EventoPropuestaController extends Controller
             $propuesta->adjunto =  $rel_path.'\\'.$fileName;
             $propuesta->update();
         }
+
+        DB::commit();
       } catch (\Illuminate\Database\QueryException $qe) {
-        return redirect()->back()->withErrors(['Error al crear propuesta']);
+        DB::rollBack();
+        return redirect()->back()->withInput()->withErrors(['Error al crear propuesta'.$qe]);
       }
 
       return redirect()->route('evento.propuesta.index',['id_evento' => $id_evento])
@@ -126,8 +132,11 @@ class EventoPropuestaController extends Controller
     public function update(Request $request, $id_evento,$id_propuesta)
     {
       try{
+        DB::beginTransaction();
         Propuesta::find($id_propuesta)->update($request->all());
+        DB::commit();
       } catch (\Illuminate\Database\QueryException $qe) {
+        DB::rollBack();
         return redirect()->back()->withErrors(['Error al editar propuesta ']);
       }
 

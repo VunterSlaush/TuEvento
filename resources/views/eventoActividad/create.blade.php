@@ -28,7 +28,7 @@
               <div class="row">
                 <div class="col m12 input-field">
                   {{Form::label('resumen','Resumen')}}
-                  {{Form::textArea('resumen','',array('class' => 'materialize-textarea'))}}
+                  {{Form::textArea('resumen','',array('class' => 'materialize-textarea','data-length' => '255','maxlength' => '255'))}}
                 </div>
               </div>
             </div>

@@ -9,60 +9,70 @@
     {{Html::ul($errors->all())}}
 
     {{Form::open(array('url' => 'evento/'.$evento->id.'/propuesta', 'files' => 'true'))}}
-
-      <div class="row">
-        <div class="col m6">
-          {{Form::label('titulo','Titulo')}}
-          {{Form::text('titulo')}}
-        </div>
-        <div class="col m6">
-          {{Form::label('duracion','Duracion')}}
-          {{Form::text('duracion')}}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col m6">
-          {{Form::label('descripcion','Descripcion')}}
-          {{Form::text('descripcion')}}
-        </div>
-        <div class="col m6">
-          <div class="col m1">
-            {{Form::label('adjunto','description',['class' => 'material-icons prefix', 'style' => 'color:#1565c0;'])}}</div>
-          <div class="col m5">
-            {{Form::File('adjunto',['class' => 'waves-light btn'])}}</div>                  
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="col m6">
+                  {{Form::label('titulo','Titulo')}}
+                  {{Form::text('titulo')}}
+                </div>
+                <div class="col m6">
+                  {{Form::label('adjunto','Adjunto')}}
+                  {{Form::File('adjunto',['style' => 'display:none'])}}
+                  <br>
+                  <a class="btn waves-light" href="#!" onclick="inputFileClick()">
+                    <i class="material-icons left">file_upload</i>Subir
+                  </a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col m12 input-field">
+                  {{Form::label('descripcion','Descripcion')}}
+                  {{Form::text('descripcion','',array('data-length' => '120','maxlength' => '120'))}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col m12 input-field">
+                  {{Form::label('demanda','Demanda')}}
+                  {{Form::textArea('demanda','',array('class' => 'materialize-textarea','data-length' => '255','maxlength' => '255'))}}
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="row">
-        <div class="input-field col m6">
-          <select name='area'>
-            <option value="" disabled selected>Área</option>
-            @foreach ($evento->areas as $area)
-                <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
-            @endforeach
-          </select>
-          <label>Selecciona un Area</label>
-        </div>
-        <div class="input-field col m6">
-          <select name='tipo'>
-            <option value="" disabled selected>Actividad</option>
-            @foreach ($evento->tipoActividad as $tipo)
-                <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
-            @endforeach
-          </select>
-          <label>Seleccione un Tipo de Actividad</label>
-        </div>
-      </div>
-
-      <div class="col m12">
-        {{Form::label('demanda','Demanda')}}
-        {{Form::text('demanda')}}
-      </div>
-
-      <p>&nbsp;</p>
+        </li>
+        <li>
+          <div class="collapsible-header active"><i class="material-icons">assignment</i> Información de Tipo y Area*</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="input-field col m6">
+                  <select name='area'>
+                    <option value="" disabled selected>Área</option>
+                    @foreach ($evento->areas as $area)
+                        <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
+                    @endforeach
+                  </select>
+                  <label>Selecciona un Area</label>
+                </div>
+                <div class="input-field col m6">
+                  <select name='tipo'>
+                    <option value="" disabled selected>Actividad</option>
+                    @foreach ($evento->tipoActividad as $tipo)
+                        <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
+                    @endforeach
+                  </select>
+                  <label>Seleccione un Tipo de Actividad</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
 
       <center>{{Form::submit('Crear', ['class' => 'waves-effect waves-light btn'])}}</center>
-
       {{Form::close()}}
     </div>
 
@@ -75,5 +85,9 @@
   $(document).ready(function() {
     $('select').material_select();
   });
+
+  function inputFileClick() {
+    $("input[name='adjunto']").click();
+  }
 </script>
 @endsection

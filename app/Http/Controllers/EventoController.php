@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class EventoController extends Controller
 {
@@ -110,13 +111,15 @@ class EventoController extends Controller
         }
 
         if ($request->hasFile('image') && $request->file('image')->isValid()){
-            $rel_path='uploads\\'.'evento_'.$nuevoEvento->id;
-            $dest = base_path($rel_path);
-            $ext = $request->file('image')->getClientOriginalExtension();
-            $fileName = 'imagen.'.$ext;
-            $request->file('image')->move($dest,$fileName);
 
-            $nuevoEvento->imagen =  $rel_path.'\\'.$fileName;
+            // $rel_path='uploads\\'.'evento_'.$nuevoEvento->id;
+            // $dest = base_path($rel_path);
+            $ext = $request->file('image')->getClientOriginalExtension();
+            // $fileName = 'imagen.'.$ext;
+            // $request->file('image')->move($dest,$fileName);
+            //
+            // $nuevoEvento->imagen =  $rel_path.'\\'.$fileName;
+            $nuevoEvento->imagen =  $request->file('image')->storeAs('evento_'.$nuevoEvento->id,'imagen.'.$ext,'public');
             $nuevoEvento->save();
         }
 
@@ -152,7 +155,8 @@ class EventoController extends Controller
     public function edit($id)
     {
       $evento = Evento::find($id);
-      return view('evento.edit',['evento' => $evento]);
+      $img = Storage::url($evento->imagen);
+      return view('evento.edit',['evento' => $evento,'img_path' => $img]);
     }
 
     /**

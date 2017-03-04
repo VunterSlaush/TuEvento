@@ -17,7 +17,6 @@ class Propuesta extends Model
     					'adjunto',
     					'demanda',
     					'descripcion',
-    					'duracion',
     					'created_at',
     					'updated_at'];
 

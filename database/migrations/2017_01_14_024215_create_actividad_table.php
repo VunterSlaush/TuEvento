@@ -13,7 +13,7 @@ class CreateActividadTable extends Migration
     {
         Schema::create('actividad', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('fecha');
+            $table->date('fecha')->nullable();
             $table->string('titulo');
             $table->time('hora_inicio')->nullable();
             $table->time('hora_fin')->nullable();
@@ -35,6 +35,6 @@ class CreateActividadTable extends Migration
      */
     public function down()
     {
-        Schema::drop('actividad');
+        Schema::dropIfExists('actividad');
     }
 }
