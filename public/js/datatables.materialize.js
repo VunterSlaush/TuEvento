@@ -22,6 +22,18 @@ function iniciarDatatable(table){
         stylePagination(table);
       });
 
+      $('.sorting').click(function(event) {
+        stylePagination(table);
+      });
+
+      $('.sorting_asc').click(function(event) {
+        stylePagination(table);
+      });
+
+      $('.sorting_desc').click(function(event) {
+        stylePagination(table);
+      });
+
       $('.dataTables_paginate').on('click', function(event) {
         stylePagination(table);
       });
