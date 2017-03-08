@@ -8,8 +8,11 @@ use App\Encuesta;
 use App\Pregunta;
 use App\Actividad;
 use App\Opcion;
+use App\Califica;
 use App\EncuestaPregunta;
+use App\Respuesta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventoEncuestaController extends Controller
 {
@@ -58,12 +61,30 @@ class EventoEncuestaController extends Controller
     $encuesta = Encuesta::where('id_evento',$actividad->id_evento)->where('tipo','satisfaccion')->first();
     if($encuesta != null)
     {
-      return view('Encuesta.responder',['encuesta' => $encuesta, 'id_actividad'=> $id_actividad]);
+      return view('Encuesta.responder',['encuesta' => $encuesta, 'id_actividad'=> $id_actividad, 'tipo' => 'satisfaccion']);
     }
     else
     {
       return redirect('/home');//TODO redireccionar bien ..?
     }
 
+  }
+  //TODO hacer el Transaction aqui!, si da error retornar el json con msg !
+  public function guardarRespuestaSatisfaccion(Request $request)
+  {
+    $id_actividad = $request->input('id_actividad');
+    $id_encuesta = $request->input('id_encuesta');
+    $respuestas = $request->input('respuestas');
+    $id_user = Auth::id();
+    $califica = Califica::create([
+    					'id_actividad'=> $id_actividad,
+              'id_encuesta'=>$id_encuesta,
+    					'id_user'=>$id_user
+    					 ]);
+    foreach ($respuestas as $key => $value)
+    {
+      Respuesta::create(['id_opcion'=>$value['id_opcion'], 'id_califica' => $califica->id, 'tipo' =>'satisfaccion']);
+    }
+    return json_encode(['success' => true]);
   }
 }
