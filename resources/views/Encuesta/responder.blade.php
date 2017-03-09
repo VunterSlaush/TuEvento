@@ -57,6 +57,7 @@
       else
       {//TODO redireccionar AQUI
         Materialize.toast('Encuesta Respondida', 3000, 'blue rounded');
+        window.location.href = "/actividad/"+id_actividad;
       }
     }});
   }
