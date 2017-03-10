@@ -2,7 +2,17 @@
 
 @section('content')
   <div class="container">
-    <h1>Actividades de: {{$nombre_evento}}</h1>
+    <nav id="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="{{ route('evento.show',$evento->id)}}" class="breadcrumb"> {{$evento->nombre}}</a>
+          <a href="#" class="breadcrumb"> Actividades</a>
+        </div>
+      </div>
+    </nav>
+    <h1>Actividades de: {{$evento->nombre}}</h1>
 
     @if (Session::has('message'))
       <div class="">
@@ -32,18 +42,18 @@
             <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
             <!-- Dropdown Structure -->
             <ul class='dropdown-content'>
-              <li><a href="{{route('evento.actividad.show',[$id_evento,$value->id])}}"> Mostrar</a></li>
+              <li><a href="{{route('evento.actividad.show',[$evento->id,$value->id])}}"> Mostrar</a></li>
               @can('modify',$value)
-                <li><a href="{{route('evento.actividad.edit',[$id_evento,$value->id])}}"> Editar</a></li>
+                <li><a href="{{route('evento.actividad.edit',[$evento->id,$value->id])}}"> Editar</a></li>
                 <li><a href="javascript:deleteEvent('{{ $value->id }}');" data-method="delete">Eliminar</a></li>
               @endcan
             </ul>
           </td>
           <!-- Old Evento actividad options
           <td>
-            <a href="{{route('evento.actividad.show',[$id_evento,$value->id])}}"> Mostrar</a>
+            <a href="{{route('evento.actividad.show',[$evento->id,$value->id])}}"> Mostrar</a>
             @can('modify',$value)
-              <a href="{{route('evento.actividad.edit',[$id_evento,$value->id])}}"> Editar</a>
+              <a href="{{route('evento.actividad.edit',[$evento->id,$value->id])}}"> Editar</a>
               {{ Form::open(['method' => 'DELETE','route' => ['actividad.destroy', $value->id],'style'=>'display:inline'])}}
               {{ Form::submit('Eliminar')}}
               {{ Form::close()}}
@@ -59,7 +69,7 @@
 @endsection
 
 @section('scripts')
-  
+
   <script type="text/javascript">
 
     $(".action").each(function(i) {

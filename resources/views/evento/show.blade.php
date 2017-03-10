@@ -2,9 +2,19 @@
 
 @section('content')
   <div class="container">
-              {{ Form::open(['method' => 'POST','route' => ['actividad.createFromProp',$evento->id],'style' => 'display:none']) }}
-              {{ Form::submit('Aprobar')}}
-              {{ Form::close()}}
+    <nav id="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="#" class="breadcrumb"> {{$evento->nombre}}</a>
+        </div>
+      </div>
+    </nav>
+
+    {{ Form::open(['method' => 'POST','route' => ['actividad.createFromProp',$evento->id],'style' => 'display:none']) }}
+    {{ Form::submit('Aprobar')}}
+    {{ Form::close()}}
 
     <ul>
       <li class="collection-header"> <h4> {{$evento['nombre']}}</h4> </li>

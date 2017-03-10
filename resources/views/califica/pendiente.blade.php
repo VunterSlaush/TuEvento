@@ -2,6 +2,15 @@
 
 @section('content')
 <div class="container">
+  <nav id="breadcrumb-nav">
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="/home" class="breadcrumb"> Dashboard</a>
+        <a href="/califica" class="breadcrumb"> Calificar</a>
+        <a href="#" class="breadcrumb"> Pendientes</a>
+      </div>
+    </div>
+  </nav>
   <h3>Propuestas Pendientes por Calificar</h3>
 
   @if (Session::has('success'))

@@ -2,7 +2,17 @@
 
 @section('content')
 <div class="container">
-  <h1> Evento {{$nombre_evento}}</h1>
+  <nav id="breadcrumb-nav">
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="/home" class="breadcrumb"> Dashboard</a>
+        <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+        <a href="{{ route('evento.show',$evento->id)}}" class="breadcrumb"> {{$evento->nombre}}</a>
+        <a href="#" class="breadcrumb"> {{$actividad->titulo}}</a>
+      </div>
+    </div>
+  </nav>
+  <h1> Evento {{$evento->nombre}}</h1>
   <ul class="collection with-header">
     <li class="collection-header"> <h4> {{$actividad->titulo}}</h4> </li>
     <li class="collection-item">

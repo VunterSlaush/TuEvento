@@ -2,6 +2,17 @@
 
 @section('content')
 <div class="container">
+  <nav id="breadcrumb-nav">
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="/home" class="breadcrumb"> Dashboard</a>
+        <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+        <a href="{{ route('evento.show',$evento->id)}}" class="breadcrumb"> {{$evento->nombre}}</a>
+        <a href="#" class="breadcrumb"> {{$propuesta->titulo}} </a>
+      </div>
+    </div>
+  </nav>
+
   <ul class="collection with-header">
     <li class="collection-header"> <h4> {{$propuesta['titulo']}}</h4> </li>
     <li class="collection-item">

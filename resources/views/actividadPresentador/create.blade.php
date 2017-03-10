@@ -2,6 +2,15 @@
 <!-- TODO quizas a;adir una lista de Usuarios? o Bajar las asistencias  -->
 @section('content')
 <div class="container">
+  <nav id="breadcrumb-nav">
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="/home" class="breadcrumb"> Dashboard</a>
+        <a href="{{ route('evento.actividad.show',[$actividad->id_evento,$actividad->id])}}" class="breadcrumb"> {{$actividad->titulo}}</a>
+        <a href="#" class="breadcrumb"> Presentador </a>
+      </div>
+    </div>
+  </nav>
   <h1> Asignar Presentador </h1>
   <div class="col m4">
     <select name='id_user' class="js-example-data-ajax" id="seleccionado">
