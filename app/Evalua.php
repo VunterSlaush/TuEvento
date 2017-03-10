@@ -22,6 +22,4 @@ class Evalua extends Model
     public function encuesta(){
         return $this->hasOne('App\Encuesta','id','id_encuesta');
     }
-
-
 }

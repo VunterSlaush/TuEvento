@@ -78,6 +78,6 @@ class User extends Authenticatable
 
     public function evaluaciones()
     {
-        return $this->hasMany('App\Evalua','cedula','cedula');
+        return $this->hasMany('App\Evalua','cedula');
     }
 }

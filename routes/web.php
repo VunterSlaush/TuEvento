@@ -52,6 +52,10 @@ Route::group(['middleware' => 'auth'], function ()
                                                           'uses' => 'EventoEncuestaController@guardarEncuestaActividad']);
   Route::post('/actividad/guardarEncuestaRespuesta',['as'=>'guardarEncuestaRespuestaActividad',
                                                           'uses' => 'EventoEncuestaController@guardarRespuestaSatisfaccion']);
+  Route::get('/propuesta/{id_propuesta}/seleccionarEncuesta',['as'=>'seleccionarEncuesta',
+                                                              'uses' => 'EventoEncuestaController@seleccionarEncuestaEvaluacion']);
+  Route::get('/propuesta/{id_propuesta}/evaluar/{id_encuesta}',['as'=>'responderEncuestaPropuesta',
+                                                              'uses' => 'EventoEncuestaController@responderEncuestaPropuesta']);
 });
 
 

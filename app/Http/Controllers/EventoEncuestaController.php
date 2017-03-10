@@ -11,6 +11,7 @@ use App\Opcion;
 use App\Califica;
 use App\EncuestaPregunta;
 use App\Respuesta;
+use App\Propuesta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,14 +62,30 @@ class EventoEncuestaController extends Controller
     $encuesta = Encuesta::where('id_evento',$actividad->id_evento)->where('tipo','satisfaccion')->first();
     if($encuesta != null)
     {
-      return view('Encuesta.responder',['encuesta' => $encuesta, 'id_actividad'=> $id_actividad, 'tipo' => 'satisfaccion']);
+      return view('Encuesta.responder',['encuesta' => $encuesta, 'id'=> $id_actividad, 'tipo' => 'satisfaccion']);
     }
     else
     {
       return redirect('/home');//TODO redireccionar bien ..?
     }
-
   }
+
+
+  public function responderEncuestaPropuesta($id_propuesta, $id_encuesta)
+  {
+    $propuesta = Propuesta::find($id_propuesta);
+    $encuesta = Encuesta::find($id_encuesta);
+    if($encuesta != null)
+    {
+      return view('Encuesta.responder',['encuesta' => $encuesta, 'id'=> $id_propuesta, 'tipo' => 'evaluacion']);
+    }
+    else
+    {
+      return redirect('/home');//TODO redireccionar bien ..?
+    }
+  }
+
+
   //TODO hacer el Transaction aqui!, si da error retornar el json con msg !
   public function guardarRespuestaSatisfaccion(Request $request)
   {
@@ -86,5 +103,18 @@ class EventoEncuestaController extends Controller
       Respuesta::create(['id_opcion'=>$value['id_opcion'], 'id_califica' => $califica->id, 'tipo' =>'satisfaccion']);
     }
     return json_encode(['success' => true]);
+  }
+
+  public function seleccionarEncuestaEvaluacion($id_propuesta)
+  {
+    $propuesta = Propuesta::find($id_propuesta);
+    $encuestas =  Encuesta::where('id_evento',$propuesta->id_evento)
+                         ->where('tipo','evaluacion')
+                         ->get();
+    if($propuesta != null)
+    {
+      return view('Encuesta.seleccionar',['propuesta' => $propuesta, 'encuestas' => $encuestas]);
+    }
+    return redirect('/home');
   }
 }

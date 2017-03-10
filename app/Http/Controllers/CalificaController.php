@@ -11,6 +11,7 @@ use App\Evalua;
 use App\TipoActividadEvento;
 use App\Jurado;
 
+
 class CalificaController extends Controller
 {
     /**
@@ -45,19 +46,26 @@ class CalificaController extends Controller
 
     /**
      * Display a listing of the resource.
-     *  TODO a;adir filtro de calificadas .. 
+     *  TODO a;adir filtro de calificadas ..
      * @return \Illuminate\Http\Response
      */
     public function porcalificar()
     {
       $juradoEn = Jurado::where('id_user',Auth::id())->get();
+      $evaluados = Auth::user()->evaluaciones;
+      $evaluados->pluck('id_propuesta');
       $propuestasPorCalificar = collect();
       foreach ($juradoEn as $key => $jurado)
       {
         $propuestasPorCalificar = $propuestasPorCalificar->merge($this->conseguirPropuestasEvento($jurado));
       }
-      dd($propuestasPorCalificar);
 
+      $propuestasPorCalificar = $propuestasPorCalificar->filter(function($value, $key) use(&$evaluados)
+      {
+        return !$evaluados->contains($value->id);
+      });
+
+      return view('califica.pendiente',['propuestas' => $propuestasPorCalificar]);
     }
 
     private function conseguirPropuestasEvento($jurado)

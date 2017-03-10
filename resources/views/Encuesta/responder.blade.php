@@ -23,8 +23,8 @@
 @section('scripts')
 <script type="text/javascript">
   var tipo = "{!! $tipo !!}";
-  var id_actividad = {!! $id_actividad !!};
-  var id_encuesta = {!! $encuesta->id !!};
+  var id = {!! $id !!};
+  var id_encuesta = {!! $encuesta->id !!}
   function obtenerRespuestas()
   {
     var respuestas = $(".opcion:checked");
@@ -37,7 +37,7 @@
     console.log(respuestas_json);
     return respuestas_json;
   }
-
+  //TODO responder segun TIPO!
   function responder()
   {
     $.ajax({
@@ -46,7 +46,7 @@
     data: {_token: CSRF_TOKEN,
           respuestas:obtenerRespuestas(),
            tipo:tipo,
-           id_actividad:id_actividad,
+           id_actividad:id,
            id_encuesta:id_encuesta},
     dataType: 'JSON',
     success: function (data)
@@ -57,7 +57,7 @@
       else
       {//TODO redireccionar AQUI
         Materialize.toast('Encuesta Respondida', 3000, 'blue rounded');
-        window.location.href = "/actividad/"+id_actividad;
+        window.location.href = "/actividad/"+id;
       }
     }});
   }
