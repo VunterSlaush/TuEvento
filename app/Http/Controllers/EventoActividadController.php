@@ -94,7 +94,25 @@ class EventoActividadController extends Controller
           $nueva_actividad = Actividad::create($request->except('hora_inicio','hora_fin','fecha'));
         } else{
           if ( $hora_inicio != "" && $hora_fin != "" && $fecha != ""){
-              $nueva_actividad = Actividad::create($request->all());
+            $inSchedule = Evento::where('id',$id_evento)
+                          ->whereDate('fecha_inicio','<=',$fecha)
+                          ->whereDate('fecha_fin','>=',$fecha)->get();
+            $inTime = Actividad::where('id_evento',$id_evento)
+                          ->whereDate('fecha',$fecha)
+                          ->where('hora_fin','>',$hora_inicio)
+                          ->where('hora_inicio','<',$hora_fin)
+                          ->get();
+
+            if (count($inSchedule) === 0){
+              return redirect()->back()->withInput()->withErrors(['La Fecha de la actividad se encuentra fuera del lapso de tiempo del evento']);
+            }
+
+            if (count($inTime) > 0){
+              return redirect()->back()->withInput()->withErrors(['Esta actividad choca con otro, por favor verifique la hora de inicio y fin']);
+            }
+
+
+            $nueva_actividad = Actividad::create($request->all());
           }else{
             return redirect()->back()->withInput()->withErrors(['Por favor complete Hora de Inicio, Hora de fin y Fecha o deje todos los campos en blanco']);
           }
