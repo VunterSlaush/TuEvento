@@ -39,8 +39,8 @@ class EventoActividadController extends Controller
       else
       {
         $actividad = Actividad::where('id_evento',$id_evento)->get();
-        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
-        return view('eventoActividad.index',['actividad' => $actividad,'id_evento' => $id_evento, 'nombre_evento' => $nombre_evento]);
+        $evento = Evento::find($id_evento);
+        return view('eventoActividad.index',['actividad' => $actividad, 'evento' => $evento]);
       }
     }
 
@@ -115,8 +115,6 @@ class EventoActividadController extends Controller
                                        'id_actividad' => $nueva_actividad->id]);
         $area_actividad->save();
 
-        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
-
         DB::commit();
 
       } catch (\Illuminate\Database\QueryException $qe) {
@@ -124,8 +122,8 @@ class EventoActividadController extends Controller
         return redirect()->back()->withInput()->withErrors(['Error al crear actividad verifica los datos proporcionados']);
       }
 
-      $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
-      return view('eventoActividad.show',['actividad' => $nueva_actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento])->with('message','Actividad creada');
+      $evento = Evento::find($id_evento);
+      return view('eventoActividad.show',['actividad' => $nueva_actividad,'evento'=> $evento])->with('message','Actividad creada');
 
     }
 
@@ -144,9 +142,9 @@ class EventoActividadController extends Controller
       else
       {
 
-        $nombre_evento = Evento::where('id',$id_evento)->first()->nombre;
+        $evento = Evento::find($id_evento);
         $actividad = Actividad::find($id);
-        return view('eventoActividad.show',['actividad' => $actividad,'id_evento'=> $id_evento,'nombre_evento' => $nombre_evento]);
+        return view('eventoActividad.show',['actividad' => $actividad,'evento'=> $evento]);
       }
     }
 
@@ -176,7 +174,7 @@ class EventoActividadController extends Controller
       try{
         Actividad::find($id_actividad)->update($request->all());
         $actividad = Actividad::find($id_actividad);
-        $evento = Evento::where('id','=',$id_evento)->first();
+        $evento = Evento::find($id_evento);
       } catch (\Illuminate\Database\QueryException $qe) {
         return redirect()->back()->withErrors(['Error al editar Actividad']);
       }

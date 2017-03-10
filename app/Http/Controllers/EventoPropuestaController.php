@@ -29,7 +29,8 @@ class EventoPropuestaController extends Controller
     public function index($id_evento)
     {
         $propuesta = Propuesta::where('id_evento',$id_evento)->get();
-        return view('eventoPropuesta.index',['propuesta' => $propuesta,'id_evento' => $id_evento]);
+        $evento = Evento::find($id_evento);
+        return view('eventoPropuesta.index',['propuesta' => $propuesta,'evento' => $evento]);
     }
 
     /**
@@ -39,7 +40,7 @@ class EventoPropuestaController extends Controller
      */
     public function create($id_evento)
     {
-      $evento = Evento::where('id','=',$id_evento)->first();
+      $evento = Evento::find($id_evento);
       return view('eventoPropuesta.create',['evento' => $evento]);
     }
 
@@ -87,7 +88,9 @@ class EventoPropuestaController extends Controller
         return redirect()->back()->withInput()->withErrors(['Error al crear propuesta'.$qe]);
       }
 
-      return redirect()->route('evento.propuesta.index',['id_evento' => $id_evento])
+      $evento = Evento::find($id_evento);
+
+      return redirect()->route('evento.propuesta.index',['evento' => $evento])
               ->with('success','propuesta creada');
     }
 
@@ -106,7 +109,8 @@ class EventoPropuestaController extends Controller
       else
       {
         $propuesta = Propuesta::find($id_propuesta);
-        return view('eventoPropuesta.show',['propuesta' => $propuesta,'id_evento'=> $id_evento]);
+        $evento = Evento::find($id_evento);
+        return view('eventoPropuesta.show',['propuesta' => $propuesta,'evento'=> $evento]);
       }
     }
 
@@ -119,7 +123,8 @@ class EventoPropuestaController extends Controller
     public function edit($id_evento,$id_propuesta)
     {
       $propuesta = Propuesta::find($id_propuesta);
-      return view('eventoPropuesta.edit',['propuesta' => $propuesta,'id_evento'=> $id_evento]);
+      $evento = Evento::find($id_evento);
+      return view('eventoPropuesta.edit',['propuesta' => $propuesta,'evento'=> $evento]);
     }
 
     /**
@@ -140,7 +145,8 @@ class EventoPropuestaController extends Controller
         return redirect()->back()->withErrors(['Error al editar propuesta ']);
       }
 
-      return redirect()->route('evento.propuesta.index',['id_evento' => $id_evento])
+      $evento = Evento::find($id_evento);
+      return redirect()->route('evento.propuesta.index',['evento' => $evento])
               ->with('success','propuesta editada');
     }
 
@@ -153,8 +159,9 @@ class EventoPropuestaController extends Controller
     public function destroy($id_evento,$id_propuesta)
     {
       Propuesta::find($id_propuesta)->delete();
+      $evento = Evento::find($id_evento);
 
-      return redirect()->route('evento.propuesta.index',['id_evento' => $id_evento])
+      return redirect()->route('evento.propuesta.index',['evento' => $evento])
               ->with('success','propuesta eliminada');
     }
 }

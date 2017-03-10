@@ -26,7 +26,7 @@ class ActividadPresentadorController extends Controller
      */
     public function create($id_actividad)
     {
-      $actividad = Actividad::where('id','=',$id_actividad)->first();
+      $actividad = Actividad::find($id_actividad);
       return view('actividadPresentador.create',['actividad' => $actividad]);
     }
 
