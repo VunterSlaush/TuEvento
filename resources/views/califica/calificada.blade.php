@@ -2,10 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h1>Calificadas</h1>
-  <ul>
-    <li> <a href="{{ URL::to('califica')}}"> Volver</a></li>
-  </ul>
+
 
   <h1> Propuestas calificadas por Usted</h1>
 
@@ -17,24 +14,17 @@
 
   <table>
     <thead>
-      <td> cedula calificador </td>
-      <td> idPropuesta </td>
-      <td> calificacion </td>
+      <td> titulo </td>
       <td> autor </td>
-      <td> idEvento</td>
-      <td> adjunto</td>
-      <td> demanda </td>
+      <td> evento</td>
+
     </thead>
     <tbody>
-      @foreach($califica as $key => $value)
+      @foreach($propuestas as $key => $value)
       <tr>
-        <td> {{$value->cedula}}</td>
-        <td> {{$value->idPropuesta}}</td>
-        <td> {{$value->calificacion}}</td>
-        <td> {{$propuestas[$key]->autor}}</td>
-        <td> {{$propuestas[$key]->idEvento}}</td>
-        <td> {{$propuestas[$key]->adjunto}}</td>
-        <td> {{$propuestas[$key]->demanda}}</td>
+        <td> {{$value->titulo}}</td>
+        <td> {{$value->autor}}</td>
+        <td> {{$value->evento->nombre}}</td>
 
         <td>
           {{ Form::open(['method' => 'DELETE','route' => ['califica.destroy', $value->id],'style'=>'display:inline'])}}

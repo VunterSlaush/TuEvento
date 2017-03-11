@@ -17,7 +17,7 @@ class Evalua extends Model
     }
     public function propuesta()
     {
-        return $this->belongsTo('App\Propuesta','id','id_propuesta');
+        return $this->belongsTo('App\Propuesta','id_propuesta');
     }
     public function encuesta(){
         return $this->hasOne('App\Encuesta','id','id_encuesta');

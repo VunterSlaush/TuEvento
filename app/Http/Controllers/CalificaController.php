@@ -41,19 +41,23 @@ class CalificaController extends Controller
      */
     public function calificada()
     {
-
+      $evaluados = Auth::user()->evaluaciones;
+      $calificadas = collect();
+      foreach ($evaluados as $key => $value) {
+        $calificadas->push($value->propuesta);
+      }
+      return view('califica.calificada',['propuestas' => $calificadas]);
     }
 
     /**
      * Display a listing of the resource.
-     *  TODO a;adir filtro de calificadas ..
      * @return \Illuminate\Http\Response
      */
     public function porcalificar()
     {
       $juradoEn = Jurado::where('id_user',Auth::id())->get();
       $evaluados = Auth::user()->evaluaciones;
-      $evaluados->pluck('id_propuesta');
+      $evaluados = $evaluados->pluck('id_propuesta');
       $propuestasPorCalificar = collect();
       foreach ($juradoEn as $key => $jurado)
       {

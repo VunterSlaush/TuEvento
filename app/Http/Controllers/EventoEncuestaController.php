@@ -12,6 +12,7 @@ use App\Califica;
 use App\EncuestaPregunta;
 use App\Respuesta;
 use App\Propuesta;
+use App\Evalua;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -86,10 +87,18 @@ class EventoEncuestaController extends Controller
   }
 
 
+  public function guardarRespuesta(Request $request)
+  {
+    if($request->input('tipo') == 'satisfaccion')
+      return $this->guardarRespuestaSatisfaccion($request);
+    else
+      return $this->guardarRespuestaEvaluacion($request);
+  }
+
   //TODO hacer el Transaction aqui!, si da error retornar el json con msg !
   public function guardarRespuestaSatisfaccion(Request $request)
   {
-    $id_actividad = $request->input('id_actividad');
+    $id_actividad = $request->input('id');
     $id_encuesta = $request->input('id_encuesta');
     $respuestas = $request->input('respuestas');
     $id_user = Auth::id();
@@ -101,6 +110,24 @@ class EventoEncuestaController extends Controller
     foreach ($respuestas as $key => $value)
     {
       Respuesta::create(['id_opcion'=>$value['id_opcion'], 'id_califica' => $califica->id, 'tipo' =>'satisfaccion']);
+    }
+    return json_encode(['success' => true]);
+  }
+
+  public function guardarRespuestaEvaluacion(Request $request)
+  {
+    $id_propuesta = $request->input('id');
+    $id_encuesta = $request->input('id_encuesta');
+    $respuestas = $request->input('respuestas');
+    $id_user = Auth::id();
+    $evalua = Evalua::create([
+              'id_propuesta'=> $id_propuesta,
+              'id_encuesta'=>$id_encuesta,
+              'cedula'=>$id_user
+               ]);
+    foreach ($respuestas as $key => $value)
+    {
+      Respuesta::create(['id_opcion'=>$value['id_opcion'], 'id_califica' => $evalua->id, 'tipo' =>'evaluacion']);
     }
     return json_encode(['success' => true]);
   }

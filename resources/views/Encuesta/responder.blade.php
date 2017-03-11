@@ -41,12 +41,12 @@
   function responder()
   {
     $.ajax({
-    url: '/actividad/guardarEncuestaRespuesta',
+    url: '/guardarEncuestaRespuesta',
     type: 'POST',
     data: {_token: CSRF_TOKEN,
-          respuestas:obtenerRespuestas(),
+           respuestas:obtenerRespuestas(),
            tipo:tipo,
-           id_actividad:id,
+           id:id,
            id_encuesta:id_encuesta},
     dataType: 'JSON',
     success: function (data)
@@ -57,7 +57,11 @@
       else
       {//TODO redireccionar AQUI
         Materialize.toast('Encuesta Respondida', 3000, 'blue rounded');
-        window.location.href = "/actividad/"+id;
+        if(tipo == 'satisfaccion')
+          window.location.href = "/actividad/"+id;
+        else {
+          window.location.href = "/califica/pendiente";
+        }
       }
     }});
   }
