@@ -144,4 +144,56 @@ class EventoEncuestaController extends Controller
     }
     return redirect('/home');
   }
+
+  public function verPreguntas($id_evento)
+  {
+    $preguntas = Pregunta::where('id_evento',$id_evento)->get();
+      return view('Encuesta.preguntas',['preguntas' => $preguntas]);
+  }
+
+  public function verEncuestas($id_evento)
+  {
+    $encuestas = Encuesta::where('id_evento',$id_evento)->get();
+    $preguntas = collect();
+    foreach ($encuestas as $key => $value) {
+      foreach ($value->preguntas as $key => $p)
+      {
+        $preguntas->push(['pregunta' => $p->pregunta->pregunta, 'id_pregunta' => $p->id_pregunta, 'id_encuesta' => $p->id_encuesta, 'id' =>$p->id]);
+      }
+    }
+    return view('Encuesta.encuestas',['encuestas' => $encuestas, 'preguntas' => $preguntas]);
+  }
+
+  //TODO permisos para borrar este beta?
+  public function borrarOpcion(Request $request)
+  {
+    $id = $request->input('id_opcion');
+    $opcion = Opcion::find($id);
+    $opcion->delete();
+    return json_encode(['success'=>true]);
+  }
+
+  public function borrarPregunta(Request $request)
+  {
+    $id = $request->input('id_pregunta');
+    $Pregunta = Pregunta::find($id);
+    $Pregunta->delete();
+    return json_encode(['success'=>true]);
+  }
+
+  public function borrarEncuesta(Request $request)
+  {
+    $id = $request->input('id_encuesta');
+    $Pregunta = Encuesta::find($id);
+    $Pregunta->delete();
+    return json_encode(['success'=>true]);
+  }
+
+  public function borrarEncuestaPregunta(Request $request)
+  {
+    $id = $request->input('id_pregunta');
+    $pregunta = EncuestaPregunta::find($id);
+    $pregunta->delete();
+    return json_encode(['success'=>true]);
+  }
 }

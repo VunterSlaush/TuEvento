@@ -79,6 +79,8 @@
         @can ('modify',$evento)
           <a class="btn" href="{{ route('createPregunta',$evento->id) }}">Crear Pregunta</a>
           <a class="btn" href="{{ route('createEncuesta',$evento->id) }}">Crear Encuesta</a>
+          <a class="btn" href="{{ route('verPreguntas',$evento->id) }}">Ver Preguntas</a>
+          <a class="btn" href="{{ route('verEncuestas',$evento->id) }}">Ver Encuestas</a>
         @endcan
       </li>
 
