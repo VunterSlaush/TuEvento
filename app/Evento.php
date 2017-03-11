@@ -40,7 +40,7 @@ class Evento extends Model
 
     public function jurados(){
 
-      return $this->hasMany('App\Jurado','id_evento','id');
+      return $this->hasMany('App\Jurado','id','id_evento');
 
     }
 
@@ -65,4 +65,5 @@ class Evento extends Model
     {
       return $this->hasMany('App\Pregunta','id_evento');
     }
+
 }

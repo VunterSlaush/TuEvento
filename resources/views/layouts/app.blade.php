@@ -100,11 +100,13 @@
               <li>
                 <a class="collapsible-header"  href="{{ url('/misCertificados') }}">Mis Certificados</a>
               </li>
-              <li>
-                <ul>
-                  <a  class="collapsible-header" href="{{ url('/califica') }}">Calificar</a>
-                </ul>
-              </li>
+              @can('evaluate',Auth::user(),Evento::class)
+                <li>
+                  <ul>
+                    <a  class="collapsible-header" href="{{ url('/califica') }}">Evaluaciones</a>
+                  </ul>
+                </li>
+              @endcan
             </ul>
           </li>
           </ul>

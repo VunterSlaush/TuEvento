@@ -29,15 +29,22 @@
     </li>
   </ul>
 
-  @cannot('attend',$actividad)
-    <a class="btn" href="/actividad/{{$actividad->id}}/asistir"> Asistir</a>
-    <!--TODO VERIFICAR SI EL USUARIO ES COMITE JURADO O ENCARGADO DEL EVENTO y si el evento ya no esta en
-         Estado de Inscripciones -->
-  @endcannot
-  @can('modify',$actividad)
-    <a class="btn" href="/actividad/{{$actividad->id}}/verificarAsistencia"> Verificar Asistencia!</a>
-    <a class="btn" href="{{ route('actividad.presentador.create',$actividad->id) }}"> Asignar Presentador</a>
+    @cannot('attend',$actividad)
+      @can ('viewState',[$evento,['inscripciones','iniciado']])
+        <a class="btn" href="/actividad/{{$actividad->id}}/asistir"> Asistir</a>
+        <!--TODO VERIFICAR SI EL USUARIO ES COMITE JURADO O ENCARGADO DEL EVENTO y si el evento ya no esta en
+             Estado de Inscripciones -->
+       @endcan
+    @endcannot
+    @can('modify',$actividad)
+      @can ('viewState',[$evento,['inscripciones','iniciado']])
+        <a class="btn" href="/actividad/{{$actividad->id}}/verificarAsistencia"> Verificar Asistencia!</a>
+        <a class="btn" href="{{ route('actividad.presentador.create',$actividad->id) }}"> Asignar Presentador</a>
+      @endcan
+    @endcan
+    @can ('viewState',[$evento,['finalizado']])
     <a class="btn" href="{{ route('responderEncuestaActividad',$actividad->id) }}"> Calificar</a>
-  @endcan
+    @endcan
+
 </div>
 @endsection

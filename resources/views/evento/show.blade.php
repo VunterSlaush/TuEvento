@@ -66,42 +66,53 @@
         <p>Actividades</p>
         <a class="btn" href="{{ route('evento.actividad.index',$evento->id)}}">Ver actividades</a>
         @can ('modify',$evento)
+          @can ('viewState',[$evento,['inscripciones','iniciado']])
           <a class="btn" href="{{ route('evento.actividad.create',$evento->id)}}">Crear actividades</a>
+          @endcan
+          @can ('viewState',[$evento,['inscripciones']])
           <a class="btn" href="{{ route('evento.organizar',$evento->id) }}">Ordenar Actividades</a>
+          @endcan
         @endcan
       </li>
       <li class="collection-item">
         <p>Propuestas</p>
         <a class="btn" href="{{ route('evento.propuesta.index',$evento->id)}}">Ver propuestas</a>
-        <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}">Enviar Propuesta</a>
-      </li>
-
-      <li class="collection-item">
-        <p>Organización</p>
-        @can ('modify',$evento)
-          <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}">Asignar Comité</a>
-          <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}">Asignar Jurado</a>
+        @can ('viewState',[$evento,['inscripciones']])
+          <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}">Enviar Propuesta</a>
         @endcan
       </li>
 
+      @can ('viewState',[$evento,['inscripciones']])
+        <li class="collection-item">
+          <p>Organización</p>
+          @can ('modify',$evento)
+            <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}">Asignar Comité</a>
+            <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}">Asignar Jurado</a>
+          @endcan
+        </li>
+      @endcan
+
+      @can ('modify',$evento)
+        @can ('viewState',[$evento,['inscripciones','iniciado']])
       <li class="collection-item">
         <p>Encuestas y Preguntas</p>
-        @can ('modify',$evento)
           <a class="btn" href="{{ route('createPregunta',$evento->id) }}">Crear Pregunta</a>
           <a class="btn" href="{{ route('createEncuesta',$evento->id) }}">Crear Encuesta</a>
-        @endcan
       </li>
+        @endcan
+      @endcan
 
 
       @can ('modify',$evento)
         <li class="collection-item">
           <h4> Control de estados</h4>
+            
             <input class="with-gap" type="radio" name="estado" id="estado-ins" value="inscripciones" >
             <label for="estado-ins"> Inscripciones</label>
 
             <input class="with-gap" type="radio" name="estado" id="estado-ini" value="iniciado">
             <label for="estado-ini"> Iniciado</label>
-
+            
             <input class="with-gap" type="radio" name="estado" id="estado-fin" value="finalizado">
             <label for="estado-fin"> Finalizado</label>
         </li>

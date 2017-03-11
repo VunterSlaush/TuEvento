@@ -14,6 +14,7 @@ use App\Respuesta;
 use App\Propuesta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EventoEncuestaController extends Controller
 {
@@ -86,22 +87,34 @@ class EventoEncuestaController extends Controller
   }
 
 
-  //TODO hacer el Transaction aqui!, si da error retornar el json con msg !
+  //TODO mota: cual msg quieres? el sql o el raw? !
   public function guardarRespuestaSatisfaccion(Request $request)
   {
-    $id_actividad = $request->input('id_actividad');
-    $id_encuesta = $request->input('id_encuesta');
-    $respuestas = $request->input('respuestas');
-    $id_user = Auth::id();
-    $califica = Califica::create([
-    					'id_actividad'=> $id_actividad,
-              'id_encuesta'=>$id_encuesta,
-    					'id_user'=>$id_user
-    					 ]);
-    foreach ($respuestas as $key => $value)
-    {
-      Respuesta::create(['id_opcion'=>$value['id_opcion'], 'id_califica' => $califica->id, 'tipo' =>'satisfaccion']);
+
+    try {
+      DB::beginTransaction();
+
+      $id_actividad = $request->input('id_actividad');
+      $id_encuesta = $request->input('id_encuesta');
+      $respuestas = $request->input('respuestas');
+      $id_user = Auth::id();
+      $califica = Califica::create([
+      					'id_actividad'=> $id_actividad,
+                'id_encuesta'=>$id_encuesta,
+      					'id_user'=>$id_user
+      					 ]);
+      foreach ($respuestas as $key => $value)
+      {
+        Respuesta::create(['id_opcion'=>$value['id_opcion'], 'id_califica' => $califica->id, 'tipo' =>'satisfaccion']);
+      }
+
+      DB::commit();
+
+    } catch (QueryException $e) {
+      DB::rollBack();
+      return json_encode(['success' => false,'msg' => $e]);
     }
+
     return json_encode(['success' => true]);
   }
 

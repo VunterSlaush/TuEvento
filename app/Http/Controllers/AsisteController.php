@@ -64,7 +64,6 @@ class AsisteController extends ActividadController
     {
       $actividad = $request->input('id_actividad');
       $cedula = $request->input('cedula');
-      //<!--TODO si la asistencia no existe crear una nueva ! con asistio = true
       $asistencia = Asiste::where([['id_actividad','=',$actividad],['cedula','=',$cedula]])->first();
       if($asistencia != null)
       {

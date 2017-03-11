@@ -50,6 +50,7 @@ class CertificadoController extends Controller
 	            ->where('asiste.cedula',Auth::id())
 	            ->where('asiste.asistio','=', true)
 							->where('asiste.codigo', '=',$codigo)
+							->where('evento.estado','=','finalizado')
 	            ->first();
       	return $certificado;
     }
@@ -65,6 +66,7 @@ class CertificadoController extends Controller
 											->where('asiste.asistio','=',true)
 											->where('asiste.cedula','=',$cedula)
 											->where('evento.id','=',$evento)
+											->where('evento.estado','=','finalizado')
 											->groupBy('evento.nombre')
 											->groupBy('evento.id')
 											->groupBy('lugar')
@@ -148,6 +150,7 @@ class CertificadoController extends Controller
 											->where('certificado_por_actividad','=',false)
 											->where('asiste.asistio','=',true)
 											->where('asiste.cedula','=',Auth::id())
+											->where('evento.estado','=','finalizado')
 											->groupBy('evento.nombre')
 											->groupBy('evento.id')
 											->groupBy('lugar')
@@ -165,6 +168,7 @@ class CertificadoController extends Controller
 					            ->join('users as user', 'asiste.cedula', '=', 'user.cedula')
 											->join('users as ponente', 'actividad.id_user', '=', 'ponente.cedula')
 					            ->join('evento','actividad.id_evento','=','evento.id')
+											->where('evento.estado','=','finalizado')
 					            ->where('asiste.cedula',Auth::id())
 					            ->where('asiste.asistio','=', true)
 											->where('evento.certificado_por_actividad','=',true)

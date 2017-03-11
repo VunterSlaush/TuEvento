@@ -22,17 +22,19 @@
         <li> <strong>Demanda</strong> {{ $propuesta['demanda'] }}</li>
       </ul>
     </li>
-    <li class="collection-item">
-      @can('aprove',$propuesta)
-        <a class="btn" href="{{ route('actividad.createFromProp',$propuesta->id) }}"
-        onclick="event.preventDefault();
-                 document.getElementById('aprobar-form').submit();">
-          Aprobar</a>
-          {{ Form::open(['method' => 'POST','route' => ['actividad.createFromProp',$propuesta->id],'id'=>'aprobar-form','style' => 'display:none']) }}
-          {{ Form::submit('Aprobar')}}
-          {{ Form::close()}}
+    @can('aprove',$propuesta)
+      @can ('viewState',[$evento,['inscripciones']])
+        <li class="collection-item">
+            <a class="btn" href="{{ route('actividad.createFromProp',$propuesta->id) }}"
+            onclick="event.preventDefault();
+                     document.getElementById('aprobar-form').submit();">
+              Aprobar</a>
+              {{ Form::open(['method' => 'POST','route' => ['actividad.createFromProp',$propuesta->id],'id'=>'aprobar-form','style' => 'display:none']) }}
+              {{ Form::submit('Aprobar')}}
+              {{ Form::close()}}
+        </li>
       @endcan
-    </li>
+    @endcan
   </ul>
 </div>
 @endsection

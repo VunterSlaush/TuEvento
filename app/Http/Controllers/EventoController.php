@@ -73,7 +73,6 @@ class EventoController extends Controller
         $areas = $request->input('area');
         $tipos = $request->input('tipo');
 
-        //TODO a;adir validaciones AQUI!
         foreach ($areas as $key => $a)
         {
           $a = strtolower($a);
@@ -183,9 +182,6 @@ class EventoController extends Controller
           $areas = $request->input('area');
           $area_id = $request->input('area_id');
 
-          $tipos = $request->input('tipo');
-
-          //TODO a;adir validaciones AQUI!
           foreach ($areas as $key => $a)
           {
             $a = strtolower($a);
