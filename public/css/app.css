@@ -142,3 +142,13 @@ input:-ms-input-placeholder {
 	-webkit-transform:translateY(-140%);
 	transform:translateY(-140%)
 }
+
+/*LABELS COLOR*/
+
+label{
+    
+    color: #1976d2 !important
+
+}
+
+/*END LABELS COLOR*/
