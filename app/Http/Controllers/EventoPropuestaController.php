@@ -71,14 +71,16 @@ class EventoPropuestaController extends Controller
 
         $propuesta = Propuesta::create($request->all());
 
-        if ($request->hasFile('adjunto') && $request->file('adjunto')->isValid()){
-            $rel_path='uploads\\'.'evento_'.$id_evento.'\\propuestas';
+        if ($request->hasFile('adjunto') && $request->file('adjunto')->isValid())
+        {
+            $rel_path='public\\uploads\\'.'evento_'.$id_evento.'\\propuestas';
+            $path_save='/uploads/'.'evento_'.$id_evento.'/propuestas';
             $dest = base_path($rel_path);
             $ext = $request->file('adjunto')->getClientOriginalExtension();
             $fileName = 'propuesta_'.$propuesta->id.'.'.$ext;
             $request->file('adjunto')->move($dest,$fileName);
 
-            $propuesta->adjunto =  $rel_path.'\\'.$fileName;
+            $propuesta->adjunto =  $path_save.'/'.$fileName;
             $propuesta->update();
         }
 

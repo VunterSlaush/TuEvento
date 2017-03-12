@@ -27,7 +27,7 @@ class Area extends Model
   }
 
   public function getNombreAttribute($value){
-    return ucfirst(strtoupper($value));
+    return ucfirst(strtolower($value));
   }
 
 }

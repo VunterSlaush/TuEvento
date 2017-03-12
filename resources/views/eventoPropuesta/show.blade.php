@@ -18,7 +18,6 @@
     <li class="collection-item">
       <ul>
         <li> <strong>Autor</strong> {{$propuesta['user']->nombre}}</li>
-        <li> <strong>Adjunto</strong> {{ $propuesta['adjunto'] }}</li>
         <li> <strong>Demanda</strong> {{ $propuesta['demanda'] }}</li>
       </ul>
     </li>
@@ -32,6 +31,9 @@
               {{ Form::open(['method' => 'POST','route' => ['actividad.createFromProp',$propuesta->id],'id'=>'aprobar-form','style' => 'display:none']) }}
               {{ Form::submit('Aprobar')}}
               {{ Form::close()}}
+              <a class="btn" href="{{ $propuesta->adjunto}}" target="_blank">
+                Descargar Adjunto
+                </a>
         </li>
       @endcan
     @endcan

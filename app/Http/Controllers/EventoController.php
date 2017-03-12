@@ -7,6 +7,8 @@ use App\Evento;
 use App\Area;
 use App\AreaEvento;
 use App\TipoActividad;
+use App\Actividad;
+use App\Propuesta;
 use App\TipoActividadEvento;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -111,14 +113,15 @@ class EventoController extends Controller
 
         if ($request->hasFile('image') && $request->file('image')->isValid()){
 
-            // $rel_path='uploads\\'.'evento_'.$nuevoEvento->id;
-            // $dest = base_path($rel_path);
+            $rel_path='public\\uploads\\'.'evento_'.$nuevoEvento->id;
+            $path_save='/uploads/'.'evento_'.$nuevoEvento->id;
+            $dest = base_path($rel_path);
             $ext = $request->file('image')->getClientOriginalExtension();
-            // $fileName = 'imagen.'.$ext;
-            // $request->file('image')->move($dest,$fileName);
+            $fileName = 'imagen.'.$ext;
+            $request->file('image')->move($dest,$fileName);
             //
-            // $nuevoEvento->imagen =  $rel_path.'\\'.$fileName;
-            $nuevoEvento->imagen =  $request->file('image')->storeAs('evento_'.$nuevoEvento->id,'imagen.'.$ext,'public');
+            $nuevoEvento->imagen =  $path_save.'/'.$fileName;
+            ///$nuevoEvento->imagen =  $request->file('image')->storeAs('evento_'.$nuevoEvento->id,'imagen.'.$ext,'public');
             $nuevoEvento->save();
         }
 
@@ -267,11 +270,17 @@ class EventoController extends Controller
       return view('evento.organizar',['evento' => $evento, 'actividades' => $actividades]);
     }
 
-    public function stateUpdate(Request $request){
+    public function stateUpdate(Request $request)
+    {
       $evento = json_decode($request->evento,true);
-      try{
-        Evento::find($evento["id"])->update($evento);
-      } catch (\Illuminate\Database\QueryException $qe) {
+
+      try
+      {
+        $eventoToUpdate  = Evento::find($evento["id"]);
+        $eventoToUpdate->update($evento);
+      }
+      catch (\Illuminate\Database\QueryException $qe)
+      {
         return json_encode(['success'=>'false']);
       }
       return json_encode(['success'=>'true']);
@@ -353,5 +362,170 @@ class EventoController extends Controller
         return json_encode(['success'=>'false']);
       }
       return json_encode(['success'=>'true']);
+    }
+
+    public function convertirPropuestas($evento)
+    {
+      $tipo_actividades = $this->generarArrayTipoActividades($evento);
+      $propuestas = $this->generarArrayPropuestasPromedio($evento);
+      $propuestas_pasadas = collect();
+      foreach ($propuestas as $key => $value)
+      {
+        if($this->propuestaApta($value['tipo'],$tipo_actividades))
+          $propuestas_pasadas->push($value['propuesta']);
+      }
+      return $propuestas_pasadas;
+
+    }
+
+    private function propuestaApta($propuesta,$tipos)
+    {
+      foreach ($tipos as $key => $value)
+      {
+        if($value['nombre'] == $propuesta)
+        {
+          if($value['actuales'] < $value['cant_max'])
+          {
+            $aux = $value;
+            $aux['actuales']++;
+            $tipos->forget($key);
+            $tipos->push($aux);
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    public function generarArrayTipoActividades($evento)
+    {
+      $tipos = collect();
+      foreach ($evento->TipoActividad as $key => $value)
+      {
+        $tipos->push(['nombre' =>$value->tipoActividad->nombre, 'cant_max' => $value->cant_maxima,
+                      'actuales' => 0, 'evaluable' => $value->evaluable, 'id' => $value->id_tipo]);
+      }
+      return $tipos->sortByDesc('evaluable');
+    }
+
+    public function conseguirNotaEvalua($evalua)
+    {
+      $nota = 0;
+      foreach ($evalua->respuestas as $key => $value)
+      {
+        $nota += $value->opcion->valor;
+      }
+      return $nota;
+    }
+
+    public function generarArrayPropuestasPromedio($evento)
+    {
+      $propuestas = collect();
+
+      foreach($evento->propuestas as $key => $value) {
+        if($this->esEvaluable($evento,$value->tipo))
+          $propuestas->push($this->generarPropuestaConPromedio($value));
+      }
+      return $propuestas->sortBy('promedio');
+    }
+
+    public function generarPropuestaConPromedio($propuesta)
+    {
+      $cant_ev = $propuesta->evaluaciones->count();
+      $suma = 0;
+      foreach ($propuesta->evaluaciones as $key => $value)
+      {
+        $suma += $this->conseguirNotaEvalua($value);
+      }
+      if($cant_ev > 0)
+        $promedio = $suma / $cant_ev;
+      else
+        $promedio = 0;
+      return ['propuesta' => $propuesta, 'promedio' => $promedio, 'tipo' => $propuesta->tipo->nombre];
+    }
+
+    private function esEvaluable($evento, $tipo)
+    {
+      foreach ($evento->tipoActividad as $key => $value)
+      {
+        if($value->id_tipo == $tipo->id)
+          return $value->evaluable;
+      }
+      return false;
+    }
+
+    public function verListaAprobados($id_evento)
+    {
+      $evento = Evento::find($id_evento);
+      if($evento->estado == 'inscripciones') // Cambiar si se necesita que se aprueben en otro estado!
+      {
+        $aprobados = $this->convertirPropuestas($evento);
+        return view('evento.aprobados',['evento' => $evento, 'aprobados' => $aprobados]);
+      }
+      else
+      {
+        return redirect('/evento/'+$evento->id);
+      }
+    }
+
+    public function reprobar(Request $request)
+    {
+      DB::beginTransaction();
+      try
+      {
+        $evento = Evento::find($request->input('id_evento'));
+        $ids = $request->input('ids');
+        foreach ($ids as $key => $value) {
+          $this->borrarPropuesta($value);
+        }
+        DB::commit();
+        return json_encode(['success' => true]);
+      }
+      catch (Exception $e)
+      {
+        DB::rollBack();
+        return json_encode(['success' => false, 'msg' => 'Error al Ejecutar']);
+      }
+    }
+
+    public function borrarPropuesta($id_propuesta)
+    {
+      $propuesta = Propuesta::find($id_propuesta);
+      $propuesta->delete();
+    }
+
+    public function aprobar(Request $request)
+    {
+      DB::beginTransaction();
+      try {
+        $evento = Evento::find($request->input('id_evento'));
+        $ids = $request->input('ids');
+        foreach ($ids as $key => $value) {
+          $this->convertirEnActividad($value);
+          $this->borrarPropuesta($value);
+        }
+        DB::commit();
+
+        return json_encode(['success' => true]);
+      }
+      catch (Exception $e)
+      {
+        DB::rollBack();
+        return json_encode(['success' => false, 'msg' => 'Error al Ejecutar']);
+      }
+    }
+
+    public function convertirEnActividad($id_propuesta)
+    {
+      $propuesta = Propuesta::find($id_propuesta);
+        Actividad::create([
+          'id_user' => $propuesta->autor,
+          'id_evento' => $propuesta->id_evento,
+          'titulo' => $propuesta->titulo,
+          'tipo' => $propuesta->id_tipo,
+          'area' => $propuesta->id_area,
+          'resumen' => $propuesta->descripcion
+        ]);
+
     }
 }

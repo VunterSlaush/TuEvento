@@ -25,7 +25,7 @@
             <div class="col m4">
                 {{Form::label('image','Imagen')}}
                 <div id="event-image"
-                style="background-image:url({{$img_path}});
+                style=" background-image:url({{$evento->imagen}});
                         background-size:cover;
                         width: 150px;
                         height:150px;
@@ -394,6 +394,22 @@ function deleteTipo(data_out)
           console.log(data.success);
       }
   });
+}
+
+function inputImageClick() {
+  $("input[name='image']").click();
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $("#event-image").css('background-image', 'url('+e.target.result+')');
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 </script>
 @endsection

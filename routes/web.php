@@ -65,6 +65,10 @@ Route::group(['middleware' => 'auth'], function ()
   Route::post('/borrarEncuestaPregunta',['as'=> 'borrarEncuestaPregunta', 'uses'=> 'EventoEncuestaController@borrarEncuestaPregunta']);
   Route::post('/borrarPregunta',['as'=> 'borrarPregunta', 'uses'=> 'EventoEncuestaController@borrarPregunta']);
   Route::post('/borrarEncuesta',['as'=> 'borrarEncuesta', 'uses'=> 'EventoEncuestaController@borrarEncuesta']);
+  Route::get('/evento/{id_evento}/verAprobados',['as'=>'verAprobados','uses'=> 'EventoController@verListaAprobados']);
+
+  Route::post('/evento/aprobar',['as'=> 'aprobar', 'uses'=> 'EventoController@aprobar']);
+  Route::post('/evento/reprobar',['as'=> 'reprobar', 'uses'=> 'EventoController@reprobar']);
 });
 
 

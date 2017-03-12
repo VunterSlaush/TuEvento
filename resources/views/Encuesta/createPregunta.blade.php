@@ -134,6 +134,7 @@
           Materialize.toast('Pregunta Añadida', 3000, 'blue rounded');
           $('#pregunta').val('');
           $('#opcion_wrapper').empty();
+          opciones = [];
         }
       }});
     }

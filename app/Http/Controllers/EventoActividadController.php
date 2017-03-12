@@ -83,8 +83,15 @@ class EventoActividadController extends Controller
         }
 
         $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
-        $request->merge(['tipo' => $tipo->id]);
+        $area_value = $request->input('area');
 
+        if ($area_value == "") {
+          return redirect()->withInput()->back()->withErrors(['Por favor ingrese un area']);
+        }
+
+        $area = Area::where('nombre','=',$area_value)->first();
+        $request->merge(['tipo' => $tipo->id]);
+        $request->merge(['area' => $area->id]);
         $request->merge(['id_user' => $request->input('id_user')]);
         $hora_inicio = $request->input('hora_inicio');
         $hora_fin = $request->input('hora_fin');
@@ -118,25 +125,11 @@ class EventoActividadController extends Controller
           }
         }
 
-        $area_value = $request->input('area');
-
-        if ($area_value == "") {
-          return redirect()->withInput()->back()->withErrors(['Por favor ingrese un area']);
-        }
-
-        $area = Area::where('nombre','=',$area_value)->first();
-
-        $request->merge(['id_area' => $area->id]);
-
-
-        $area_actividad = new AreaActividad(['id_area' => $area->id,
-                                       'id_actividad' => $nueva_actividad->id]);
-        $area_actividad->save();
-
         DB::commit();
 
       } catch (\Illuminate\Database\QueryException $qe) {
         DB::rollBack();
+        dd($qe);
         return redirect()->back()->withInput()->withErrors(['Error al crear actividad verifica los datos proporcionados']);
       }
 

@@ -84,7 +84,7 @@ class CertificadoController extends Controller
     	$certificados_por_evento = $this->certificadosPorEvento();
 			$certificados_por_actividad = $this->certificadosPorActividad();
 
-				return view('certificados',['certificados_evento' => $certificados_por_evento,
+			return view('certificados',['certificados_evento' => $certificados_por_evento,
 																		'certificados_actividad' => $certificados_por_actividad]);
 		}
 

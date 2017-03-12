@@ -139,7 +139,7 @@ class EventoEncuestaController extends Controller
                ]);
     foreach ($respuestas as $key => $value)
     {
-      Respuesta::create(['id_opcion'=>$value['id_opcion'], 'id_califica' => $evalua->id, 'tipo' =>'evaluacion']);
+      Respuesta::create(['id_opcion'=>$value['id_opcion'], 'id_evalua' => $evalua->id, 'tipo' =>'evaluacion']);
     }
     return json_encode(['success' => true]);
   }

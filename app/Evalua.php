@@ -20,6 +20,11 @@ class Evalua extends Model
         return $this->belongsTo('App\Propuesta','id_propuesta');
     }
     public function encuesta(){
-        return $this->hasOne('App\Encuesta','id','id_encuesta');
+        return $this->hasOne('App\Encuesta','id_encuesta');
+    }
+
+    public function respuestas()
+    {
+      return $this->hasMany('App\Respuesta','id_evalua');
     }
 }

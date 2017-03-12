@@ -8,8 +8,8 @@
       <form action="#" id="p{{$encuesta_pregunta->pregunta->id}}">
       @foreach($encuesta_pregunta->pregunta->opciones as $opcion)
         <p>
-          <input name="{{$encuesta_pregunta->pregunta->pregunta}}" idpregunta="{{$encuesta_pregunta->id_pregunta}}" idopcion="{{$opcion->id}}" type="radio" id="o{{$opcion->opcion}}" value="{{$opcion->id}}" class="opcion"/>
-          <label for="o{{$opcion->opcion}}">{{$opcion->opcion}}</label>
+          <input name="{{$encuesta_pregunta->pregunta->pregunta}}" idpregunta="{{$encuesta_pregunta->id_pregunta}}" idopcion="{{$opcion->id}}" type="radio" id="o-{{$encuesta_pregunta->pregunta->id}}-{{$opcion->opcion}}" value="{{$opcion->id}}" class="opcion"/>
+          <label for="o-{{$encuesta_pregunta->pregunta->id}}-{{$opcion->opcion}}">{{$opcion->opcion}}</label>
         </p>
       @endforeach
       </form>
