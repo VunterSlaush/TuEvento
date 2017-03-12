@@ -47,14 +47,14 @@ class EventoJuradoController extends Controller
       $area_value = $request->input('area');
       $id_user = $request->input('id_user');
       $user = User::where('cedula','=',$id_user)->first();
-      $area = Area::where('nombre','=',strtolower($area_value))->first();
+      $area = Area::where('nombre','=',$area_value)->first();
       $jurado = Jurado::where('id_user','=',$id_user)->where('id_evento','=',$id_evento)->first();
       if($jurado == null)
       {
           $jurado = Jurado::create(['id_user' =>$id_user,'id_evento' => $id_evento]);
       }
       $areaJurado = new AreaJurado(['id_area' => $area->id,
-                                  'id_jurado' => $jurado->id]);
+                                    'id_jurado' => $jurado->id]);
       $areaJurado->save();
     }
     catch (\Illuminate\Database\QueryException $qe)
