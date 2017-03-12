@@ -45,6 +45,8 @@ class EventoPolicy
   {
     // $jurados = $user->jurados;
     // Log::info($jurados);
+
+      Log::info("hola");
     return true;
   }
 }

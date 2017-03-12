@@ -100,13 +100,13 @@
               <li>
                 <a class="collapsible-header"  href="{{ url('/misCertificados') }}">Mis Certificados</a>
               </li>
-              @can('evaluate',Auth::user(),Evento::class)
+              @if(count(Auth::user()->jurado) > 0)
                 <li>
                   <ul>
                     <a  class="collapsible-header" href="{{ url('/califica') }}">Evaluaciones</a>
                   </ul>
                 </li>
-              @endcan
+              @endif
             </ul>
           </li>
           </ul>
