@@ -1,16 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <h1> Todas las actividades</h1>
-
-    @if (Session::has('message'))
-      <div class="">
-        {{Sesion::get('message')}}
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="#" class="breadcrumb"> Mis Actividades</a>
+        </div>
       </div>
-    @endif
-
-    <table id="event_table">
+    </nav>
+    <div class="container">
+      <h3 > Mis Actividades</h3>
+    </div>
+  </div>
+  <div class="content-body">
+    <div class="container">
+      <table id="event_table">
       <thead>
         <th> Ponente </th>
         <th> Evento</th>
@@ -46,29 +52,52 @@
         @endforeach
       </tbody>
     </table>
+    </div>
   </div>
 @endsection
 
 @section('scripts')
-<script type="text/javascript">
-$(".action").each(function(i) {
-  $(this).find("a.dropdown-button").attr('data-activates','dropdown_'+ i);
-  $(this).find("ul.dropdown-content").attr('id','dropdown_' +i );
-});
 
-  function deleteActivity(id)
-  {
-    if (confirm('Borrar esta Actividad?')) {
-        $.ajax({
-            type: "DELETE",
-            data: {_token: CSRF_TOKEN},
-            url: '/actividad/' + id, //resource
-            success: function(affectedRows) {
-                console.log(affectedRows);
-                location.reload(true);
-            }
-        });
+  <script type="text/javascript">
+
+    $(".action").each(function(i) {
+      $(this).find("a.dropdown-button").attr('data-activates','dropdown_'+ i);
+      $(this).find("ul.dropdown-content").attr('id','dropdown_' +i );
+    });
+
+    var $grid = $('.event-grid').isotope({
+      itemSelector: '.event-item',
+      layoutMode: 'fitRows',
+      getSortData:{
+        titulo:'.titulo',
+        fecha:'.fecha',
+      }
+    });
+
+    $('#sorts').on('click','input',function() {
+      var sortByValue = $(this).attr('data-sort-by');
+      $grid.isotope({sortBy: sortByValue});
+    });
+
+    $('#filters').on('click','input',function() {
+      var filterValue = $(this).attr('data-filter');
+      $grid.isotope({filter:filterValue});
+    });
+
+    function deleteActivity(id)
+    {
+      if (confirm('Borrar esta Actividad?')) {
+          $.ajax({
+              type: "DELETE",
+              data: {_token: CSRF_TOKEN},
+              url: '/actividad/' + id, //resource
+              success: function(affectedRows) {
+                  console.log(affectedRows);
+                  location.reload(true);
+              }
+          });
+      }
     }
-  }
-</script>
+
+  </script>
 @endsection

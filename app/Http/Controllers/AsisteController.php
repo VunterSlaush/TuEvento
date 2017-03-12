@@ -62,29 +62,107 @@ class AsisteController extends ActividadController
 
     public function marcarAsistencia(Request $request)
     {
-      $actividad = $request->input('id_actividad');
-      $cedula = $request->input('cedula');
-      //<!--TODO si la asistencia no existe crear una nueva ! con asistio = true
-      $asistencia = Asiste::where([['id_actividad','=',$actividad],['cedula','=',$cedula]])->first();
-      if($asistencia != null)
+      try
       {
-        $asistencia->asistio = true;
-        $asistencia->save();
-        return json_encode(["asistencia"=> $asistencia, "success" => true]);
-      }
-      else
-      {
-        if(User::where('cedula',$cedula)->first() != null)
+        $actividad = $request->input('id_actividad');
+        $cedula = $request->input('cedula');
+        $asistencia = Asiste::where([['id_actividad','=',$actividad],['cedula','=',$cedula]])->first();
+        if($asistencia != null)
         {
-          $asistencia = $this->createAsistencia($actividad,$cedula);
           $asistencia->asistio = true;
           $asistencia->save();
-          return json_encode(["asistencia"=> $asistencia, "success" => true, "msg" => "asistencia creada y marcada"]);
+          return json_encode(["asistencia"=> $asistencia, "success" => true]);
         }
         else
-          return json_encode(["error" =>"usuario no registrado", "success" => false]);
+        {
+          if(User::where('cedula',$cedula)->first() != null)
+          {
+            $asistencia = $this->createAsistencia($actividad,$cedula);
+            $asistencia->asistio = true;
+            $asistencia->save();
+            return json_encode(["asistencia"=> $asistencia, "success" => true, "msg" => "asistencia creada y marcada"]);
+          }
+          else
+            return json_encode(["msg" =>"usuario no registrado", "success" => false]);
+        }
+
+      }
+      catch (\Exception $e)
+      {
+        return json_encode(["msg" =>"Error 404", "success" => false]);
+      }
+    }
+
+    /*
+    Query para obtener la lista de asistentes a una actividad
+
+    SELECT users.nombre,users.cedula,users.email,asiste.asistio, actividad.titulo
+    FROM users
+    INNER JOIN asiste
+    ON users.cedula = asiste.cedula AND asiste.id_actividad = 1
+    INNER JOIN actividad
+    ON actividad.id = asiste.id_actividad
+    ORDER BY asiste.asistio DESC;
+
+    */
+
+    public function getAsistencia($id_actividad){
+
+      if(Auth::guest()){
+        return redirect('/');
       }
 
+      $asistentes = DB::table('users')
+      ->select('users.nombre as nombre','users.cedula as cedula','users.email as email', 'asiste.asistio as asistio','actividad.titulo as titulo')
+      ->join('asiste','users.cedula','=','asiste.cedula')
+      ->where('asiste.id_actividad','=',$id_actividad)
+      ->join('actividad','actividad.id','=','asiste.id_actividad')
+      ->orderBy('asiste.asistio', 'desc')
+      ->get();
+
+      return $asistentes;
+
+    }
+
+    public function getTitulo($id_actividad){
+      $titulo = DB::table('actividad')
+      ->select('actividad.titulo as titulo')
+      ->where('actividad.id','=',$id_actividad)
+      ->first();
+
+      return $titulo;
+    }
+
+    public function descargarAsistencia($id_actividad){
+
+      if(Auth::guest()){
+
+            return redirect('home');
+
+        }else{
+
+            $asistencia = $this->getAsistencia($id_actividad);
+            $titulo = $this->getTitulo($id_actividad);
+
+            $asistentes = \PDF::loadview('asistencia',['asistencia' => $asistencia, 'title' => $titulo]);
+            return $asistentes->setPaper('a4')->stream('asistencia.pdf');
+        }
+
+    }
+
+    public function verAsistencia($id_actividad){
+
+      if(Auth::guest()){
+
+            return redirect('home');
+
+        }else{
+
+            $asistencia = $this->getAsistencia($id_actividad);
+
+            return view('verAsistencia',['asistencia' => $asistencia]);
+
+        }
 
     }
 }

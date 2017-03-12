@@ -39,7 +39,7 @@ class Propuesta extends Model
 
     public function tipo()
     {
-      return $this->belongsTo('App\TipoActividad','id','id_tipo');
+      return $this->belongsTo('App\TipoActividad','id_tipo');
     }
 
     public function evaluaciones()

@@ -12,6 +12,7 @@ class Actividad extends Model
     					'id_user',
               'id_evento',
               'tipo',
+              'area',
     					'fecha',
     					'titulo',
     					'hora_inicio',

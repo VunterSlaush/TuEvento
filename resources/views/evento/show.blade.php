@@ -1,104 +1,132 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-              {{ Form::open(['method' => 'POST','route' => ['actividad.createFromProp',$evento->id],'style' => 'display:none']) }}
-              {{ Form::submit('Aprobar')}}
-              {{ Form::close()}}
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="#" class="breadcrumb"> {{title_case($evento->nombre)}}</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <h3>{{title_case($evento->nombre)}}</h3>
+    </div>
+  </div>
 
-    <ul>
-      <li class="collection-header"> <h4> {{$evento['nombre']}}</h4> </li>
-      <li class="collection-item">
-        <ul>
-          <li> <strong>Creador:</strong> {{$evento['user']->nombre}}</li>
-          <li> <strong>Lugar:</strong> {{ $evento['lugar'] }}</li>
-          <li> <strong>Fecha de Inicio:</strong> {{ $evento['fecha_inicio'] }}</li>
-          <li> <strong>Fecha de Finalización:</strong> {{ $evento['fecha_fin'] }}</li>
-          <li> <strong>Estado:</strong> {{ $evento['estado'] }}</li>
-          <li>
-            <strong>Áreas:</strong>
-            @foreach ($evento->areas as $area)
-                {{ $area->area->nombre }}
-            @endforeach
-          </li>
-          <li>
-            <strong>Tipo de Actividades:</strong>
-            @foreach ($evento->tipoActividad as $tipo)
-                {{ $tipo->tipoActividad->nombre }}
-            @endforeach
-          </li>
-        </ul>
-      </li>
+  <div class="content-body">
+    <div class="container">
+      {{ Form::open(['method' => 'POST','route' => ['actividad.createFromProp',$evento->id],'style' => 'display:none']) }}
+      {{ Form::submit('Aprobar')}}
+      {{ Form::close()}}
 
-      <li class="collection-item">
-        <ul>
-          <li> <strong>Comité:</strong></li>
-          <ul>
-          @foreach ($evento->comites as $comite)
-              <li>{{ $comite->user->nombre }}</li>
-          @endforeach
-          </ul>
-          <li> <strong>Jurado:</strong></li>
-          <ul>
-          @foreach ($evento->jurados as $jurado)
-              <li>{{ $jurado->user->nombre }}
-                  (
-                  @foreach ($jurado->areas as $area)
-                    {{ $area->area->nombre }},
-                  @endforeach
-                  )
-              </li>
-          @endforeach
-          </ul>
-        </ul>
-      </li>
-      <li class="collection-item">
-        <p>Actividades</p>
-        <a class="btn" href="{{ route('evento.actividad.index',$evento->id)}}">Ver actividades</a>
-        @can ('modify',$evento)
-          <a class="btn" href="{{ route('evento.actividad.create',$evento->id)}}">Crear actividades</a>
-          <a class="btn" href="{{ route('evento.organizar',$evento->id) }}">Ordenar Actividades</a>
-        @endcan
-      </li>
-      <li class="collection-item">
-        <p>Propuestas</p>
-        <a class="btn" href="{{ route('evento.propuesta.index',$evento->id)}}">Ver propuestas</a>
-        <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}">Enviar Propuesta</a>
-      </li>
-
-      <li class="collection-item">
-        <p>Organización</p>
-        @can ('modify',$evento)
-          <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}">Asignar Comité</a>
-          <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}">Asignar Jurado</a>
-        @endcan
-      </li>
-
-      <li class="collection-item">
-        <p>Encuestas y Preguntas</p>
-        @can ('modify',$evento)
-          <a class="btn" href="{{ route('createPregunta',$evento->id) }}">Crear Pregunta</a>
-          <a class="btn" href="{{ route('createEncuesta',$evento->id) }}">Crear Encuesta</a>
-        @endcan
-      </li>
-
-
-      @can ('modify',$evento)
+      <ul>
         <li class="collection-item">
-          <h4> Control de estados</h4>
-            <input class="with-gap" type="radio" name="estado" id="estado-ins" value="inscripciones" >
-            <label for="estado-ins"> Inscripciones</label>
-
-            <input class="with-gap" type="radio" name="estado" id="estado-ini" value="iniciado">
-            <label for="estado-ini"> Iniciado</label>
-
-            <input class="with-gap" type="radio" name="estado" id="estado-fin" value="finalizado">
-            <label for="estado-fin"> Finalizado</label>
+          <ul>
+            <li> <strong>Creador:</strong> {{$evento['user']->nombre}}</li>
+            <li> <strong>Lugar:</strong> {{ $evento['lugar'] }}</li>
+            <li> <strong>Fecha de Inicio:</strong> {{ $evento['fecha_inicio'] }}</li>
+            <li> <strong>Fecha de Finalización:</strong> {{ $evento['fecha_fin'] }}</li>
+            <li> <strong>Estado:</strong> {{ $evento['estado'] }}</li>
+            <li>
+              <strong>Áreas:</strong>
+              @foreach ($evento->areas as $area)
+                  {{ $area->area->nombre }}
+              @endforeach
+            </li>
+            <li>
+              <strong>Tipo de Actividades:</strong>
+              @foreach ($evento->tipoActividad as $tipo)
+                  {{ $tipo->tipoActividad->nombre }}
+              @endforeach
+            </li>
+          </ul>
         </li>
-      @endcan
-      </li>
-    </ul>
 
+        <li class="collection-item">
+          <ul>
+            <li> <strong>Comité:</strong></li>
+            <ul>
+            @foreach ($evento->comites as $comite)
+                <li>{{ $comite->user->nombre }}</li>
+            @endforeach
+            </ul>
+            <li> <strong>Jurado:</strong></li>
+            <ul>
+            @foreach ($evento->jurados as $jurado)
+                <li>{{ $jurado->user->nombre }}
+                    (
+                    @foreach ($jurado->areas as $area)
+                      {{ $area->area->nombre }},
+                    @endforeach
+                    )
+                </li>
+            @endforeach
+            </ul>
+          </ul>
+        </li>
+        <li class="collection-item">
+          <p>Actividades</p>
+          <a class="btn" href="{{ route('evento.actividad.index',$evento->id)}}">Ver actividades</a>
+          @can ('modify',$evento)
+            @can ('viewState',[$evento,['inscripciones','iniciado']])
+            <a class="btn" href="{{ route('evento.actividad.create',$evento->id)}}">Crear actividades</a>
+            @endcan
+            @can ('viewState',[$evento,['inscripciones']])
+            <a class="btn" href="{{ route('evento.organizar',$evento->id) }}">Ordenar Actividades</a>
+            @endcan
+          @endcan
+        </li>
+        <li class="collection-item">
+          <p>Propuestas</p>
+          <a class="btn" href="{{ route('evento.propuesta.index',$evento->id)}}">Ver propuestas</a>
+          @can ('viewState',[$evento,['inscripciones']])
+            <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}">Enviar Propuesta</a>
+          @endcan
+        </li>
+
+        @can ('viewState',[$evento,['inscripciones']])
+          <li class="collection-item">
+            <p>Organización</p>
+            @can ('modify',$evento)
+              <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}">Asignar Comité</a>
+              <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}">Asignar Jurado</a>
+            @endcan
+          </li>
+        @endcan
+
+        @can ('modify',$evento)
+          @can ('viewState',[$evento,['inscripciones','iniciado']])
+            <li class="collection-item">
+              <p>Encuestas y Preguntas</p>
+              <a class="btn" href="{{ route('createPregunta',$evento->id) }}">Crear Pregunta</a>
+              <a class="btn" href="{{ route('createEncuesta',$evento->id) }}">Crear Encuesta</a>
+              <a class="btn" href="{{ route('verPreguntas',$evento->id) }}">Ver Preguntas</a>
+              <a class="btn" href="{{ route('verEncuestas',$evento->id) }}">Ver Encuestas</a>
+            </li>
+          @endcan
+        @endcan
+
+        @can ('modify',$evento)
+          <li class="collection-item">
+            <h4> Control de estados</h4>
+              @can ('viewState',[$evento,['inscripciones','iniciado']])
+              <input class="with-gap" type="radio" name="estado" id="estado-ins" value="inscripciones" >
+              <label for="estado-ins"> Inscripciones</label>
+
+              <input class="with-gap" type="radio" name="estado" id="estado-ini" value="iniciado">
+              <label for="estado-ini"> Iniciado</label>
+              @endcan
+              <input class="with-gap" type="radio" name="estado" id="estado-fin" value="finalizado">
+              <label for="estado-fin"> Finalizado</label>
+          </li>
+        @endcan
+        </li>
+      </ul>
+    </div>
+  </div>
     <div class="modal modal-fixed-footer">
       <div class="modal-content">
         <div class="content-m content-ins" style="display:none">
@@ -118,7 +146,7 @@
         </div>
 
         <div class="content-m content-fin" style="display:none">
-          <h4> finalizar Evento</h4>
+          <h4> Finalizar Evento</h4>
           <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -130,8 +158,6 @@
         <a id="cancelar"href="#!" class="modal-action modal-close waves-effect waves-red btn-flat"> Cancelar</a>
       </div>
     </div>
-
-  </div>
 
 @endsection
 
@@ -203,9 +229,6 @@
       }
     });
   }
-
-
-
 
 </script>
 @endsection

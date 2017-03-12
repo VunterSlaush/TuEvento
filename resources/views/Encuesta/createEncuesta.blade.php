@@ -1,10 +1,27 @@
-@extends('layouts.app')
+  @extends('layouts.app')
 
-@section('content')
-<div class="container">
+  @section('content')
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="{{ route('evento.show',$evento->id)}}" class="breadcrumb"> {{$evento->nombre}}</a>
+          <a href="#" class="breadcrumb"> Crear Encuesta</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <h3>  Encuesta</h3>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <div class="container">
       <div class="row">
         <div class="col m5">
-              <h3>Crear Encuesta</h3>
+          <h3>Crear Encuesta</h3>
         </div>
         <div class="col m4" style="margin-top:30px;">
           <div class="switch" >
@@ -18,7 +35,7 @@
         </div>
 
         <div class="col m3" style="margin-top:30px;">
-              <a class="waves-effect waves-light btn" onclick="enviarEncuesta()">Guardar</a>
+          <a class="waves-effect waves-light btn" onclick="enviarEncuesta()">Guardar</a>
         </div>
       </div>
       <div class="row">
@@ -27,25 +44,25 @@
       </div>
 
       <div class="row input-field">
-      <select multiple id='preguntas'>
-        <option value="" disabled selected>Preguntas</option>
-        @foreach($evento->preguntas as $pregunta)
+        <select multiple id='preguntas'>
+          <option value="" disabled selected>Preguntas</option>
+          @foreach($evento->preguntas as $pregunta)
           <option value="{{$pregunta->id}}">{{$pregunta->pregunta}}</option>
-        @endforeach
-      </select>
-      <label>Selecciona las Preguntas</label>
+          @endforeach
+        </select>
+        <label>Selecciona las Preguntas</label>
+      </div>
     </div>
-</div>
+  </div>
+  @endsection
 
-@endsection
-
-@section('scripts')
-<script>
-var id_evento = {!! $evento->id !!};
-$(document).ready(function()
-{
-   $('select').material_select();
-});
+  @section('scripts')
+  <script>
+  var id_evento = {!! $evento->id !!};
+  $(document).ready(function()
+  {
+    $('select').material_select();
+  });
 
   function enviarEncuesta()
   {
@@ -61,11 +78,11 @@ $(document).ready(function()
       return;
     }
     if($('#tipo').prop('checked'))
-      tipo = 'evaluacion';
+    tipo = 'evaluacion';
     else
-      tipo = 'satisfaccion';
+    tipo = 'satisfaccion';
 
-      $.ajax({
+    $.ajax({
       url: '/evento/'+id_evento+'/storeEncuesta',
       type: 'POST',
       data: {_token: CSRF_TOKEN, nombre:$('#nombre').val(), preguntas:$('#preguntas').val(), tipo:tipo,id_evento:id_evento},
@@ -74,7 +91,7 @@ $(document).ready(function()
       {
         console.log(data);
         if(data.msg)
-          Materialize.toast(data.msg, 3000, 'red rounded');
+        Materialize.toast(data.msg, 3000, 'red rounded');
         else
         {
           Materialize.toast('Encuesta Guardada', 3000, 'blue rounded');
@@ -85,6 +102,6 @@ $(document).ready(function()
         }
       }});
 
-  }
-</script>
-@endsection
+    }
+    </script>
+    @endsection

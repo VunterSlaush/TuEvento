@@ -1,71 +1,86 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <h1> Organizador</h1>
-
-  {{Html::ul($errors->all())}}
-
-    <div class="row">
-      <div class="col s3">
-        <table id="title_table">
-          <thead>
-            <tr>
-              <th> Titulo</th>
-            </tr>
-          </thead>
-          <tbody id="sortable">
-            @foreach($actividades as $actividad)
-              <tr>
-                <td>
-                  <input type="hidden" name="id" value="{{$actividad->id}}">
-                  {{$actividad->titulo}}
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="{{ route('evento.show',$evento->id)}}" class="breadcrumb"> {{$evento->nombre}}</a>
+          <a href="#" class="breadcrumb"> Ordenar Actividades</a>
+        </div>
       </div>
-
-    <div class="col s9">
-      <table id="content_table">
-        <thead>
-          <tr>
-            <th> Inicio </th>
-            <th> Fin </th>
-            <th> Fecha </th>
-            <th> Accion</th>
-          </tr>
-        </thead>
-        <tbody>
-            @foreach($actividades as $actividad)
-              <tr>
-                  <td>
-                    <input type="time" name="hora_inicio" value="{{$actividad->hora_inicio}}">
-                  </td>
-                  <td>
-                    <input type="time" name="hora_fin" value="{{$actividad->hora_fin}}">
-                  </td>
-                  <td>
-                    <input type="date" name="fecha" value="{{$actividad->fecha}}">
-                  </td>
-                  <td class="action">
-                    @if ($actividad->hora_inicio)
-                      <input type="checkbox" class="check" checked/>
-                      <label>listo</label>
-                    @else
-                      <input type="checkbox" class="check"/>
-                      <label>listo</label>
-                    @endif
-                  </td>
-              </tr>
-            @endforeach
-        </tbody>
-      </table>
-
-    </div>
+    </nav>
+    <div class="container">
+      <h3> Organizador</h3>
     </div>
   </div>
+  <div class="content-body">
+    <div class="container">
+      {{Html::ul($errors->all())}}
+
+      <div class="row">
+        <div class="col s3">
+          <table id="title_table">
+            <thead>
+              <tr>
+                <th> Titulo</th>
+              </tr>
+            </thead>
+            <tbody id="sortable">
+              @foreach($actividades as $actividad)
+                <tr>
+                  <td>
+                    <input type="hidden" name="id" value="{{$actividad->id}}">
+                    {{$actividad->titulo}}
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col s9">
+          <table id="content_table">
+            <thead>
+              <tr>
+                <th> Inicio </th>
+                <th> Fin </th>
+                <th> Fecha </th>
+                <th> Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach($actividades as $actividad)
+                  <tr>
+                      <td>
+                        <input type="time" name="hora_inicio" value="{{$actividad->hora_inicio}}">
+                      </td>
+                      <td>
+                        <input type="time" name="hora_fin" value="{{$actividad->hora_fin}}">
+                      </td>
+                      <td>
+                        <input type="date" name="fecha" value="{{$actividad->fecha}}">
+                      </td>
+                      <td class="action">
+                        @if ($actividad->hora_inicio)
+                          <input type="checkbox" class="check" checked/>
+                          <label>listo</label>
+                        @else
+                          <input type="checkbox" class="check"/>
+                          <label>listo</label>
+                        @endif
+                      </td>
+                  </tr>
+                @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @section('scripts')

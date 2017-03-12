@@ -9,12 +9,6 @@
 
 	<center>
 
-	@if($certificate->imagen != '')
-
-	<img src="{{$certificate->imagen}}" style="height:150px; width:150px;">
-
-	@endif
-
 		<h3>Certificado que se otorga a:</h3>
 
 		<br />
@@ -33,7 +27,7 @@
 		<br>
 
 		@if(property_exists($certificate,'ponente'))
-			<p>Actividad dictada por: </p> <h3><b>{{ $certificate->ponente }}.</b></h3>
+			<p>Actividad dictada por: <b>{{ $certificate->ponente }}.</b></p>
 		@endif
 
 		<br>
