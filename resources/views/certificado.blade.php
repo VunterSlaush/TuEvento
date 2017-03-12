@@ -9,11 +9,6 @@
 
 	<center>
 
-	@if($certificate->imagen != '')
-
-
-	@endif
-
 		<h3>Certificado que se otorga a:</h3>
 
 		<br />

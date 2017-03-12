@@ -86,7 +86,7 @@ class EventoActividadController extends Controller
         $area_value = $request->input('area');
 
         if ($area_value == "") {
-          return redirect()->withInput()->back()->withErrors(['Por favor ingrese un area']);
+          return redirect()->back()->withInput()->withErrors(['Por favor ingrese un area']);
         }
 
         $area = Area::where('nombre','=',$area_value)->first();
