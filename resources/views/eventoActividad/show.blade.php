@@ -47,6 +47,8 @@
           @can ('viewState',[$evento,['inscripciones','iniciado']])
             <a class="btn" href="/actividad/{{$actividad->id}}/verificarAsistencia"> Verificar Asistencia!</a>
             <a class="btn" href="{{ route('actividad.presentador.create',$actividad->id) }}"> Asignar Presentador</a>
+            <a class="btn" href="/actividad/{{$actividad->id}}/verAsistencia"> Ver Asistencia</a>
+            <a class="btn" href="/actividad/{{$actividad->id}}/asistencia"> Descargar Asistencia</a>
           @endcan
         @endcan
         @can ('viewState',[$evento,['finalizado']])

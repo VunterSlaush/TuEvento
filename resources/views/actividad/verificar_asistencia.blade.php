@@ -1,11 +1,13 @@
 @extends('layouts.app')
-<!-- TODO quizas a;adir una lista de Usuarios? o Bajar las asistencias  -->
 @section('content')
 <div class="content-head col s12">
   <nav id="breadcrumb-nav" class="hide-on-med-and-down">
     <div class="nav-wrapper">
       <div class="col s12">
         <a href="/home" class="breadcrumb"> Dashboard</a>
+        <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+        <a href="{{ route('evento.show',$actividad->evento->id)}}" class="breadcrumb"> {{$actividad->evento->nombre}}</a>
+        <a href="#" class="breadcrumb"> {{$actividad->titulo}}</a>
         <a href="#" class="breadcrumb"> Verificar Asistencia</a>
       </div>
     </div>
@@ -26,7 +28,7 @@
 @endsection
 @section('scripts')
   <script type="text/javascript">
-  var id_actividad = {!! $id_actividad !!};
+  var id_actividad = {!! $actividad->id !!};
   function formatRepo (user)
   {
     if(user.loading) return user.cedula;

@@ -146,7 +146,8 @@ class ActividadController extends Controller
       }
       else
       {
-        return view('actividad.verificar_asistencia',['id_actividad' => $id]);
+        $actividad = Actividad::find($id);
+        return view('actividad.verificar_asistencia',['actividad' => $actividad]);
       }
     }
 

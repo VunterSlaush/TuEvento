@@ -6,7 +6,7 @@
     <div class="nav-wrapper">
       <div class="col s12">
         <a href="/home" class="breadcrumb"> Dashboard</a>
-        <a href="/misActiviades" class="breadcrumb"> Mis Actividades</a>
+        <a href="/misActividades" class="breadcrumb"> Mis Actividades</a>
         <a href="#" class="breadcrumb"> {{$actividad->titulo}}</a>
       </div>
     </div>
