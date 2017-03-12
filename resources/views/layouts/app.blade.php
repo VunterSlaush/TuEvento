@@ -100,11 +100,13 @@
               <li>
                 <a class="collapsible-header"  href="{{ url('/misCertificados') }}">Mis Certificados</a>
               </li>
-              <li>
-                <ul>
-                  <a  class="collapsible-header" href="{{ url('/califica') }}">Calificar</a>
-                </ul>
-              </li>
+              @if(count(Auth::user()->jurado) > 0)
+                <li>
+                  <ul>
+                    <a  class="collapsible-header" href="{{ url('/califica') }}">Evaluaciones</a>
+                  </ul>
+                </li>
+              @endif
             </ul>
           </li>
           </ul>

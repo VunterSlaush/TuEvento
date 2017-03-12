@@ -2,9 +2,19 @@
 
 @section('content')
   <div class="container">
-              {{ Form::open(['method' => 'POST','route' => ['actividad.createFromProp',$evento->id],'style' => 'display:none']) }}
-              {{ Form::submit('Aprobar')}}
-              {{ Form::close()}}
+    <nav id="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="#" class="breadcrumb"> {{$evento->nombre}}</a>
+        </div>
+      </div>
+    </nav>
+
+    {{ Form::open(['method' => 'POST','route' => ['actividad.createFromProp',$evento->id],'style' => 'display:none']) }}
+    {{ Form::submit('Aprobar')}}
+    {{ Form::close()}}
 
     <ul>
       <li class="collection-header"> <h4> {{$evento['nombre']}}</h4> </li>
@@ -56,38 +66,50 @@
         <p>Actividades</p>
         <a class="btn" href="{{ route('evento.actividad.index',$evento->id)}}">Ver actividades</a>
         @can ('modify',$evento)
+          @can ('viewState',[$evento,['inscripciones','iniciado']])
           <a class="btn" href="{{ route('evento.actividad.create',$evento->id)}}">Crear actividades</a>
+          @endcan
+          @can ('viewState',[$evento,['inscripciones']])
           <a class="btn" href="{{ route('evento.organizar',$evento->id) }}">Ordenar Actividades</a>
+          @endcan
         @endcan
       </li>
       <li class="collection-item">
         <p>Propuestas</p>
         <a class="btn" href="{{ route('evento.propuesta.index',$evento->id)}}">Ver propuestas</a>
-        <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}">Enviar Propuesta</a>
-      </li>
-
-      <li class="collection-item">
-        <p>Organización</p>
-        @can ('modify',$evento)
-          <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}">Asignar Comité</a>
-          <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}">Asignar Jurado</a>
+        @can ('viewState',[$evento,['inscripciones']])
+          <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}">Enviar Propuesta</a>
         @endcan
       </li>
 
+      @can ('viewState',[$evento,['inscripciones']])
+        <li class="collection-item">
+          <p>Organización</p>
+          @can ('modify',$evento)
+            <a class="btn" href="{{ route('evento.comite.create',$evento->id) }}">Asignar Comité</a>
+            <a class="btn" href="{{ route('evento.jurado.create',$evento->id) }}">Asignar Jurado</a>
+          @endcan
+        </li>
+      @endcan
+
+      @can ('modify',$evento)
+        @can ('viewState',[$evento,['inscripciones','iniciado']])
       <li class="collection-item">
         <p>Encuestas y Preguntas</p>
-        @can ('modify',$evento)
           <a class="btn" href="{{ route('createPregunta',$evento->id) }}">Crear Pregunta</a>
           <a class="btn" href="{{ route('createEncuesta',$evento->id) }}">Crear Encuesta</a>
           <a class="btn" href="{{ route('verPreguntas',$evento->id) }}">Ver Preguntas</a>
           <a class="btn" href="{{ route('verEncuestas',$evento->id) }}">Ver Encuestas</a>
         @endcan
       </li>
+        @endcan
+      @endcan
 
 
       @can ('modify',$evento)
         <li class="collection-item">
           <h4> Control de estados</h4>
+
             <input class="with-gap" type="radio" name="estado" id="estado-ins" value="inscripciones" >
             <label for="estado-ins"> Inscripciones</label>
 

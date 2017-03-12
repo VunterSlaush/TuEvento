@@ -2,6 +2,14 @@
 
 @section('content')
   <div class="container">
+    <nav id="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="#" class="breadcrumb"> Mis Eventos</a>
+        </div>
+      </div>
+    </nav>
     <h1> Eventos</h1>
 
     <table id="event_table">
@@ -46,7 +54,7 @@
 @endsection
 
 @section('scripts')
-  
+
   <script type="text/javascript">
 
     $(".action").each(function(i) {

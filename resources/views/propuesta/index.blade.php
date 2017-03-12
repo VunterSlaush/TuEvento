@@ -2,6 +2,14 @@
 
 @section('content')
   <div class="container">
+    <nav id="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="#" class="breadcrumb"> Mis Propuestas</a>
+        </div>
+      </div>
+    </nav>
     <h1> Todas las propuestas</h1>
 
 

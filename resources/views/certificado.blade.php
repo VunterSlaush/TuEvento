@@ -11,7 +11,6 @@
 
 	@if($certificate->imagen != '')
 
-	<img src="{{$certificate->imagen}}" style="height:150px; width:150px;">
 
 	@endif
 

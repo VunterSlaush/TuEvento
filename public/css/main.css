@@ -88,3 +88,16 @@ strong {
 .content .form-container{
   margin-top: 20px !important;
 }
+
+#breadcrumb-nav {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+#breadcrumb-nav .breadcrumb, #breadcrumb-nav .breadcrumb:before {
+    color: rgba(21, 101, 192, 0.52);
+}
+
+#breadcrumb-nav .breadcrumb:last-child {
+    color: #1565c0;
+}

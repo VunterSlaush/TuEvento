@@ -2,6 +2,15 @@
 
 @section('content')
   <div class="container">
+    <nav id="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="#" class="breadcrumb"> Crear Evento</a>
+        </div>
+      </div>
+    </nav>
 
     <h2> Crear evento</h2>
     {{Html::ul($errors->all())}}

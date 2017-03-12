@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\User;
 use App\Evento;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Log;
 
 class EventoPolicy
 {
@@ -30,5 +31,22 @@ class EventoPolicy
           $esComite = true;
       }
       return $esCreador || $esComite;
+  }
+
+  public function viewState(User $user, Evento $evento, $states)
+  {
+    foreach ($states as $value) {
+      if ($evento->estado == $value) return true;
+    }
+    return false;
+  }
+
+  public function evaluate(User $user)
+  {
+    // $jurados = $user->jurados;
+    // Log::info($jurados);
+
+      Log::info("hola");
+    return true;
   }
 }

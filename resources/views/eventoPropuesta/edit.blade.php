@@ -2,11 +2,21 @@
 
 @section('content')
   <div class="container">
+    <nav id="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="{{ route('evento.show',$evento->id)}}" class="breadcrumb"> {{$evento->nombre}}</a>
+          <a href="#" class="breadcrumb"> Editar Propuesta</a>
+        </div>
+      </div>
+    </nav>
     <h1> Editar Propuesta</h1>
 
     {{Html::ul($errors->all())}}
 
-    {{Form::model($propuesta, array('route' => array('evento.propuesta.update',$id_evento,$propuesta->id), 'method' => 'PUT'))}}
+    {{Form::model($propuesta, array('route' => array('evento.propuesta.update',$evento->id,$propuesta->id), 'method' => 'PUT'))}}
     <ul class="collapsible" data-collapsible="accordion">
       <li>
         <div class="collapsible-header active"><i class="material-icons">assignment</i> Información a Editar*</div>
