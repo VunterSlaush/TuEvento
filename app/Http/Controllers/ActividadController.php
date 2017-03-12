@@ -173,8 +173,15 @@ class ActividadController extends Controller
 
     public function asistir($id)
     {
-        $this->createAsistencia($id,Auth::id());
-        return redirect('/miHorario');
+        try
+        {
+          $this->createAsistencia($id,Auth::id());
+          return redirect('/miHorario');
+        } catch (\Exception $e) {
+          
+          return redirect('/miHorario')->withErrors(['Error al marcar asistencia']);;
+        }
+
     }
 
     function createAsistencia($id,$cedula)

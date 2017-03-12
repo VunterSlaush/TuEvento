@@ -23,29 +23,29 @@ class ValidaHorarioFunction extends Migration
                     fch       actividad.fecha%type;
                     hra_ini   actividad.hora_inicio%type;
                     hra_f     actividad.hora_fin%type;
-                 
+
                  BEGIN
-                 
+
                     fch     = (SELECT fecha FROM actividad where id=NEW.id_actividad);
-                    hra_ini = (SELECT hora_inicio FROM actividad where id=NEW.id_actividad); 
+                    hra_ini = (SELECT hora_inicio FROM actividad where id=NEW.id_actividad);
                      hra_f   = (SELECT hora_fin    FROM actividad where id=NEW.id_actividad);
-                 
+
                  FOR r IN SELECT * FROM asiste
-                 WHERE cedula=NEW.cedula 
+                 WHERE cedula=NEW.cedula AND asiste.asistio = false
                  LOOP
-                 
-                    IF ((SELECT fecha FROM actividad WHERE id=r.id_actividad)=fch) THEN  --valida que la fecha sea igual 
-                 
+
+                    IF ((SELECT fecha FROM actividad WHERE id=r.id_actividad)=fch) THEN  --valida que la fecha sea igual
+
                         IF(((SELECT hora_inicio FROM actividad WHERE id=r.id_actividad)>hra_f) OR (SELECT hora_fin FROM actividad WHERE id=r.id_actividad)<hra_ini) THEN
                              --exito el horario no entra en solapamiento
                          ELSE
-                 
+
                             RAISE EXCEPTION 'ERROR CHOQUE DE HORAS AL ASIGNAR ACTIVIDAD';
                          END IF;
-                 
+
                          -- RAISE NOTICE 'exito en el horario ';
-                    END IF;   
-                 
+                    END IF;
+
                  END LOOP;
                  RETURN NEW;
                  END;
