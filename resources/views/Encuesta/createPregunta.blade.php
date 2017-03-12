@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <nav id="breadcrumb-nav">
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
       <div class="nav-wrapper">
         <div class="col s12">
           <a href="/home" class="breadcrumb"> Dashboard</a>
@@ -12,52 +12,56 @@
         </div>
       </div>
     </nav>
-
-
-    <div class="row">
-      <div class="col m6">
-            <h3>Crear Pregunta</h3>
-      </div>
-    <form method="post" action="{{ route('storePregunta',$evento->id)  }}">
-      <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-      <div class="col m6" style="margin-top:30px;">
-          <div class="col m8">
-            <a class="waves-effect waves-light btn" onclick="enviarPregunta()">Guardar Pregunta</a>
-          </div>
-      </div>
+    <div class="container">
+      <h3>  Preguntas</h3>
     </div>
+  </div>
 
-
-
-
-    <div class="row">
-      <label>Pregunta</label>
-      <input type="text" name="pregunta" id="pregunta">
-    </div>
-    <div class="row">
-      <div class="col m5">
-            <h3>Opciones</h3>
-      </div>
-      <div class="col m6" style="margin-top:30px;">
-          <a class="waves-effect waves-light btn" id='add_opcion'>Añadir Opcion</a>
-      </div>
-    </div>
-
-
-
-      <div class="row" id="opcion_wrapper" style="height:250px; overflow-y:auto; overflow-x:hidden;">
-        <div class="row">
-          <p class="col m2">Opcion</p>
-          <input class="col m2 option" type="text"  name="opcion[0]" id='opcion[0]'>
-          <p class="col m2">Valor</p>
-          <input class="col m2 option_value" type="number"  name="opcion_cantidad[0]" id='opcion_cantidad[0]'>
-          <a href="#" class="col m1 btn remove_field"><i class="material-icons">delete</i></a>
+  <div class="content-body">
+    <div class="container">
+      <div class="row">
+        <div class="col m6">
+              <h3>Crear Pregunta</h3>
+        </div>
+      <form method="post" action="{{ route('storePregunta',$evento->id)  }}">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+        <div class="col m6" style="margin-top:30px;">
+            <div class="col m8">
+              <a class="waves-effect waves-light btn" onclick="enviarPregunta()">Guardar Pregunta</a>
+            </div>
         </div>
       </div>
 
 
+
+
+      <div class="row">
+        <label>Pregunta</label>
+        <input type="text" name="pregunta" id="pregunta">
+      </div>
+      <div class="row">
+        <div class="col m5">
+              <h3>Opciones</h3>
+        </div>
+        <div class="col m6" style="margin-top:30px;">
+            <a class="waves-effect waves-light btn" id='add_opcion'>Añadir Opcion</a>
+        </div>
+      </div>
+
+
+
+        <div class="row" id="opcion_wrapper" style="height:250px; overflow-y:auto; overflow-x:hidden;">
+          <div class="row">
+            <p class="col m2">Opcion</p>
+            <input class="col m2 option" type="text"  name="opcion[0]" id='opcion[0]'>
+            <p class="col m2">Valor</p>
+            <input class="col m2 option_value" type="number"  name="opcion_cantidad[0]" id='opcion_cantidad[0]'>
+            <a href="#" class="col m1 btn remove_field"><i class="material-icons">delete</i></a>
+          </div>
+        </div>
+    </form>
+    </div>
   </div>
-  </form>
 @endsection
 
 @section('scripts')

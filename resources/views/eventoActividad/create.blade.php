@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <nav id="breadcrumb-nav">
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
       <div class="nav-wrapper">
         <div class="col s12">
           <a href="/home" class="breadcrumb"> Dashboard</a>
@@ -12,89 +12,96 @@
         </div>
       </div>
     </nav>
-    <h1> {{$evento->nombre}}</h1>
-    <h4> Crear actividad</h4>
 
-    {{Html::ul($errors->all())}}
+    <div class="container">
+      <h3>  {{title_case($evento->nombre)}}</h3>
+      <h4> Crear actividad</h4>
+    </div>
+  </div>
+  <div class="content-body">
+    <div class="container">
+      {{Html::ul($errors->all())}}
 
-    {{Form::open(array('url' => 'evento/'.$evento->id.'/actividad'))}}
+      {{Form::open(array('url' => 'evento/'.$evento->id.'/actividad'))}}
 
-      <ul class="collapsible" data-collapsible="accordion">
-        <li>
-          <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
-          <div class="collapsible-body">
-            <div class="container form-container">
-              <div class="row">
-                <div class="col m6">
-                  {{Form::label('titulo','Titulo')}}
-                  {{Form::text('titulo')}}
+        <ul class="collapsible" data-collapsible="accordion">
+          <li>
+            <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
+            <div class="collapsible-body">
+              <div class="container form-container">
+                <div class="row">
+                  <div class="col m6">
+                    {{Form::label('titulo','Titulo')}}
+                    {{Form::text('titulo')}}
+                  </div>
+                  <div class="col m6">
+                    <label for='id_user'>ponente</label>
+                    <select name='id_user' class="js-example-data-ajax" id="ponente">
+                    </select>
+                  </div>
                 </div>
-                <div class="col m6">
-                  <label for='id_user'>ponente</label>
-                  <select name='id_user' class="js-example-data-ajax" id="ponente">
-                  </select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col m12 input-field">
-                  {{Form::label('resumen','Resumen')}}
-                  {{Form::textArea('resumen','',array('class' => 'materialize-textarea','data-length' => '255','maxlength' => '255'))}}
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="collapsible-header active"><i class="material-icons">assignment</i> Fecha y Hora</div>
-          <div class="collapsible-body">
-            <div class="container form-container">
-              <div class="row">
-                <div class="col m4">
-                  {{Form::label('fecha','Fecha')}}
-                  {{Form::date('fecha','',array('class' => 'datepicker'))}}
-                </div>
-                <div class="col m4">
-                  {{Form::label('hora_inicio','Hora de Inicio')}}
-                  {{Form::time('hora_inicio','',array('class' => 'timepicker'))}}
-                </div>
-                <div class="col m4">
-                  {{Form::label('hora_fin','Hora de Finaliz.')}}
-                  {{Form::time('hora_fin','',array('class' => 'timepicker'))}}
+                <div class="row">
+                  <div class="col m12 input-field">
+                    {{Form::label('resumen','Resumen')}}
+                    {{Form::textArea('resumen','',array('class' => 'materialize-textarea','data-length' => '255','maxlength' => '255'))}}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </li>
-        <li>
-          <div class="collapsible-header active"><i class="material-icons">assignment</i> Información de Area y Tipo de Actividad*</div>
-          <div class="collapsible-body">
-            <div class="container form-container">
-              <div class="row">
-                <div class="input-field col m6">
-                  <select name='area' id="area">
-                    <option value="" disabled selected>Áreas</option>
-                    @foreach ($evento->areas as $area)
-                        <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
-                    @endforeach
-                  </select>
-                </div>
-                <div class="input-field col m6">
-                  <select name='tipo_actividad' id='tipo_actividad'>
-                    <option value="" disabled selected>Tipo de Actividades</option>
-                    @foreach ($evento->tipoActividad as $tipo)
-                        <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
-                    @endforeach
-                  </select>
+          </li>
+          <li>
+            <div class="collapsible-header active"><i class="material-icons">assignment</i> Fecha y Hora</div>
+            <div class="collapsible-body">
+              <div class="container form-container">
+                <div class="row">
+                  <div class="col m4">
+                    {{Form::label('fecha','Fecha')}}
+                    {{Form::date('fecha','',array('class' => 'datepicker'))}}
+                  </div>
+                  <div class="col m4">
+                    {{Form::label('hora_inicio','Hora de Inicio')}}
+                    {{Form::time('hora_inicio','',array('class' => 'timepicker'))}}
+                  </div>
+                  <div class="col m4">
+                    {{Form::label('hora_fin','Hora de Finaliz.')}}
+                    {{Form::time('hora_fin','',array('class' => 'timepicker'))}}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+          <li>
+            <div class="collapsible-header active"><i class="material-icons">assignment</i> Información de Area y Tipo de Actividad*</div>
+            <div class="collapsible-body">
+              <div class="container form-container">
+                <div class="row">
+                  <div class="input-field col m6">
+                    <select name='area' id="area">
+                      <option value="" disabled selected>Áreas</option>
+                      @foreach ($evento->areas as $area)
+                          <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="input-field col m6">
+                    <select name='tipo_actividad' id='tipo_actividad'>
+                      <option value="" disabled selected>Tipo de Actividades</option>
+                      @foreach ($evento->tipoActividad as $tipo)
+                          <option value="{{ $tipo->tipoActividad->nombre }}">{{ $tipo->tipoActividad->nombre }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
 
-      <center>{{Form::submit('Crear',['class' => 'waves-effect waves-light btn'])}}</center>
+        <center>{{Form::submit('Crear',['class' => 'waves-effect waves-light btn'])}}</center>
 
-      {{Form::close()}}
+        {{Form::close()}}
+    </div>
+  </div>
 
     <!-- Modal Structure -->
   <div id="modal1" class="modal bottom-sheet">

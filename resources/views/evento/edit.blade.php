@@ -1,148 +1,157 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <nav id="breadcrumb-nav">
-      <div class="nav-wrapper">
-        <div class="col s12">
-          <a href="/home" class="breadcrumb"> Dashboard</a>
-          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
-          <a href="#" class="breadcrumb"> Editar Evento {{$evento->nombre}}</a>
+
+    <div class="content-head col s12">
+      <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+        <div class="nav-wrapper">
+          <div class="col s12">
+            <a href="/home" class="breadcrumb"> Dashboard</a>
+            <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+            <a href="#" class="breadcrumb"> Editar Evento {{title_case($evento->nombre)}}</a>
+          </div>
         </div>
+      </nav>
+      <div class="container">
+        <h3>Editar Evento</h3>
+        <h4>{{title_case($evento->nombre)}}</h4>
       </div>
-    </nav>
-    <h1> Editar evento</h1>
+    </div>
 
-  {{Html::ul($errors->all())}}
-  {{Form::model($evento, array('route' => array('evento.update', $evento->id), 'method' => 'PUT'))}}
+  <div class="content-body">
+    <div class="container">
+      {{Html::ul($errors->all())}}
+      {{Form::model($evento, array('route' => array('evento.update', $evento->id), 'method' => 'PUT'))}}
 
-  <ul class="collapsible" data-collapsible="accordion">
-    <li>
-      <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
-      <div class="collapsible-body">
-        <div class="container form-container">
-          <div class="row">
-            <div class="col m4">
-                {{Form::label('image','Imagen')}}
-                <div id="event-image"
-                style="background-image:url({{$img_path}});
-                        background-size:cover;
-                        width: 150px;
-                        height:150px;
-                        background-position:center;">
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="col m4">
+                    {{Form::label('image','Imagen')}}
+                    <div id="event-image"
+                    style="background-image:url({{$img_path}});
+                            background-size:cover;
+                            width: 150px;
+                            height:150px;
+                            background-position:center;">
+                    </div>
+                    <input name="image" type="file" id="image" style="display:none;">
+                    <a class="btn waves-light col m12"href="#!" onclick="inputImageClick();"> Seleccionar</a>
                 </div>
-                <input name="image" type="file" id="image" style="display:none;">
-                <a class="btn waves-light col m12"href="#!" onclick="inputImageClick();"> Seleccionar</a>
-            </div>
-            <div class="col m8">
-              <div class="col m12">
-                {{Form::label('nombre','Nombre')}}
-                {{Form::text('nombre')}}
-              </div>
-              <div class="col m12">
-                {{Form::label('lugar','Lugar*')}}
-                {{Form::text('lugar')}}
-              </div>
+                <div class="col m8">
+                  <div class="col m12">
+                    {{Form::label('nombre','Nombre')}}
+                    {{Form::text('nombre')}}
+                  </div>
+                  <div class="col m12">
+                    {{Form::label('lugar','Lugar*')}}
+                    {{Form::text('lugar')}}
+                  </div>
 
-                <div class="col m12">
-                    <input value="{{$evento->certificado_por_actividad}}"type="checkbox" id="certificado_por_actividad" name="certificado_por_actividad" />
-                    <label for="certificado_por_actividad">Certificado Por Actividad</label>
+                    <div class="col m12">
+                        <input value="{{$evento->certificado_por_actividad}}"type="checkbox" id="certificado_por_actividad" name="certificado_por_actividad" />
+                        <label for="certificado_por_actividad">Certificado Por Actividad</label>
+                    </div>
+
                 </div>
-
+              </div>
+              <div class="row">
+                <div class="col m6">
+                  {{Form::label('fecha_inicio','Fecha de Inicio*')}}
+                  <input value="{{$evento->fecha_inicio}}" type="date" name="fecha_inicio" id="fecha_inicio" class="datepicker">
+                </div>
+                <div class="col m6">
+                  {{Form::label('fecha_fin','Fecha Final*')}}
+                  <input value="{{$evento->fecha_fin}}" type="date" name="fecha_fin" id="fecha_fin" class="datepicker">
+                </div>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col m6">
-              {{Form::label('fecha_inicio','Fecha de Inicio*')}}
-              <input value="{{$evento->fecha_inicio}}" type="date" name="fecha_inicio" id="fecha_inicio" class="datepicker">
-            </div>
-            <div class="col m6">
-              {{Form::label('fecha_fin','Fecha Final*')}}
-              <input value="{{$evento->fecha_fin}}" type="date" name="fecha_fin" id="fecha_fin" class="datepicker">
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons">book</i> Información de Area*</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="row">
+                  <div class="col m8">
+                    <label for="area-info">Nombre del Area</label>
+                    <input type="text"  name="" id='area-info'>
+                  </div>
+                  <div class="col m4">
+                    <a class="waves-effect waves-light btn-floating" id="add_area" name="add_area"><i class="material-icons">add</i></a>
+                    <a class="waves-effect waves-light btn-floating" id="edit_area" name="add_area" style="display:none;"><i class="material-icons">edit</i></a>
+                  </div>
+                </div>
+                <div class="row" id="area_wrapper">
+                  @foreach ($evento->areas as $key => $area)
+                    <span>
+                      <input class="area-name validate" type="text"  name="area[{{$key}}]" id="area[{{$key}}]" value="{{$area->area->nombre}}" style="display:none;">
+                      <input class="area-id" type="hidden" name="area_id[{{$key}}]" value="{{$area->area->id}}"/>
+                      <div class="chip">
+                        <a class="area-edit" href="#">{{$area->area->nombre}}</a>
+                        <i class="close material-icons"> close </i> </div>
+                    </span>
+                  @endforeach
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="collapsible-header"><i class="material-icons">book</i> Información de Area*</div>
-      <div class="collapsible-body">
-        <div class="container form-container">
-          <div class="row">
-            <div class="row">
-              <div class="col m8">
-                <label for="area-info">Nombre del Area</label>
-                <input type="text"  name="" id='area-info'>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons">description</i> Información de Tipo*</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="row">
+                  <div class="col m3 offset-m1">
+                    <label for="tipo-nombre">Nombre del Tipo</label>
+                    <input type="text"  name="" id='tipo-nombre'>
+                  </div>
+                  <div class="col m2">
+                    <label for="tipo-vacante">Vacantes</label>
+                    <input type="text"  name="" id='tipo-vacante'>
+                  </div>
+                  <div class="col m3">
+                    <input type="checkbox" id="tipo-evaluable" name="" />
+                    <label for="tipo-evaluable">Evaluable</label>
+                  </div>
+                  <div class="col m2">
+                    <a class="waves-effect waves-light btn-floating" id="add_tipo" name="add_tipo"><i class="material-icons">add</i></a>
+                    <a class="waves-effect waves-light btn-floating" id="edit_tipo" name="edit_tipo" style="display:none;"><i class="material-icons">edit</i></a>
+                  </div>
+                </div>
+                <div class="row" id="tipo_wrapper">
+                  @foreach ($evento->tipoActividad as $key => $tipo)
+                  <span>
+                    <input class="validate tipo-nombre" type="text"  name="tipo[{{$key}}]" id="tipo[{{$key}}]" value="{{$tipo->tipoActividad->nombre}}" style="display:none;"/>
+                    <input class="validate tipo-cantidad" type="number"  name="tipo_cantidad[{{$key}}]" id="tipo_cantidad[{{$key}}" value="{{$tipo->cant_maxima}}" style="display:none;"/>
+                    <input class="tipo-evaluable" type="checkbox" id="tipo_evaluable[{{$key}}]" name="tipo_evaluable[{{$key}}]" value="{{$tipo->evaluable}}" style="display:none;"/>
+                    <input class="tipo-id" type="hidden" name="tipo_id[{{$key}}]" value="{{$tipo->tipoActividad->id}}"/>
+                    @if ($tipo->evaluable == true)
+                      <div class="chip" style="background-color: #1565C0 !important; color:#fff"> <a class="tipo-edit" style="color:#fff" href="#"> {{$tipo->cant_maxima}} | {{$tipo->tipoActividad->nombre}}</a> <i class="close material-icons"> close </i> </div>
+                    @else
+                      <div class="chip"><a class="tipo-edit" href="#"> {{$tipo->cant_maxima}} | {{$tipo->tipoActividad->nombre}}</a>  <i class="close material-icons"> close </i> </div>
+                    @endif
+                  </span>
+                  @endforeach
+                </div>
               </div>
-              <div class="col m4">
-                <a class="waves-effect waves-light btn-floating" id="add_area" name="add_area"><i class="material-icons">add</i></a>
-                <a class="waves-effect waves-light btn-floating" id="edit_area" name="add_area" style="display:none;"><i class="material-icons">edit</i></a>
-              </div>
-            </div>
-            <div class="row" id="area_wrapper">
-              @foreach ($evento->areas as $key => $area)
-                <span>
-                  <input class="area-name validate" type="text"  name="area[{{$key}}]" id="area[{{$key}}]" value="{{$area->area->nombre}}" style="display:none;">
-                  <input class="area-id" type="hidden" name="area_id[{{$key}}]" value="{{$area->area->id}}"/>
-                  <div class="chip">
-                    <a class="area-edit" href="#">{{$area->area->nombre}}</a>
-                    <i class="close material-icons"> close </i> </div>
-                </span>
-              @endforeach
             </div>
           </div>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="collapsible-header"><i class="material-icons">description</i> Información de Tipo*</div>
-      <div class="collapsible-body">
-        <div class="container form-container">
-          <div class="row">
-            <div class="row">
-              <div class="col m3 offset-m1">
-                <label for="tipo-nombre">Nombre del Tipo</label>
-                <input type="text"  name="" id='tipo-nombre'>
-              </div>
-              <div class="col m2">
-                <label for="tipo-vacante">Vacantes</label>
-                <input type="text"  name="" id='tipo-vacante'>
-              </div>
-              <div class="col m3">
-                <input type="checkbox" id="tipo-evaluable" name="" />
-                <label for="tipo-evaluable">Evaluable</label>
-              </div>
-              <div class="col m2">
-                <a class="waves-effect waves-light btn-floating" id="add_tipo" name="add_tipo"><i class="material-icons">add</i></a>
-                <a class="waves-effect waves-light btn-floating" id="edit_tipo" name="edit_tipo" style="display:none;"><i class="material-icons">edit</i></a>
-              </div>
-            </div>
-            <div class="row" id="tipo_wrapper">
-              @foreach ($evento->tipoActividad as $key => $tipo)
-              <span>
-                <input class="validate tipo-nombre" type="text"  name="tipo[{{$key}}]" id="tipo[{{$key}}]" value="{{$tipo->tipoActividad->nombre}}" style="display:none;"/>
-                <input class="validate tipo-cantidad" type="number"  name="tipo_cantidad[{{$key}}]" id="tipo_cantidad[{{$key}}" value="{{$tipo->cant_maxima}}" style="display:none;"/>
-                <input class="tipo-evaluable" type="checkbox" id="tipo_evaluable[{{$key}}]" name="tipo_evaluable[{{$key}}]" value="{{$tipo->evaluable}}" style="display:none;"/>
-                <input class="tipo-id" type="hidden" name="tipo_id[{{$key}}]" value="{{$tipo->tipoActividad->id}}"/>
-                @if ($tipo->evaluable == true)
-                  <div class="chip" style="background-color: #1565C0 !important; color:#fff"> <a class="tipo-edit" style="color:#fff" href="#"> {{$tipo->cant_maxima}} | {{$tipo->tipoActividad->nombre}}</a> <i class="close material-icons"> close </i> </div>
-                @else
-                  <div class="chip"><a class="tipo-edit" href="#"> {{$tipo->cant_maxima}} | {{$tipo->tipoActividad->nombre}}</a>  <i class="close material-icons"> close </i> </div>
-                @endif
-              </span>
-              @endforeach
-            </div>
-          </div>
-        </div>
-      </div>
-    </li>
-  </ul>
+        </li>
+      </ul>
 
       <center>{{Form::submit('Editar', ['class' => 'waves-effect waves-light btn'])}}</center>
 
       {{Form::close()}}
-
+    </div>
   </div>
+
+
 @endsection
 
 @section('scripts')

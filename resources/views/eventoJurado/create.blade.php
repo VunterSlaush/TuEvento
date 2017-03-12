@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <nav id="breadcrumb-nav">
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
       <div class="nav-wrapper">
         <div class="col s12">
           <a href="/home" class="breadcrumb"> Dashboard</a>
@@ -12,55 +12,61 @@
         </div>
       </div>
     </nav>
-    <h1> Asignar Jurado:</h1>
-    <div class="row">
-      <div class="col m6">
-        <label for="id_user"> Usuario</label>
-        <select name='id_user' class="js-example-data-ajax" id="seleccionado" disabled>
-        </select>
-      </div>
-      <div class="input-field col m4">
-        <select name='area' id="area">
-          <option value="" disabled selected>Selecciona un Area</option>
-          @foreach ($evento->areas as $area)
-              <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
-          @endforeach
-        </select>
-        <label>Selecciona un Area</label>
-      </div>
-      <div class="col m2">
-        <a class='btn' href='#' onclick="guardarJurado();"><i class="material-icons">send</i></a>
-      </div>
+    <div class="container">
+      <h3>  Asignar Jurado</h3>
     </div>
+  </div>
+
+  <div class="content-body">
+    <div class="container">
+      <div class="row">
+        <div class="col m6">
+          <label for="id_user"> Usuario</label>
+          <select name='id_user' class="js-example-data-ajax" id="seleccionado" disabled>
+          </select>
+        </div>
+        <div class="input-field col m4">
+          <select name='area' id="area">
+            <option value="" disabled selected>Selecciona un Area</option>
+            @foreach ($evento->areas as $area)
+                <option value="{{ $area->area->nombre }}">{{ $area->area->nombre }}</option>
+            @endforeach
+          </select>
+          <label>Selecciona un Area</label>
+        </div>
+        <div class="col m2">
+          <a class='btn' href='#' onclick="guardarJurado();"><i class="material-icons">send</i></a>
+        </div>
+      </div>
 
 
-    <table id="event_table">
-      <thead>
-        <tr>
-          <th> Nombre </th>
-          <th> Cedula </th>
-          <th> Area </th>
-        </tr>
-      </thead>
+      <table id="event_table">
+        <thead>
+          <tr>
+            <th> Nombre </th>
+            <th> Cedula </th>
+            <th> Area </th>
+          </tr>
+        </thead>
 
-      <tbody>
-        @foreach($evento->jurados as $key => $value)
-        <tr id="jurado{{$value->id}}">
-          <td> {{$value->user->nombre}}</td>
-          <td> {{$value->user->cedula}}</td>
-          <td id="area_jurado{{$value->id}}">
-              @foreach($value->areas as $area)
-              <div class="chip">
-                {{$area->area->nombre}}
-                <i class="close material-icons" onclick="removeAreaFromUser({{$area}})">close</i>
-              </div>
-              @endforeach
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
-
+        <tbody>
+          @foreach($evento->jurados as $key => $value)
+          <tr id="jurado{{$value->id}}">
+            <td> {{$value->user->nombre}}</td>
+            <td> {{$value->user->cedula}}</td>
+            <td id="area_jurado{{$value->id}}">
+                @foreach($value->areas as $area)
+                <div class="chip">
+                  {{$area->area->nombre}}
+                  <i class="close material-icons" onclick="removeAreaFromUser({{$area}})">close</i>
+                </div>
+                @endforeach
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
   </div>
 @endsection
 @section('scripts')
