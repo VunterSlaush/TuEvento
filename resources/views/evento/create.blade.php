@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <nav id="breadcrumb-nav">
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
       <div class="nav-wrapper">
         <div class="col s12">
           <a href="/home" class="breadcrumb"> Dashboard</a>
@@ -11,116 +11,119 @@
         </div>
       </div>
     </nav>
-
-    <h2> Crear evento</h2>
+    <div class="container">
+      <h3>  Crear Evento</h3>
+    </div>
+  </div>
     {{Html::ul($errors->all())}}
 
     {{Form::open(array('url' => 'evento','files' => 'true'))}}
-
-    <ul class="collapsible" data-collapsible="accordion">
-      <li>
-        <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
-        <div class="collapsible-body">
-          <div class="container form-container">
-            <div class="row">
-              <div class="col m4">
-                  {{Form::label('image','Imagen')}}
-                  <div id="event-image"
-                  style="background-image:url(https://cdn3.iconfinder.com/data/icons/faticons/32/picture-01-256.png);
-                          background-size:cover;
-                          width: 150px;
-                          height:150px;
-                          background-position:center;">
+    <div class="content-body">
+      <div class="container">
+        <ul class="collapsible" data-collapsible="accordion">
+          <li>
+            <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
+            <div class="collapsible-body">
+              <div class="container form-container">
+                <div class="row">
+                  <div class="col m4">
+                      {{Form::label('image','Imagen')}}
+                      <div id="event-image"
+                      style="background-image:url(https://cdn3.iconfinder.com/data/icons/faticons/32/picture-01-256.png);
+                              background-size:cover;
+                              width: 150px;
+                              height:150px;
+                              background-position:center;">
+                      </div>
+                      <input name="image" type="file" id="image" style="display:none;">
+                      <a class="btn waves-light col m12"href="#!" onclick="inputImageClick();"> Seleccionar</a>
                   </div>
-                  <input name="image" type="file" id="image" style="display:none;">
-                  <a class="btn waves-light col m12"href="#!" onclick="inputImageClick();"> Seleccionar</a>
-              </div>
-              <div class="col m8">
-                <div class="col m12">
-                  {{Form::label('nombre','Nombre*')}}
-                  {{Form::text('nombre')}}
-                </div>
-                <div class="col m12">
-                  {{Form::label('lugar','Lugar*')}}
-                  {{Form::text('lugar')}}
-                </div>
+                  <div class="col m8">
+                    <div class="col m12">
+                      {{Form::label('nombre','Nombre*')}}
+                      {{Form::text('nombre')}}
+                    </div>
+                    <div class="col m12">
+                      {{Form::label('lugar','Lugar*')}}
+                      {{Form::text('lugar')}}
+                    </div>
 
-                  <div class="col m12">
-                      <input type="checkbox" id="certificado_por_actividad" name="certificado_por_actividad" />
-                      <label for="certificado_por_actividad">Certificado Por Actividad</label>
+                      <div class="col m12">
+                          <input type="checkbox" id="certificado_por_actividad" name="certificado_por_actividad" />
+                          <label for="certificado_por_actividad">Certificado Por Actividad</label>
+                      </div>
+
                   </div>
+                </div>
+                <div class="row">
+                  <div class="col m6">
+                    {{Form::label('fecha_inicio','Fecha de Inicio*')}}
+                    {{Form::date('fecha_inicio','',array('class' => 'datepicker'))}}
+                  </div>
+                  <div class="col m6">
+                    {{Form::label('fecha_fin','Fecha Final*')}}
+                    {{Form::date('fecha_fin','',array('class' => 'datepicker'))}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">book</i> Información de Area*</div>
+            <div class="collapsible-body">
+              <div class="container form-container">
+                <div class="row">
+                  <div class="row">
+                    <div class="col m8">
+                      <label for="area-info">Nombre del Area</label>
+                      <input type="text"  name="" id='area-info'>
+                    </div>
+                    <div class="col m4">
+                      <a class="waves-effect waves-light btn-floating" id="add_area" name="add_area"><i class="material-icons">add</i></a>
+                    </div>
+                  </div>
+                  <div class="row" id="area_wrapper">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">description</i> Información de Tipo*</div>
+            <div class="collapsible-body">
+              <div class="container form-container">
+                <div class="row">
+                  <div class="row">
+                    <div class="col m3 offset-m1">
+                      <label for="tipo-nombre">Nombre del Tipo</label>
+                      <input type="text"  name="" id='tipo-nombre'>
+                    </div>
+                    <div class="col m2">
+                      <label for="tipo-vacante">Vacantes</label>
+                      <input type="text"  name="" id='tipo-vacante'>
+                    </div>
+                    <div class="col m3">
+                      <input type="checkbox" id="tipo-evaluable" name="" />
+                      <label for="tipo-evaluable">Evaluable</label>
+                    </div>
+                    <div class="col m2">
+                      <a class="waves-effect waves-light btn-floating" id="add_tipo" name="add_tipo"><i class="material-icons">add</i></a>
+                    </div>
+                  </div>
+                  <div class="row" id="tipo_wrapper">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
 
-              </div>
-            </div>
-            <div class="row">
-              <div class="col m6">
-                {{Form::label('fecha_inicio','Fecha de Inicio*')}}
-                {{Form::date('fecha_inicio','',array('class' => 'datepicker'))}}
-              </div>
-              <div class="col m6">
-                {{Form::label('fecha_fin','Fecha Final*')}}
-                {{Form::date('fecha_fin','',array('class' => 'datepicker'))}}
-              </div>
-            </div>
+          <div class="row">
+            {{Form::submit('Crear')}}
           </div>
-        </div>
-      </li>
-      <li>
-        <div class="collapsible-header"><i class="material-icons">book</i> Información de Area*</div>
-        <div class="collapsible-body">
-          <div class="container form-container">
-            <div class="row">
-              <div class="row">
-                <div class="col m8">
-                  <label for="area-info">Nombre del Area</label>
-                  <input type="text"  name="" id='area-info'>
-                </div>
-                <div class="col m4">
-                  <a class="waves-effect waves-light btn-floating" id="add_area" name="add_area"><i class="material-icons">add</i></a>
-                </div>
-              </div>
-              <div class="row" id="area_wrapper">
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="collapsible-header"><i class="material-icons">description</i> Información de Tipo*</div>
-        <div class="collapsible-body">
-          <div class="container form-container">
-            <div class="row">
-              <div class="row">
-                <div class="col m3 offset-m1">
-                  <label for="tipo-nombre">Nombre del Tipo</label>
-                  <input type="text"  name="" id='tipo-nombre'>
-                </div>
-                <div class="col m2">
-                  <label for="tipo-vacante">Vacantes</label>
-                  <input type="text"  name="" id='tipo-vacante'>
-                </div>
-                <div class="col m3">
-                  <input type="checkbox" id="tipo-evaluable" name="" />
-                  <label for="tipo-evaluable">Evaluable</label>
-                </div>
-                <div class="col m2">
-                  <a class="waves-effect waves-light btn-floating" id="add_tipo" name="add_tipo"><i class="material-icons">add</i></a>
-                </div>
-              </div>
-              <div class="row" id="tipo_wrapper">
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
-
-      <div class="row">
-        {{Form::submit('Crear')}}
+            {{Form::close()}}
       </div>
-        {{Form::close()}}
     </div>
-
 @endsection
 
 @section('scripts')

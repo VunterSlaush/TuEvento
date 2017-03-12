@@ -1,42 +1,48 @@
 @extends('layouts.app')
 <!-- TODO quizas a;adir una lista de Usuarios? o Bajar las asistencias  -->
 @section('content')
-<div class="container">
-  <nav id="breadcrumb-nav">
+<div class="content-head col s12">
+  <nav id="breadcrumb-nav" class="hide-on-med-and-down">
     <div class="nav-wrapper">
       <div class="col s12">
         <a href="/home" class="breadcrumb"> Dashboard</a>
-        <a href="{{ route('evento.actividad.show',[$actividad->id_evento,$actividad->id])}}" class="breadcrumb"> {{$actividad->titulo}}</a>
-        <a href="#" class="breadcrumb"> Presentador </a>
+        <a href="#" class="breadcrumb"> Asignar Presentador</a>
       </div>
     </div>
   </nav>
-  <h1> Asignar Presentador </h1>
-  <div class="col m4">
-    <select name='id_user' class="js-example-data-ajax" id="seleccionado">
-    </select>
+  <div class="container">
+    <h3>  Asignar Presentador</h3>
   </div>
-  <table id="presentador_table">
-    <thead>
-      <tr>
-        <th> Nombre </th>
-        <th> Cedula </th>
-        <th> ¿Eliminar? </th>
-      </tr>
-    </thead>
+</div>
 
-    <tbody>
-      @foreach($actividad->presentadores as $key => $value)
-      <tr id="presentador{{$value->id}}">
-        <td> {{$value->user->nombre}}</td>
-        <td> {{$value->user->cedula}}</td>
-        <td>
-            <a class='btn' href='#' onclick="eliminarPresentador({{$value->id}});"><i class="material-icons">delete</i></a>
-        </td>
-      </tr>
-      @endforeach
-    </tbody>
-  </table>
+<div class="content-body">
+  <div class="container">
+    <div class="col m4">
+      <select name='id_user' class="js-example-data-ajax" id="seleccionado">
+      </select>
+    </div>
+    <table id="presentador_table">
+      <thead>
+        <tr>
+          <th> Nombre </th>
+          <th> Cedula </th>
+          <th> ¿Eliminar? </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @foreach($actividad->presentadores as $key => $value)
+        <tr id="presentador{{$value->id}}">
+          <td> {{$value->user->nombre}}</td>
+          <td> {{$value->user->cedula}}</td>
+          <td>
+              <a class='btn' href='#' onclick="eliminarPresentador({{$value->id}});"><i class="material-icons">delete</i></a>
+          </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+  </div>
 </div>
 @endsection
 @section('scripts')

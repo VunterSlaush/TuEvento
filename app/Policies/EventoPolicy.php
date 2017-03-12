@@ -41,12 +41,4 @@ class EventoPolicy
     return false;
   }
 
-  public function evaluate(User $user)
-  {
-    // $jurados = $user->jurados;
-    // Log::info($jurados);
-
-      Log::info("hola");
-    return true;
-  }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    <nav id="breadcrumb-nav">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
       <div class="nav-wrapper">
         <div class="col s12">
           <a href="/home" class="breadcrumb"> Dashboard</a>
