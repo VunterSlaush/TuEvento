@@ -21,4 +21,13 @@ class Area extends Model
   public function areaJurado(){
     return $this->hasMany('App\AreaJurado','id_area');
   }
+
+  public function setNombreAttribute($value){
+    $this->attributes['nombre'] = ucfirst(strtolower($value));
+  }
+
+  public function getNombreAttribute($value){
+    return ucfirst(strtoupper($value));
+  }
+
 }
