@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function ()
   Route::get('/miHorario','AsisteController@mi_horario');
   Route::get('/misActividades','ActividadController@mis_actividades');
   Route::get('/misCertificados',['uses' => 'CertificadoController@verCertificados']);
+  Route::get('/actividad/{id}/verAsistencia','AsisteController@verAsistencia');
+  Route::get('/actividad/{id}/asistencia','AsisteController@descargarAsistencia');
   Route::get('/actividad/{id}/asistir','ActividadController@asistir');
   Route::get('/actividad/{id}/verificarAsistencia',
   ['as' => 'verificarAsistencia', 'uses' => 'ActividadController@verificarAsistencia']);

@@ -87,4 +87,77 @@ class AsisteController extends ActividadController
 
 
     }
+
+    /*
+    Query para obtener la lista de asistentes a una actividad
+
+    SELECT users.nombre,users.cedula,users.email,asiste.asistio, actividad.titulo
+    FROM users 
+    INNER JOIN asiste 
+    ON users.cedula = asiste.cedula AND asiste.id_actividad = 1
+    INNER JOIN actividad
+    ON actividad.id = asiste.id_actividad
+    ORDER BY asiste.asistio DESC;
+
+    */
+
+    public function getAsistencia($id_actividad){
+      
+      if(Auth::guest()){
+        return redirect('/');
+      }
+
+      $asistentes = DB::table('users')
+      ->select('users.nombre as nombre','users.cedula as cedula','users.email as email', 'asiste.asistio as asistio','actividad.titulo as titulo')
+      ->join('asiste','users.cedula','=','asiste.cedula')
+      ->where('asiste.id_actividad','=',$id_actividad)
+      ->join('actividad','actividad.id','=','asiste.id_actividad')
+      ->orderBy('asiste.asistio', 'desc')
+      ->get();
+
+      return $asistentes;
+
+    }
+
+    public function getTitulo($id_actividad){
+      $titulo = DB::table('actividad')
+      ->select('actividad.titulo as titulo')      
+      ->where('actividad.id','=',$id_actividad)      
+      ->first();
+
+      return $titulo;      
+    }
+
+    public function descargarAsistencia($id_actividad){
+
+      if(Auth::guest()){
+
+            return redirect('home');
+
+        }else{
+
+            $asistencia = $this->getAsistencia($id_actividad);
+            $titulo = $this->getTitulo($id_actividad);
+
+            $asistentes = \PDF::loadview('asistencia',['asistencia' => $asistencia, 'title' => $titulo]);
+            return $asistentes->setPaper('a4')->stream('asistencia.pdf');
+        }
+      
+    }
+
+    public function verAsistencia($id_actividad){
+
+      if(Auth::guest()){
+
+            return redirect('home');
+
+        }else{
+
+            $asistencia = $this->getAsistencia($id_actividad);
+
+            return view('verAsistencia',['asistencia' => $asistencia]);
+            
+        }
+      
+    }
 }
