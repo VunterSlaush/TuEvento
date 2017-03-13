@@ -1,17 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
-      <div class="nav-wrapper">
-        <div class="col s12">
-          <a href="/home" class="breadcrumb"> Dashboard</a>
-          <a href="#" class="breadcrumb"> Mis Actividades</a>
-        </div>
+<div class="content-head col s12">
+  <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="/home" class="breadcrumb"> Dashboard</a>
+        <a href="#" class="breadcrumb"> Mi Perfil</a>
       </div>
-    </nav>
-    <h1>Mi perfil</h1>
+    </div>
+  </nav>
+  <div class="container">
+    <h3 > Mi Perfil</h3>
   </div>
+</div>
+
+<div class="content-body">
   <div class="container">
     <div class="row">
       <div class="col m1"><i class="medium material-icons" style="color:#1565c0;">perm_identity</i></div>
@@ -148,6 +152,8 @@
       </div>
     </div>
   </div>
+</div>
+
 @endsection
 @section('scripts')
 

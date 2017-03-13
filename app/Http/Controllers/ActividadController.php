@@ -29,7 +29,7 @@ class ActividadController extends Controller
      */
     public function index()
     {
-      $actividad = Actividad::all();
+      $actividad = Actividad::where('id_user',Auth::id())->get();
       return view('actividad.index',['actividad' => $actividad]);
     }
 
@@ -47,7 +47,7 @@ class ActividadController extends Controller
       $propuesta = Propuesta::find($id);
 
       try{
-        Actividad::create([
+        $actividad = Actividad::create([
           'id_user' => $propuesta->autor,
           'id_evento' => $propuesta->id_evento,
           'titulo' => $propuesta->titulo,
@@ -56,6 +56,7 @@ class ActividadController extends Controller
           'resumen' => $propuesta->descripcion
         ]);
         $propuesta->delete();
+        $this->createAsistencia($actividad->id,$actividad->id_user);
       } catch (\Exception $qe) {
         return redirect()->back()->withErrors(['Error al Aplicar propuesta']);
       }

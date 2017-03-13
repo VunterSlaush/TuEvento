@@ -14,10 +14,10 @@ class presentador_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 10; $i++) {
+		for ($i=0; $i < 380; $i++) {
     	\DB::table('presentador')->insert(array(
-    		'id_actividad' => $faker->numberBetween($min = 1, $max = 40),
-    		'id_user' => $faker->numberBetween($min = 1, $max = 50),    		
+    		'id_actividad' => $faker->unique()->numberBetween($min = 1, $max = 400),
+    		'id_user' => $faker->numberBetween($min = 1, $max = 450),
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));

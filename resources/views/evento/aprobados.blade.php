@@ -1,18 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <nav id="breadcrumb-nav">
-      <div class="nav-wrapper">
-        <div class="col s12">
-          <a href="/home" class="breadcrumb"> Dashboard</a>
-          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
-          <a href="/evento/{{$evento->id}}" class="breadcrumb"> {{$evento->nombre}}</a>
-          <a href="#" class="breadcrumb">Propuestas Aprobadas</a>
-        </div>
+<div class="content-head col s12">
+  <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="/home" class="breadcrumb"> Dashboard</a>
+        <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+        <a href="/evento/{{$evento->id}}" class="breadcrumb"> {{title_case($evento->nombre)}}</a>
+        <a href="#" class="breadcrumb"> Propuestas Aprobadas </a>
       </div>
-    </nav>
+    </div>
+  </nav>
+  <div class="container">
     <h3> Propuestas Aprobadas</h3>
+  </div>
+</div>
+
+<div class="content-body">
+  <div class="container">
     <a class="waves-effect waves-light btn" onclick="aprobarSeleccionados()">Aprobar Seleccionados</a>
     <a class="waves-effect waves-light btn" onclick="reprobarSeleccionados()">Reprobar Seleccionados</a>
 
@@ -47,6 +53,8 @@
       </tbody>
     </table>
   </div>
+</div>
+
 @endsection
 
 @section('scripts')

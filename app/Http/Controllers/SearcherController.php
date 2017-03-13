@@ -29,20 +29,29 @@ class SearcherController extends Controller
     {
       $search = strtolower($search);
       $actividades = DB::table('actividad')->whereRaw("lower(titulo) LIKE '%".$search."%'")->
+      whereNotNull('actividad.fecha')->
+      whereNotNull('actividad.hora_inicio')->
+      whereNotNull('actividad.hora_fin')->
         orWhereRaw("to_char(fecha,'DD-MM-YYYY') LIKE '%".str_replace("/", "-", $search)."%'")->
         orWhereRaw("to_char(fecha,'YYYY-MM-DD') LIKE '%".str_replace("/", "-", $search)."%'")->limit(50)->get();
 
       $actividades_tipo = DB::table('actividad')
                     ->select('actividad.*')
                     ->join('tipo_actividad', 'tipo_actividad.id', '=', 'actividad.tipo')
-                    ->whereRaw("lower(tipo_actividad.nombre) LIKE '%".$search."%'")
+                    ->whereRaw("lower(tipo_actividad.nombre) LIKE '%".$search."%'")->
+                    whereNotNull('actividad.fecha')->
+                    whereNotNull('actividad.hora_inicio')->
+                    whereNotNull('actividad.hora_fin')
                     ->limit(50)
                     ->get();
 
       $actividades_area = DB::table('actividad')
                       ->select('actividad.*')
                       ->join('area', 'area.id', '=', 'actividad.area')
-                      ->whereRaw("lower(area.nombre) LIKE '%".$search."%'")
+                      ->whereRaw("lower(area.nombre) LIKE '%".$search."%'")->
+                      whereNotNull('actividad.fecha')->
+                      whereNotNull('actividad.hora_inicio')->
+                      whereNotNull('actividad.hora_fin')
                       ->limit(50)
                       ->get();
 

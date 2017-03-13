@@ -14,7 +14,7 @@ class tipo_actividad_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 10; $i++) {
+		for ($i=0; $i < 20; $i++) {
     	\DB::table('tipo_actividad')->insert(array(    		
            	'nombre' => $faker->unique()->catchPhrase,
            	'created_at' => date('Y-m-d H:m:s'),

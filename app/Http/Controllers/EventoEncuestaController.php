@@ -33,13 +33,22 @@ class EventoEncuestaController extends Controller
 
   public function storeEncuesta(Request $request,$id_evento)
   {
-    $tipo = $request->input('tipo');
-    $encuesta = Encuesta::create(['nombre'=> $request->input('nombre'), 'id_evento' => $id_evento, 'tipo' => $tipo ]);
-    $preguntas = $request->input('preguntas');
-    foreach ($preguntas as $key => $value) {
-      EncuestaPregunta::create(['id_pregunta' => $value, 'id_encuesta'=> $encuesta->id]);
+    try
+    {
+      $tipo = $request->input('tipo');
+      $encuesta = Encuesta::create(['nombre'=> $request->input('nombre'), 'id_evento' => $id_evento, 'tipo' => $tipo ]);
+      $preguntas = $request->input('preguntas');
+      foreach ($preguntas as $key => $value)
+      {
+        EncuestaPregunta::create(['id_pregunta' => $value, 'id_encuesta'=> $encuesta->id]);
+      }
+      return json_encode(['success' => true]);
     }
-    return json_encode(['success' => true]);
+    catch (\Exception $e)
+    {
+      return json_encode(['success' => false, 'msg' => 'Error al Crear Encuesta']);
+    }
+
   }
 
   public function storePregunta(Request $request)
@@ -159,13 +168,15 @@ class EventoEncuestaController extends Controller
 
   public function verPreguntas($id_evento)
   {
-    $preguntas = Pregunta::where('id_evento',$id_evento)->get();
-      return view('Encuesta.preguntas',['preguntas' => $preguntas]);
+      $preguntas = Pregunta::where('id_evento',$id_evento)->get();
+      $evento = Evento::find($id_evento);
+      return view('Encuesta.preguntas',['preguntas' => $preguntas, 'evento' => $evento]);
   }
 
   public function verEncuestas($id_evento)
   {
     $encuestas = Encuesta::where('id_evento',$id_evento)->get();
+    $evento = Evento::find($id_evento);
     $preguntas = collect();
     foreach ($encuestas as $key => $value) {
       foreach ($value->preguntas as $key => $p)
@@ -173,7 +184,7 @@ class EventoEncuestaController extends Controller
         $preguntas->push(['pregunta' => $p->pregunta->pregunta, 'id_pregunta' => $p->id_pregunta, 'id_encuesta' => $p->id_encuesta, 'id' =>$p->id]);
       }
     }
-    return view('Encuesta.encuestas',['encuestas' => $encuestas, 'preguntas' => $preguntas]);
+    return view('Encuesta.encuestas',['encuestas' => $encuestas, 'preguntas' => $preguntas,'evento' => $evento]);
   }
 
   //TODO permisos para borrar este beta?

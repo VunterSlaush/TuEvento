@@ -1,30 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <table id="event_table">
-    <thead>
-      <tr>
-        <th> Nombre </th>
-        <th> Acciones </th>
-      </tr>
-    </thead>
 
-    <tbody>
-      @foreach($encuestas as $key => $value)
-      <tr id='p{{$value->id}}'>
-        <td> {{$value->nombre}}</td>
-        <td class="action">
-          <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
-          <ul class='dropdown-content'>
-            <li><a href="#" onclick="verPreguntas({{json_encode($value)}})">Ver Preguntas</a></li>
-            <li><a href="javascript:deleteEncuesta('{{ $value->id }}');" data-method="delete">Eliminar</a></li>
-          </ul>
-        </td>
-      </tr>
-      @endforeach
-    </tbody>
-  </table>
+<div class="content-head col s12">
+  <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="/home" class="breadcrumb"> Dashboard</a>
+        <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+        <a href="/evento/{{$evento->id}}" class="breadcrumb"> {{$evento->nombre}}</a>
+        <a href="#" class="breadcrumb">Ver Encuestas</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <h3> Ver Encuestas</h3>
+  </div>
+</div>
+
+<div class="content-body">
+  <div class="container">
+    <table id="event_table">
+      <thead>
+        <tr>
+          <th> Nombre </th>
+          <th> Acciones </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @foreach($encuestas as $key => $value)
+        <tr id='p{{$value->id}}'>
+          <td> {{$value->nombre}}</td>
+          <td class="action">
+            <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
+            <ul class='dropdown-content'>
+              <li><a href="#" onclick="verPreguntas({{json_encode($value)}})">Ver Preguntas</a></li>
+              <li><a href="javascript:deleteEncuesta('{{ $value->id }}');" data-method="delete">Eliminar</a></li>
+            </ul>
+          </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+</div>
+
 
 
 <!-- Modal Structure -->

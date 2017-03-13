@@ -10,6 +10,7 @@ use App\User;
 use App\AreaActividad;
 use App\TipoActividad;
 use App\TipoActividadActividad;
+use App\Asiste;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +60,27 @@ class EventoActividadController extends Controller
                                               'actividad' => $actividades,]);
     }
 
+    function createAsistencia($id,$cedula)
+    {
+      $asiste = new Asiste;
+      $asiste->id_actividad = $id;
+      $asiste->cedula = $cedula;
+      $asiste->codigo = $this->generateRandomString(8);
+      $asiste->asistio = false;
+      $asiste->save();
+      return $asiste;
+    }
+
+    function generateRandomString($length = 10)
+    {
+      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      $charactersLength = strlen($characters);
+      $randomString = '';
+      for ($i = 0; $i < $length; $i++) {
+          $randomString .= $characters[rand(0, $charactersLength - 1)];
+      }
+      return $randomString;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -120,6 +142,7 @@ class EventoActividadController extends Controller
 
 
             $nueva_actividad = Actividad::create($request->all());
+            $this->createAsistencia($nueva_actividad->id, $nueva_actividad->id_user);
           }else{
             return redirect()->back()->withInput()->withErrors(['Por favor complete Hora de Inicio, Hora de fin y Fecha o deje todos los campos en blanco']);
           }
@@ -203,4 +226,6 @@ class EventoActividadController extends Controller
     {
         //
     }
+
+
 }

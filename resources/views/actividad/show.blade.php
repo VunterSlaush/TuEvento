@@ -36,8 +36,9 @@
       </li>
     </ul>
     @cannot('attend',$actividad)
+    @if($actividad['hora_inicio'] != null && $actividad['hora_fin'] != null && $actividad['fecha'] != null && $actividad['id_user'] != Auth::id())
       <a class="btn" href="/actividad/{{$actividad->id}}/asistir"> Asistir</a>
-
+    @endif
         <!--TODO VERIFICAR SI EL USUARIO ES COMITE JURADO O ENCARGADO DEL EVENTO y si el evento ya no esta en
             Estado de Inscripciones -->
     @endcannot
