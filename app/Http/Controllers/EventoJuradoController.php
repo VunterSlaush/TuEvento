@@ -57,7 +57,7 @@ class EventoJuradoController extends Controller
                                     'id_jurado' => $jurado->id]);
       $areaJurado->save();
     }
-    catch (\Illuminate\Database\QueryException $qe)
+    catch (\Exception $qe)
     {
         return json_encode(['success'=>false,'msg' => 'Error al añadir jurado']);
     }

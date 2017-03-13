@@ -45,9 +45,6 @@
                                 <button type="submit" class="btn btn-primary">
                                     Ingresar
                                 </button>
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">
-                                    Olvidé mi contraseña
-                                </a>
                             </div>
                         </div>
                     </form>

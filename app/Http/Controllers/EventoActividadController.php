@@ -127,9 +127,8 @@ class EventoActividadController extends Controller
 
         DB::commit();
 
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         DB::rollBack();
-        dd($qe);
         return redirect()->back()->withInput()->withErrors(['Error al crear actividad verifica los datos proporcionados']);
       }
 
@@ -186,7 +185,7 @@ class EventoActividadController extends Controller
         Actividad::find($id_actividad)->update($request->all());
         $actividad = Actividad::find($id_actividad);
         $evento = Evento::find($id_evento);
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return redirect()->back()->withErrors(['Error al editar Actividad']);
       }
 

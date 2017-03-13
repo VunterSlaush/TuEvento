@@ -112,7 +112,7 @@
                   </div>
                   <div class="col m2">
                     <label for="tipo-vacante">Vacantes</label>
-                    <input type="text"  name="" id='tipo-vacante'>
+                    <input type="number"  name="" id='tipo-vacante'>
                   </div>
                   <div class="col m3">
                     <input type="checkbox" id="tipo-evaluable" name="" />

@@ -64,7 +64,7 @@ class EventoComiteController extends Controller
       try{
         $comite = Comite::create($request->all());
         $user = User::where('cedula',$comite->id_user)->first();
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return json_encode(['succes' =>false, 'msg'=>'Error al guardar comite']);
       }
 
@@ -114,7 +114,7 @@ class EventoComiteController extends Controller
     {
       try{
       Comite::find($id)->update($request->all());
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return redirect()->back()->withErrors(['Error al editar comite']);
       }
       return redirect()->route('evento.comite.index',['id_evento' => $id_evento])

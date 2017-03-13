@@ -55,7 +55,8 @@ class ActividadController extends Controller
           'area' => $propuesta->id_area,
           'resumen' => $propuesta->descripcion
         ]);
-      } catch (\Illuminate\Database\QueryException $qe) {
+        $propuesta->delete();
+      } catch (\Exception $qe) {
         return redirect()->back()->withErrors(['Error al Aplicar propuesta']);
       }
 
@@ -82,7 +83,7 @@ class ActividadController extends Controller
 
       try{
         Actividad::create($request->all());
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return redirect()->back()->withErrors(['Error al crear Actividad']);
       }
 
@@ -130,7 +131,7 @@ class ActividadController extends Controller
         ]);
         try{
           Actividad::find($id)->update($request->all());
-        } catch (\Illuminate\Database\QueryException $qe) {
+        } catch (\Exception $qe) {
           return redirect()->back()->withErrors(['Error al editar Actividad']);
         }
 
@@ -178,7 +179,7 @@ class ActividadController extends Controller
           $this->createAsistencia($id,Auth::id());
           return redirect('/miHorario');
         } catch (\Exception $e) {
-          
+
           return redirect('/miHorario')->withErrors(['Error al marcar asistencia']);;
         }
 
@@ -208,10 +209,9 @@ class ActividadController extends Controller
 
     function schedulerUpdate(Request $request){
       $actividad = json_decode($request->actividad,true);
-      Log::info($actividad);
       try{
         Actividad::find($actividad["id"])->update($actividad);
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return json_encode(['success'=>'false']);
       }
       return json_encode(['success'=>'true']);
