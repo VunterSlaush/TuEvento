@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Evento;
 use App\Area;
+use App\Asiste;
 use App\AreaEvento;
 use App\TipoActividad;
 use App\Actividad;
@@ -524,7 +525,7 @@ class EventoController extends Controller
     public function convertirEnActividad($id_propuesta)
     {
       $propuesta = Propuesta::find($id_propuesta);
-        Actividad::create([
+      $actividad =  Actividad::create([
           'id_user' => $propuesta->autor,
           'id_evento' => $propuesta->id_evento,
           'titulo' => $propuesta->titulo,
@@ -532,6 +533,28 @@ class EventoController extends Controller
           'area' => $propuesta->id_area,
           'resumen' => $propuesta->descripcion
         ]);
+        $this->createAsistencia($actividad->id,$actividad->id_user);
+    }
 
+    function createAsistencia($id,$cedula)
+    {
+      $asiste = new Asiste;
+      $asiste->id_actividad = $id;
+      $asiste->cedula = $cedula;
+      $asiste->codigo = $this->generateRandomString(8);
+      $asiste->asistio = false;
+      $asiste->save();
+      return $asiste;
+    }
+
+    function generateRandomString($length = 10)
+    {
+      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      $charactersLength = strlen($characters);
+      $randomString = '';
+      for ($i = 0; $i < $length; $i++) {
+          $randomString .= $characters[rand(0, $charactersLength - 1)];
+      }
+      return $randomString;
     }
 }

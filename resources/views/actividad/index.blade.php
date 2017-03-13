@@ -24,7 +24,6 @@
         <th> Titulo </th>
         <th> Inicio </th>
         <th> Fin </th>
-        <th> Resumen </th>
         <th> Acciones </th>
       </thead>
       <tbody>
@@ -36,11 +35,9 @@
           <td> {{$value->titulo}}</td>
           <td> {{$value->hora_inicio}}</td>
           <td> {{$value->hora_fin}}</td>
-          <td> {{$value->resumen}}</td>
           <td class="action">
             <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
             <ul class='dropdown-content'>
-              <li><a href="/actividad/{{$value->id}}/asistir"> Asistir</a></li>
               <li><a href="{{route('evento.actividad.show',[$value->evento->id,$value->id])}}"> Mostrar</a></li>
               @can('modify',$value)
                 <li><a href="{{route('evento.actividad.edit',[$value->evento->id,$value->id])}}"> Editar</a></li>

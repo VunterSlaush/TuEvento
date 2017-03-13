@@ -38,7 +38,9 @@
 
         @cannot('attend',$actividad)
           @can ('viewState',[$evento,['inscripciones','iniciado']])
-            <a class="btn" href="/actividad/{{$actividad->id}}/asistir"> Asistir</a>
+            @if($actividad['hora_inicio'] != null && $actividad['hora_fin'] != null && $actividad['fecha'] != null && $actividad['id_user'] != Auth::id())
+              <a class="btn" href="/actividad/{{$actividad->id}}/asistir"> Asistir</a>
+            @endif
             <!--TODO VERIFICAR SI EL USUARIO ES COMITE JURADO O ENCARGADO DEL EVENTO y si el evento ya no esta en
                  Estado de Inscripciones -->
            @endcan
@@ -48,7 +50,7 @@
             <a class="btn" href="/actividad/{{$actividad->id}}/verificarAsistencia"> Verificar Asistencia!</a>
             <a class="btn" href="{{ route('actividad.presentador.create',$actividad->id) }}"> Asignar Presentador</a>
             <a class="btn" href="/actividad/{{$actividad->id}}/verAsistencia"> Ver Asistencia</a>
-            <a class="btn" href="/actividad/{{$actividad->id}}/asistencia"> Descargar Asistencia</a>
+            <a class="btn" href="/actividad/{{$actividad->id}}/asistencia" target="_blank"> Descargar Asistencia</a>
           @endcan
         @endcan
         @can ('viewState',[$evento,['finalizado']])

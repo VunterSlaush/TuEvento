@@ -19,25 +19,26 @@
       <div class="container">
         <table id="event_table">
           <thead>
-            <th>Autor</th>
             <th>Evento</th>
-            <th>Adjunto</th>
             <th>Demanda</th>
             <th>Acciones</th>
           </thead>
           <tbody>
             @foreach($propuesta as $key => $value)
             <tr>
-              <td> {{$value->user->nombre}}</td>
               <td> {{$value->evento->nombre}}</td>
-              <td> {{$value->adjunto}}</td>
               <td> {{$value->demanda}}</td>
-              <td>
-                <a href="{{route('evento.propuesta.show',[$value->evento->id,$value->id])}}"> Mostrar</a>
-                <a href="{{route('evento.propuesta.edit',[$value->evento->id,$value->id])}}"> Editar</a>
-                {{ Form::open(['method' => 'DELETE','route' => ['propuesta.destroy', $value->id],'style'=>'display:inline'])}}
-                {{ Form::submit('Eliminar')}}
-                {{ Form::close()}}
+
+              <td class="action">
+                <a class='dropdown-button btn' href='#'><i class="material-icons">settings</i></a>
+                <!-- Dropdown Structure -->
+                <ul class='dropdown-content'>
+                  <li><a href="{{route('evento.propuesta.show',[$value->evento->id,$value->id])}}"> Mostrar</a></li>
+                  @can('modify',$value)
+                    <li><a href="{{route('evento.propuesta.edit',[$value->evento->id,$value->id])}}"> Editar</a></li>
+                    <li><a onclick="deletePropuesta('{{ $value->id }}')">Eliminar</a></li>
+                  @endcan
+                </ul>
               </td>
             </tr>
             @endforeach
@@ -47,3 +48,33 @@
     </div>
   </div>
 @endsection
+
+@section('scripts')
+
+  <script type="text/javascript">
+
+    $(".action").each(function(i) {
+      $(this).find("a.dropdown-button").attr('data-activates','dropdown_'+ i);
+      $(this).find("ul.dropdown-content").attr('id','dropdown_' +i );
+    });
+
+    function deletePropuesta(id)
+    {
+      if (confirm('¿Seguro que desea Eliminar?')) {
+          $.ajax({
+              type: "DELETE",
+              data: {_token: CSRF_TOKEN},
+              url: '/propuesta/' + id, //resource
+              success: function(affectedRows) {
+                  console.log(affectedRows);
+                  window.location.href = "/propuesta";
+              },
+              error : function ()
+              {
+                  window.location.href = "/propuesta";
+              }
+          });
+      }
+    }
+    </script>
+    @endsection

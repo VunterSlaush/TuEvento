@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Presentador;
 use App\Actividad;
 use App\User;
+use App\Asiste;
 use Illuminate\Support\Facades\DB;
 
 class ActividadPresentadorController extends Controller
@@ -47,6 +48,7 @@ class ActividadPresentadorController extends Controller
         $request->merge(['id_actividad' => $id_actividad]);
         $presentador = Presentador::create($request->all());
         $user = User::where('cedula',$presentador->id_user)->first();
+        $this->createAsistencia($id_actividad,$user->cedula);
         DB::commit();
 
         return json_encode(["success" => true, "presentador" => $presentador, "user" => $user]);
@@ -59,6 +61,29 @@ class ActividadPresentadorController extends Controller
       }
 
 
+    }
+
+
+    function createAsistencia($id,$cedula)
+    {
+      $asiste = new Asiste;
+      $asiste->id_actividad = $id;
+      $asiste->cedula = $cedula;
+      $asiste->codigo = $this->generateRandomString(8);
+      $asiste->asistio = false;
+      $asiste->save();
+      return $asiste;
+    }
+
+    function generateRandomString($length = 10)
+    {
+      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      $charactersLength = strlen($characters);
+      $randomString = '';
+      for ($i = 0; $i < $length; $i++) {
+          $randomString .= $characters[rand(0, $charactersLength - 1)];
+      }
+      return $randomString;
     }
 
     /**
