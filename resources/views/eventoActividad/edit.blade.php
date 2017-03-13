@@ -1,65 +1,81 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="container">
-    <h1> Evento: {{$evento->nombre}}</h1>
-    <h2> Editar Actividad: {{$actividad->titulo}}</h2>
-
-    {{Html::ul($errors->all())}}
-
-    {{Form::model($actividad, array('route' => array('evento.actividad.update',$evento->id,$actividad->id), 'method' => 'PUT'))}}
-    <ul class="collapsible" data-collapsible="accordion">
-      <li>
-        <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
-        <div class="collapsible-body">
-          <div class="container form-container">
-            <div class="row">
-              <div class="col m6">
-                {{Form::label('titulo','Titulo')}}
-                {{Form::text('titulo')}}
-              </div>
-              <div class="col m6">
-                <label for='id_user'>ponente</label>
-                <select name='id_user' class="js-example-data-ajax" id="ponente">
-                </select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col m12 input-field">
-                {{Form::label('resumen','Resumen')}}
-                {{Form::textArea('resumen',$actividad->resumen,array('class' => 'materialize-textarea','data-length' => '255','maxlength' => '255'))}}
-              </div>
-            </div>
-          </div>
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="{{ route('evento.show',$evento->id)}}" class="breadcrumb"> {{$evento->nombre}}</a>
+          <a href="#" class="breadcrumb"> Editar Actividad </a>
         </div>
-      </li>
-      <li>
-        <div class="collapsible-header active"><i class="material-icons">assignment</i> Fecha y Hora</div>
-        <div class="collapsible-body">
-          <div class="container form-container">
-            <div class="row">
-              <div class="col m4">
-                {{Form::label('fecha','Fecha')}}
-                {{Form::date('fecha',$actividad->fecha,array('class' => 'datepicker'))}}
-              </div>
-              <div class="col m4">
-                {{Form::label('hora_inicio','Hora de Inicio')}}
-                {{Form::time('hora_inicio',$actividad->hora_inicio,array('class' => 'timepicker'))}}
-              </div>
-              <div class="col m4">
-                {{Form::label('hora_fin','Hora de Finaliz.')}}
-                {{Form::time('hora_fin',$actividad->hora_fin,array('class' => 'timepicker'))}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
-    {{Form::submit('Editar',['class' => 'waves-effect waves-light btn'])}}
-
-    {{Form::close()}}
-
+      </div>
+    </nav>
+    <div class="container">
+      <h3>  {{title_case($evento->nombre)}}</h3>
+      <h4> Editar actividad: {{title_case($actividad->titulo)}}</h4>
+    </div>
   </div>
+
+  <div class="content-body">
+    <div class="container">
+      {{Html::ul($errors->all())}}
+
+      {{Form::model($actividad, array('route' => array('evento.actividad.update',$evento->id,$actividad->id), 'method' => 'PUT'))}}
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header active"><i class="material-icons">assignment</i> Información Base*</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="col m6">
+                  {{Form::label('titulo','Titulo')}}
+                  {{Form::text('titulo')}}
+                </div>
+                <div class="col m6">
+                  <label for='id_user'>ponente</label>
+                  <select name='id_user' class="js-example-data-ajax" id="ponente">
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col m12 input-field">
+                  {{Form::label('resumen','Resumen')}}
+                  {{Form::textArea('resumen',$actividad->resumen,array('class' => 'materialize-textarea','data-length' => '255','maxlength' => '255'))}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header active"><i class="material-icons">assignment</i> Fecha y Hora</div>
+          <div class="collapsible-body">
+            <div class="container form-container">
+              <div class="row">
+                <div class="col m4">
+                  {{Form::label('fecha','Fecha')}}
+                  {{Form::date('fecha',$actividad->fecha,array('class' => 'datepicker'))}}
+                </div>
+                <div class="col m4">
+                  {{Form::label('hora_inicio','Hora de Inicio')}}
+                  {{Form::time('hora_inicio',$actividad->hora_inicio,array('class' => 'timepicker'))}}
+                </div>
+                <div class="col m4">
+                  {{Form::label('hora_fin','Hora de Finaliz.')}}
+                  {{Form::time('hora_fin',$actividad->hora_fin,array('class' => 'timepicker'))}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      {{Form::submit('Editar',['class' => 'waves-effect waves-light btn'])}}
+
+      {{Form::close()}}
+    </div>
+  </div>
+
 @endsection
 
 @section('scripts')

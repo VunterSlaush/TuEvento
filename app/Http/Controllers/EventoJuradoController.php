@@ -54,7 +54,7 @@ class EventoJuradoController extends Controller
           $jurado = Jurado::create(['id_user' =>$id_user,'id_evento' => $id_evento]);
       }
       $areaJurado = new AreaJurado(['id_area' => $area->id,
-                                  'id_jurado' => $jurado->id]);
+                                    'id_jurado' => $jurado->id]);
       $areaJurado->save();
     }
     catch (\Illuminate\Database\QueryException $qe)

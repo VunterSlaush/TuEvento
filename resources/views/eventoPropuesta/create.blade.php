@@ -2,6 +2,16 @@
 
 @section('content')
   <div class="container">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/misEventos" class="breadcrumb"> Mis Eventos</a>
+          <a href="{{ route('evento.show',$evento->id)}}" class="breadcrumb"> {{$evento->nombre}}</a>
+          <a href="#" class="breadcrumb"> Crear Propuesta</a>
+        </div>
+      </div>
+    </nav>
 
     <h1> Crear propuesta</h1>
     <p>&nbsp;</p>

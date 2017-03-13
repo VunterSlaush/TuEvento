@@ -76,7 +76,7 @@
                         <div class="form-group">
                             <div class="col m6 offset-m4">
                                 <button type="submit" class="btn btn-primary">
-                                    Register
+                                    Registrar
                                 </button>
                             </div>
                         </div>

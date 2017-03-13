@@ -31,11 +31,13 @@ Route::group(['middleware' => 'auth'], function ()
   Route::get('/miHorario','AsisteController@mi_horario');
   Route::get('/misActividades','ActividadController@mis_actividades');
   Route::get('/misCertificados',['uses' => 'CertificadoController@verCertificados']);
+  Route::get('/actividad/{id}/verAsistencia','AsisteController@verAsistencia');
+  Route::get('/actividad/{id}/asistencia','AsisteController@descargarAsistencia');
   Route::get('/actividad/{id}/asistir','ActividadController@asistir');
   Route::get('/actividad/{id}/verificarAsistencia',
   ['as' => 'verificarAsistencia', 'uses' => 'ActividadController@verificarAsistencia']);
   Route::resource('asiste', 'AsisteController');
-  Route::post('marcarAsistencia',['as' => 'marcarAsistencia', 'uses' => 'AsisteController@marcarAsistencia']);
+  Route::post('/marcarAsistencia',['as' => 'marcarAsistencia', 'uses' => 'AsisteController@marcarAsistencia']);
   Route::get('califica/pendiente', 'CalificaController@porcalificar')->name('califica.porcalificar');
   Route::get('califica/lista', 'CalificaController@calificada')->name('califica.calificada');
   Route::resource('califica', 'CalificaController');
@@ -44,12 +46,31 @@ Route::group(['middleware' => 'auth'], function ()
   Route::post('updateProfile','PerfilController@updateProfile');
   Route::get('/evento/{id_evento}/createEncuesta',['as'=>'createEncuesta','uses'=> 'EventoEncuestaController@createEncuesta']);
   Route::get('/evento/{id_evento}/createPregunta',['as'=>'createPregunta','uses'=> 'EventoEncuestaController@createPregunta']);
+
+  Route::get('/evento/{id_evento}/verEncuestas',['as'=>'verEncuestas','uses'=> 'EventoEncuestaController@verEncuestas']);
+  Route::get('/evento/{id_evento}/verPreguntas',['as'=>'verPreguntas','uses'=> 'EventoEncuestaController@verPreguntas']);
+
   Route::post('/evento/{id_evento}/storeEncuesta',['as'=>'storeEncuesta', 'uses' => 'EventoEncuestaController@storeEncuesta']);
   Route::post('/evento/{id_evento}/storePregunta',['as'=>'storePregunta', 'uses' => 'EventoEncuestaController@storePregunta']);
   Route::get('/actividad/{id_actividad}/responderEncuesta',['as'=>'responderEncuestaActividad',
                                                            'uses' => 'EventoEncuestaController@responderEncuestaActividad']);
   Route::get('/actividad/{id_actividad}/guardarEncuesta',['as'=>'guardarEncuestaActividad',
                                                           'uses' => 'EventoEncuestaController@guardarEncuestaActividad']);
+  Route::post('/guardarEncuestaRespuesta',['as'=>'guardarEncuestaRespuestaActividad',
+                                                          'uses' => 'EventoEncuestaController@guardarRespuesta']);
+  Route::get('/propuesta/{id_propuesta}/seleccionarEncuesta',['as'=>'seleccionarEncuesta',
+                                                              'uses' => 'EventoEncuestaController@seleccionarEncuestaEvaluacion']);
+  Route::get('/propuesta/{id_propuesta}/evaluar/{id_encuesta}',['as'=>'responderEncuestaPropuesta',
+                                                              'uses' => 'EventoEncuestaController@responderEncuestaPropuesta']);
+
+  Route::post('/borrarOpcion',['as'=> 'borrarOpcion', 'uses'=> 'EventoEncuestaController@borrarOpcion']);
+  Route::post('/borrarEncuestaPregunta',['as'=> 'borrarEncuestaPregunta', 'uses'=> 'EventoEncuestaController@borrarEncuestaPregunta']);
+  Route::post('/borrarPregunta',['as'=> 'borrarPregunta', 'uses'=> 'EventoEncuestaController@borrarPregunta']);
+  Route::post('/borrarEncuesta',['as'=> 'borrarEncuesta', 'uses'=> 'EventoEncuestaController@borrarEncuesta']);
+  Route::get('/evento/{id_evento}/verAprobados',['as'=>'verAprobados','uses'=> 'EventoController@verListaAprobados']);
+
+  Route::post('/evento/aprobar',['as'=> 'aprobar', 'uses'=> 'EventoController@aprobar']);
+  Route::post('/evento/reprobar',['as'=> 'reprobar', 'uses'=> 'EventoController@reprobar']);
 });
 
 

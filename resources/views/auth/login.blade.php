@@ -43,7 +43,7 @@
                         <div class="row">
                             <div class="col m12 center-align">
                                 <button type="submit" class="btn btn-primary">
-                                    Ingreso
+                                    Ingresar
                                 </button>
                                 <a class="btn btn-link" href="{{ url('/password/reset') }}">
                                     Olvidé mi contraseña

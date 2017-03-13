@@ -34,6 +34,7 @@
       <div  class="navbar-fixed">
         <nav>
           <div class="nav-wrapper">
+            <a id="button-collapse" href="#" data-activates="slide-out"> <i class="material-icons" style="left:5px; position:absolute">menu</i></a>
             <div class="container">
               <a href="{{ url('/home') }}" class="brand-logo">TuEvento</a>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -70,12 +71,14 @@
         </nav>
       </div>
         @if (!Auth::guest())
-          <ul id="slide-out" class="side-nav fixed">
+          <ul id="slide-out" class="side-nav">
             <li class="profile-head">
             <div class="profile-img valign-wrapper">
               <img class="circle valign" src="https://d13yacurqjgara.cloudfront.net/users/759254/screenshots/2578941/calendar_1_1x.png" alt="">
             </div>
-            <h5 class="title center-align" id='user_name_horizontal'>{{Auth::user()->nombre}} </h5>
+            <h5 class="title center-align">{{title_case(Auth::user()->nombre)}} </h5>
+            <h6 class="title center-align">{{Auth::user()->email}} </h6>
+            <h6 class="title center-align">{{title_case(Auth::user()->organizacion)}} </h6>
           </li>
             <li class="slide-content">
             <ul class="collapsible" data-collapsible="accordion">
@@ -83,7 +86,7 @@
                 <a  class="collapsible-header" href="{{ url('/miHorario') }}">Mi Horario</a>
               </li>
               <li>
-                <div class="collapsible-header"> Eventos </div>
+                <div class="collapsible-header"> <i class="material-icons right">expand_more</i> Eventos </div>
                 <div class="collapsible-body">
                   <ul class="collection">
                     <a href="{{ url('/misEventos') }}" class="collection-item"> Mis Eventos</a>
@@ -100,11 +103,13 @@
               <li>
                 <a class="collapsible-header"  href="{{ url('/misCertificados') }}">Mis Certificados</a>
               </li>
-              <li>
-                <ul>
-                  <a  class="collapsible-header" href="{{ url('/califica') }}">Calificar</a>
-                </ul>
-              </li>
+              @if(count(Auth::user()->jurado) > 0)
+                <li>
+                  <ul>
+                    <a  class="collapsible-header" href="{{ url('/califica') }}">Evaluaciones</a>
+                  </ul>
+                </li>
+              @endif
             </ul>
           </li>
           </ul>
@@ -143,15 +148,9 @@
         </div>
         <div id="overlay"></div>
 
-        @if (Auth::guest())
-          <div class="content">
-            @yield('content')
-          </div>
-        @else
-        <div class="content" style="margin-left: 300px;">
+        <div class="content">
           @yield('content')
         </div>
-        @endif
     </div>
 
 
@@ -165,6 +164,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
     <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script src="/js/materialize.clockpicker.js"></script>
+    <script src="/js/isotope.min.js"></script>
     <script>
     // TODO, PASAR TOOOOOODO ESTO A UN ARCHIVO !
 
@@ -172,6 +172,9 @@
       {
         $("#search-select").material_select();
         $.fn.select2.defaults.set('language', 'es');
+        $("#button-collapse").sideNav({
+          draggable: true
+        });
       });
 
 

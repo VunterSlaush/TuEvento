@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Califica;
 use App\Propuesta;
 use App\Comite;
+use App\Evalua;
+use App\TipoActividadEvento;
+use App\Jurado;
+
 
 class CalificaController extends Controller
 {
@@ -37,63 +41,68 @@ class CalificaController extends Controller
      */
     public function calificada()
     {
-
-    	$califica = Califica::where('cedula','=',Auth::id())->get();
-
-    	$propuestas= array();
-
-    	foreach ($califica as $key => $calific) {
-
-    		$propuesta = Propuesta::find($calific->idPropuesta);
-    		array_push($propuestas,$propuesta);
-
-    	}
-
-    	return view('califica.calificada',compact('califica','propuestas'));
+      $evaluados = Auth::user()->evaluaciones;
+      $calificadas = collect();
+      foreach ($evaluados as $key => $value) {
+        $calificadas->push($value->propuesta);
+      }
+      return view('califica.calificada',['propuestas' => $calificadas]);
     }
 
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function porcalificar()
     {
+      $juradoEn = Jurado::where('id_user',Auth::id())->get();
+      $evaluados = Auth::user()->evaluaciones;
+      $evaluados = $evaluados->pluck('id_propuesta');
+      $propuestasPorCalificar = collect();
+      foreach ($juradoEn as $key => $jurado)
+      {
+        $propuestasPorCalificar = $propuestasPorCalificar->merge($this->conseguirPropuestasEvento($jurado));
+      }
 
-    	$soycomite = Comite::where('cedula','=',Auth::id())->get();
+      $propuestasPorCalificar = $propuestasPorCalificar->filter(function($value, $key) use(&$evaluados)
+      {
+        return !$evaluados->contains($value->id);
+      });
 
-    	$propuestasvec = array();
-
-    	foreach ($soycomite as $key => $comite) {
-
-    		$propuestas = Propuesta::where('idEvento','=',$comite->idEvento)->get();
-
-    		foreach ($propuestas as $key => $propuesta) {
-
-    			$califica = Califica::where('idPropuesta','=',$propuesta->id)->get();
-
-    			if($califica->isEmpty()){
-
-    				array_push($propuestasvec,$propuesta);
-    			}
-
-    		}
-
-    	}
-
-    	return view('califica.pendiente',compact('propuestasvec'));
+      return view('califica.pendiente',['propuestas' => $propuestasPorCalificar]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    private function conseguirPropuestasEvento($jurado)
     {
+      $areas = $jurado->areas;
+      $propuestas = collect();
 
-        return view('califica.create');
+      foreach ($areas as $key => $value)
+      {
+        $propuestas = $propuestas->merge($this->propuestasEvaluablesSegunArea($jurado,$value));
+      }
+      //dd($propuestas);
+      return $propuestas;
     }
+
+    private function propuestasEvaluablesSegunArea($jurado, $area)
+    {
+      $propuestas = Propuesta::where('id_area',$area->id_area)->
+                               where('id_evento',$jurado->id_evento)->
+                               get();
+
+      return $propuestas->filter(function ($value, $key) use(&$jurado)
+      {
+        return $this->esEvaluable($value->tipo, $jurado->evento);
+      });
+    }
+
+    private function esEvaluable($tipo, $evento)
+    {
+      return null != TipoActividadEvento::where('id_tipo',$tipo->id)->where('id_evento',$evento->id)
+              ->where('evaluable',true)->first();
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -103,17 +112,6 @@ class CalificaController extends Controller
      */
     public function store(Request $request)
     {
-
-      $this->validate($request,[
-          'calificacion' =>  'required'
-        ]);
-
-        $request->merge(['cedula' => Auth::id()]);
-
-        Califica::create($request->all());
-
-      return redirect()->route('califica.porcalificar')
-              ->with('success', 'Propuesta calificada!');
 
     }
 
@@ -125,11 +123,7 @@ class CalificaController extends Controller
      */
     public function show($id)
     {
-        $califica = Califica::find($id);
 
-        $propuesta = Propuesta::find($califica ->idPropuesta);
-
-        return view('califica.show',compact('califica','propuesta'));
     }
 
     /**
@@ -140,8 +134,7 @@ class CalificaController extends Controller
      */
     public function edit($id)
     {
-        $califica = Califica::where('idPropuesta','=', $id)->first();
-        return view('califica.edit',['califica' => $califica]);
+
     }
 
     /**
@@ -153,14 +146,7 @@ class CalificaController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $this->validate($request,[
-        'calificacion' =>  'required'
-      ]);
 
-      Califica::find($id)->update($request->all());
-
-      return redirect()->route('califica.calificada')
-              ->with('success','calificacion editada');
     }
 
     /**
@@ -171,10 +157,7 @@ class CalificaController extends Controller
      */
     public function destroy($id)
     {
-      Califica::find($id)->delete();
 
-      return redirect()->route('califica.calificada')
-              ->with('success','calificacion eliminada');
     }
 
 
