@@ -18,7 +18,7 @@ class encuesta_seeder extends Seeder
     	\DB::table('encuesta')->insert(array(
     		'tipo' => $faker->sentence($nbWords = 1, $variableNbWords = true),
     		'nombre' => $faker->sentence($nbWords = 4, $variableNbWords = true),
-    		'id_evento' => $faker->numberBetween($min = 1, $max = 7),
+    		'id_evento' => $faker->numberBetween($min = 1, $max = 50),
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));

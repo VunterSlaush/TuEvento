@@ -14,10 +14,10 @@ class pregunta_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 10; $i++) {
-    	\DB::table('pregunta')->insert(array(    		
+		for ($i=0; $i < 40; $i++) {
+    	\DB::table('pregunta')->insert(array(
     		'pregunta' => $faker->text($maxNbChars = 200),
-    		'id_evento' => $faker->numberBetween($min = 1, $max = 7),    		
+    		'id_evento' => $faker->numberBetween($min = 1, $max = 50),
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));
