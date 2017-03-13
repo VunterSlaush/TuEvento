@@ -17,9 +17,9 @@ class tipo_actividad_evento_seeder extends Seeder
 		for ($i=0; $i < 10; $i++) {
     	\DB::table('tipo_actividad_evento')->insert(array(
     		'id_tipo' => $faker->numberBetween($min = 1, $max = 10),
-    		'id_evento' => $faker->numberBetween($min = 1, $max = 7),
+    		'id_evento' => $faker->numberBetween($min = 1, $max = 50),
     		'cant_maxima' => $faker->numberBetween($min = 1, $max = 300),
-    		'evaluable' => $faker->boolean,    		
+    		'evaluable' => $faker->boolean,
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));

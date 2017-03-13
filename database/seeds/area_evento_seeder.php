@@ -14,10 +14,10 @@ class area_evento_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 8; $i++) {
+		for ($i=0; $i < 40; $i++) {
     	\DB::table('area_evento')->insert(array(
-    		'id_area' => $faker->unique()->numberBetween($min = 1, $max = 8),
-    		'id_evento' => $faker->numberBetween($min = 1, $max = 7),    		
+    		'id_area' => $faker->unique()->numberBetween($min = 1, $max = 50),
+    		'id_evento' => $faker->unique()->numberBetween($min = 1, $max = 50),
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));

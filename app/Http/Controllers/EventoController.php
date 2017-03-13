@@ -75,7 +75,7 @@ class EventoController extends Controller
         $areas = $request->input('area');
         $tipos = $request->input('tipo');
 
-        if($areas->count() == 0 || $tipos->count() == 0)
+        if($areas == null || $tipos == null || count($areas) == 0 || count($tipos) == 0)
         {
           return view('evento.create')->withErrors(['Error al crear evento verifica los datos proporcionados']);
         }

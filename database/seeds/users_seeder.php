@@ -14,10 +14,10 @@ class users_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 50; $i++) {
+		for ($i=0; $i <= 50; $i++) {
       	\DB::table('users')->insert(array(
-      		'cedula' => $faker->unique()->numberBetween($min = 1, $max = 50),
-      		'password' => bcrypt('qwerty'),
+      		'cedula' => $i,
+      		'password' => '$2y$10$KvZZKYWLXkg.jXRaz4RMQ.p96VUi6KGSeQ61SGwNBPA1kPU3x7C1.',
       		'email' => $faker->unique()->email,
              	'nombre' => $faker->name,
              	'organizacion' => $faker->company,
