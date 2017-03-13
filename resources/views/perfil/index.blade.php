@@ -48,7 +48,7 @@
       <div class="col m6">
         <div class="col m10">
           <div class="input-field">
-            <input id="email" type="text" class="validate" value="{{$user->email}}">
+            <input id="email" type="email" class="validate" value="{{$user->email}}">
             <label>Nuevo e-mail</label>
           </div>
         </div>
@@ -178,30 +178,81 @@
       updateData($(this),$('#organization_loaded'));
     });
 
+    function validateBeforeUpdate(button,loaded)
+    {
+      if($('#nombre').val().length == 0)
+      {
+        Materialize.toast('Nombre Vacio', 3000, 'red rounded');
+        loaded.removeClass('active');
+        button.show();
+        return false;
+      }
+      if($('#email').val().length == 0)
+      {
+        Materialize.toast('Email Vacio', 3000, 'red rounded');
+        loaded.removeClass('active');
+        button.show();
+        return false;
+      }
+      if($('#password').val().length > 0 && $('#password').val().length < 6)
+      {
+        Materialize.toast('Contraseña tiene que ser mayor de 6 digitos', 3000, 'red rounded');
+        loaded.removeClass('active');
+        button.show();
+        return false;
+      }
+      if($('#confirm_pass').val().length > 0 && $('#confirm_pass').val().length < 6)
+      {
+        Materialize.toast('Confirmacion de Contraseña tiene que ser mayor de 6 digitos', 3000, 'red rounded');
+        loaded.removeClass('active');
+        button.show();
+        return false;
+      }
+
+      if(!validateEmail($('#email').val()))
+      {
+        Materialize.toast('Email no valido', 3000, 'red rounded');
+        loaded.removeClass('active');
+        button.show();
+        return false;
+      }
+      return true;
+    }
+
     function updateData(button,loaded)
     {
-      $.ajax({
-      url: '/updateProfile',
-      type: 'POST',
-      data: {_token: CSRF_TOKEN, cedula:user_id,
-                                 nombre:$('#nombre').val(),
-                                 email:$('#email').val(),
-                                 pass:$('#password').val(),
-                                 confirm_pass:$('#confirm_pass').val(),
-                                 organization:$('#organizacion').val()},
-      dataType: 'JSON',
-      success: function (data)
+      if(validateBeforeUpdate(button,loaded))
       {
-        translateJsonResult(data);
-        button.show();
-        loaded.removeClass('active');
-      },
-      error: function()
-      {
-         button.show();
-         loaded.removeClass('active');
+        $.ajax({
+        url: '/updateProfile',
+        type: 'POST',
+        data: {_token: CSRF_TOKEN, cedula:user_id,
+                                   nombre:$('#nombre').val(),
+                                   email:$('#email').val(),
+                                   pass:$('#password').val(),
+                                   confirm_pass:$('#confirm_pass').val(),
+                                   organization:$('#organizacion').val()},
+        dataType: 'JSON',
+        success: function (data)
+        {
+          translateJsonResult(data);
+          button.show();
+          loaded.removeClass('active');
+        },
+        error: function()
+        {
+           button.show();
+           loaded.removeClass('active');
+        }
+        });
       }
-      });
+
+    }
+
+    function validateEmail(email)
+    {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     }
 
     function translateJsonResult(data)

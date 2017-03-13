@@ -23,7 +23,7 @@
 
                             <div class="input-field col m6">
                                 <label for="cedula">Cedula</label>
-                                <input class="validate" placeholder="Ingrese su Cedula" id="cedula" type="text" class="form-control" name="cedula" value="{{ old('cedula') }}" required autofocus>
+                                <input class="validate" placeholder="Ingrese su Cedula" id="cedula" type="number" min="1" class="form-control" name="cedula" value="{{ old('cedula') }}" required autofocus>
                                 @if ($errors->has('cedula'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('cedula') }}</strong>

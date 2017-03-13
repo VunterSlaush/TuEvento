@@ -75,6 +75,11 @@ class EventoController extends Controller
         $areas = $request->input('area');
         $tipos = $request->input('tipo');
 
+        if($areas->count() == 0 || $tipos->count() == 0)
+        {
+          return view('evento.create')->withErrors(['Error al crear evento verifica los datos proporcionados']);
+        }
+
         foreach ($areas as $key => $a)
         {
           $a = strtolower($a);
@@ -127,7 +132,7 @@ class EventoController extends Controller
 
         DB::commit();
 
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         DB::rollBack();
         return view('evento.create')->withErrors(['Error al crear evento verifica los datos proporcionados']);
       }
@@ -183,6 +188,7 @@ class EventoController extends Controller
           Evento::find($id)->update($request->all());
           $updatedEvento = Evento::find($id);
           $areas = $request->input('area');
+          $tipos = $request->input('tipo');
           $area_id = $request->input('area_id');
 
           foreach ($areas as $key => $a)
@@ -233,7 +239,7 @@ class EventoController extends Controller
 
           DB::commit();
 
-        } catch (\Illuminate\Database\QueryException $qe) {
+        } catch (\Exception $qe) {
           DB::rollBack();
           return redirect()->back()->withErrors(['Error al crear evento verifica los datos proporcionados']);
         }
@@ -279,7 +285,7 @@ class EventoController extends Controller
         $eventoToUpdate  = Evento::find($evento["id"]);
         $eventoToUpdate->update($evento);
       }
-      catch (\Illuminate\Database\QueryException $qe)
+      catch (\Exception $qe)
       {
         return json_encode(['success'=>'false']);
       }
@@ -301,7 +307,7 @@ class EventoController extends Controller
           AreaEvento::find($area_evento->id)->update(['id' => $area_evento->id,'id_area' => $area_evento->id_area]);
         }
 
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return json_encode(['success'=>'false']);
       }
       return json_encode(['success'=>'true']);
@@ -315,7 +321,7 @@ class EventoController extends Controller
         $area_evento=AreaEvento::where('id_area','=',$area["id"])->first();
         $area_evento->delete();
 
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return json_encode(['success'=>'false']);
       }
       return json_encode(['success'=>'true']);
@@ -344,7 +350,7 @@ class EventoController extends Controller
           $tipo_evento->save();
         }
 
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\QueryException $qe) {
         return json_encode(['success'=>'false']);
       }
 
@@ -358,7 +364,7 @@ class EventoController extends Controller
         $tipo_evento=TipoActividadEvento::where('id_tipo','=',$tipo["id"])->first();
         $tipo_evento->delete();
 
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return json_encode(['success'=>'false']);
       }
       return json_encode(['success'=>'true']);

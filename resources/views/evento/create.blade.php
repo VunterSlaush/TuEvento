@@ -100,7 +100,7 @@
                     </div>
                     <div class="col m2">
                       <label for="tipo-vacante">Vacantes</label>
-                      <input type="text"  name="" id='tipo-vacante'>
+                      <input type="number" min="1"  name="" id='tipo-vacante'>
                     </div>
                     <div class="col m3">
                       <input type="checkbox" id="tipo-evaluable" name="" />
@@ -172,14 +172,14 @@ $(document).ready(function(){
           if (tipo_evaluable.prop('checked') == true){
             $(wrapper_tipo).append('<span>'+
                                   '<input class="validate" type="text"  name="tipo['+tipos+']" id="tipo['+tipos+']" value="'+ tipo_nombre.prop("value")+'" style="display:none;"/>'+
-                                  '<input class="validate" type="number"  name="tipo_cantidad['+tipos+']" id="tipo_cantidad['+tipos+']" value="'+ tipo_vacante.prop("value")+'" style="display:none;"/>'+
+                                  '<input class="validate" type="number" min="1"  name="tipo_cantidad['+tipos+']" id="tipo_cantidad['+tipos+']" value="'+ tipo_vacante.prop("value")+'" style="display:none;"/>'+
                                   '<input type="text" id="tipo_evaluable['+tipos+']" name="tipo_evaluable['+tipos+']" value="'+ tipo_evaluable.prop("checked")+'" style="display:none;"/>'+
                                   '<div class="chip" style="background-color: #1565C0 !important; color:#fff">'+ tipo_vacante.prop('value') +' | '+ tipo_nombre.prop('value') +' <i class="close material-icons"> close </i> </div>' +
                                   '</span>');
           }else{
             $(wrapper_tipo).append('<span>'+
                                   '<input class="validate" type="text"  name="tipo['+tipos+']" id="tipo['+tipos+']" value="'+ tipo_nombre.prop("value")+'" style="display:none;"/>'+
-                                  '<input class="validate" type="number"  name="tipo_cantidad['+tipos+']" id="tipo_cantidad['+tipos+']" value="'+ tipo_vacante.prop("value")+'" style="display:none;"/>'+
+                                  '<input class="validate" type="number" min="1"  name="tipo_cantidad['+tipos+']" id="tipo_cantidad['+tipos+']" value="'+ tipo_vacante.prop("value")+'" style="display:none;"/>'+
                                   '<input type="text" id="tipo_evaluable['+tipos+']" name="tipo_evaluable['+tipos+']" value="'+ tipo_evaluable.prop("checked")+'" style="display:none;"/>'+
                                   '<div class="chip">'+ tipo_vacante.prop('value') +' | '+ tipo_nombre.prop('value') +' <i class="close material-icons"> close </i> </div>' +
                                   '</span>');
