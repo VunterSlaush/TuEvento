@@ -14,11 +14,22 @@ class encuesta_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 20; $i++) {
+
+        $estandar = 3;
+        $evento = 1;
+
+        for ($i=1; $i <= 150; $i++) {
+
+            if ($i > $estandar){
+                $evento++;
+                $estandar = $estandar + 3;
+            }
+
     	\DB::table('encuesta')->insert(array(
     		'tipo' => $faker->sentence($nbWords = 1, $variableNbWords = true),
     		'nombre' => $faker->sentence($nbWords = 4, $variableNbWords = true),
-    		'id_evento' => $faker->numberBetween($min = 1, $max = 50),
+            //Se generan 3 encuestas por evento
+    		'id_evento' => $evento,
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));

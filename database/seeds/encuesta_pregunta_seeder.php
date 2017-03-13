@@ -14,10 +14,10 @@ class encuesta_pregunta_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 10; $i++) {
+		for ($i=0; $i < 400; $i++) {
     	\DB::table('encuesta_pregunta')->insert(array(
-    		'id_pregunta' => $faker->numberBetween($min = 1, $max = 10),
-    		'id_encuesta' => $faker->numberBetween($min = 1, $max = 20),    		
+    		'id_pregunta' => $faker->numberBetween($min = 1, $max = 1000),
+    		'id_encuesta' => $faker->numberBetween($min = 1, $max = 150),    		
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));

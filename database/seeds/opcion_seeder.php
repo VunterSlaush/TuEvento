@@ -13,10 +13,22 @@ class opcion_seeder extends Seeder
     public function run()
     {
         //
+
+        $estandar = 2;
+        $pregunta = 1;
+
         $faker = Faker::create();
-		for ($i=0; $i < 80; $i++) {
+
+		for ($i=1; $i <= 2000; $i++) {
+
+            if ($i > $estandar){
+                $pregunta++;
+                $estandar = $estandar + 2;
+            }
+
     	\DB::table('opcion')->insert(array(
-    		'id_pregunta' => $faker->numberBetween($min = 1, $max = 10),
+            //Genera 2 opciones por cada pregunta
+    		'id_pregunta' => $pregunta,
     		'opcion' => $faker->sentence($nbWords = 1, $variableNbWords = false),
     		'valor' => $faker->numberBetween($min = 1, $max = 10),
            	'created_at' => date('Y-m-d H:m:s'),
