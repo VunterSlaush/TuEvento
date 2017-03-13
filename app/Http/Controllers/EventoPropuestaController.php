@@ -66,6 +66,11 @@ class EventoPropuestaController extends Controller
         $tipo_value = $request->input('tipo');
         $area = Area::where('nombre','=',$area_value)->first();
         $tipo = TipoActividad::where('nombre','=',$tipo_value)->first();
+
+        if($area == null || $tipo == null)
+        {
+            return redirect()->back()->withInput()->withErrors(['Error al crear propuesta']);
+        }
         $request->merge(['id_area' => $area->id]);
         $request->merge(['id_tipo' => $tipo->id]);
 
@@ -85,9 +90,9 @@ class EventoPropuestaController extends Controller
         }
 
         DB::commit();
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         DB::rollBack();
-        return redirect()->back()->withInput()->withErrors(['Error al crear propuesta'.$qe]);
+        return redirect()->back()->withInput()->withErrors(['Error al crear propuesta']);
       }
 
       $evento = Evento::find($id_evento);
@@ -142,7 +147,7 @@ class EventoPropuestaController extends Controller
         DB::beginTransaction();
         Propuesta::find($id_propuesta)->update($request->all());
         DB::commit();
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         DB::rollBack();
         return redirect()->back()->withErrors(['Error al editar propuesta ']);
       }

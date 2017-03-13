@@ -35,7 +35,7 @@
         <nav>
           <div class="nav-wrapper">
             @if (!Auth::guest())
-            <a id="button-collapse" href="#" data-activates="slide-out"> <i class="material-icons" style="left:5px; position:absolute">menu</i></a>
+              <a id="button-collapse" href="#" data-activates="slide-out"> <i class="material-icons" style="left:5px; position:absolute">menu</i></a>
             @endif
             <div class="container">
               <a href="{{ url('/home') }}" class="brand-logo">TuEvento</a>

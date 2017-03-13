@@ -53,7 +53,7 @@ class AsisteController extends ActividadController
               ->where('asiste.cedula',Auth::id())
               ->where('asiste.asistio',false)
               ->get();
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return redirect()->back()->withErrors(['Error al generar horario']);
       }
 

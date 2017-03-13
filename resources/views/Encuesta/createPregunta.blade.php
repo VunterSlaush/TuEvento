@@ -55,7 +55,7 @@
             <p class="col m2">Opcion</p>
             <input class="col m2 option" type="text"  name="opcion[0]" id='opcion[0]'>
             <p class="col m2">Valor</p>
-            <input class="col m2 option_value" type="number"  name="opcion_cantidad[0]" id='opcion_cantidad[0]'>
+            <input class="col m2 option_value" type="number" min="0"  name="opcion_cantidad[0]" id='opcion_cantidad[0]'>
             <a href="#" class="col m1 btn remove_field"><i class="material-icons">delete</i></a>
           </div>
         </div>
@@ -78,7 +78,7 @@
                       '<p class="col m2">Opcion</p>'+
                       '<input class="col m2 option" type="text"  name="opcion['+opciones+']" id="opcion['+opciones+']">'+
                       '<p class="col m2">Valor</p>'+
-                      '<input class="col m2 option_value" type="number"  name="opcion_cantidad['+opciones+']" id="opcion_cantidad['+opciones+']">'+
+                      '<input class="col m2 option_value" type="number" min="0"  name="opcion_cantidad['+opciones+']" id="opcion_cantidad['+opciones+']">'+
                       '<a href="#" class="col m1 btn remove_field"><i class="material-icons">delete</i></a>'+
                     '</div>');
                       opciones++;
