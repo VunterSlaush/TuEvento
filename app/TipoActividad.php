@@ -17,4 +17,12 @@ class TipoActividad extends Model
     public function actividades(){
     	return $this->hasMany('App\Actividad','tipo');
     }
+
+    public function setNombreAttribute($value){
+    	$this->attributes['nombre'] = ucfirst(strtolower($value));
+  	}
+
+  	public function getNombreAttribute($value){
+    	return ucfirst(strtolower($value));
+  	}
 }

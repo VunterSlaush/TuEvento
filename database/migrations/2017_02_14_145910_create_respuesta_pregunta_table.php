@@ -16,8 +16,8 @@ class CreateRespuestaPreguntaTable extends Migration
       Schema::create('respuesta_pregunta', function (Blueprint $table) {
           $table->increments('id');
           $table->integer('id_opcion');
-          $table->integer('id_evalua');
-          $table->integer('id_califica');
+          $table->integer('id_evalua')->nullable();
+          $table->integer('id_califica')->nullable();
           $table->string('tipo');
           $table->foreign('id_opcion')->references('id')->on('opcion')->onDelete('cascade');
           $table->foreign('id_evalua')->references('id')->on('evalua')->onDelete('cascade');
@@ -33,6 +33,6 @@ class CreateRespuestaPreguntaTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('respuesta_pregunta');
     }
 }

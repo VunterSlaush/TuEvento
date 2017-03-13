@@ -25,8 +25,8 @@ class SearcherController extends Controller
         $this->middleware('auth');
     }
 
-    public function searchActividad($search){
-      // TODO, A;adir la parte del Area!!
+    public function searchActividad($search)
+    {
       $search = strtolower($search);
       $actividades = DB::table('actividad')->whereRaw("lower(titulo) LIKE '%".$search."%'")->
         orWhereRaw("to_char(fecha,'DD-MM-YYYY') LIKE '%".str_replace("/", "-", $search)."%'")->
@@ -39,10 +39,16 @@ class SearcherController extends Controller
                     ->limit(50)
                     ->get();
 
+      $actividades_area = DB::table('actividad')
+                      ->select('actividad.*')
+                      ->join('area', 'area.id', '=', 'actividad.area')
+                      ->whereRaw("lower(area.nombre) LIKE '%".$search."%'")
+                      ->limit(50)
+                      ->get();
 
 
-      return json_encode($this->mergeCollections($actividades,$actividades_tipo));
 
+      return json_encode($this->mergeCollections($actividades,$this->mergeCollections($actividades_area,$actividades_tipo)));
     }
 
     public function searchUsers($param)

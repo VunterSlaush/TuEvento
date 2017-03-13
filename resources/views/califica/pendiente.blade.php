@@ -1,43 +1,52 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <h1>Propuestas Pendientes por Calificar</h1>
 
-  @if (Session::has('success'))
-  <div class="">
-    {{Session::get('success')}}
+  <div class="content-head col s12">
+    <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="/home" class="breadcrumb"> Dashboard</a>
+          <a href="/califica" class="breadcrumb"> Calificar</a>
+          <a href="#" class="breadcrumb"> Pendientes</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <h3>  Propuestas Pendientes por Calificar</h3>
+    </div>
   </div>
-  @endif
 
-  <table>
-    <thead>
-      <td> id </td>
-      <td> autor </td>
-      <td> idEvento</td>
-      <td> titulo</td>
-      <td> adjunto</td>
-      <td> demanda </td>
-      <td> descripcion </td>
-    </thead>
-    <tbody>
-      @foreach($propuestasvec as $key => $value)
-      <tr>
-        <td> {{$value->id}}</td>
-        <td> {{$value->autor}}</td>
-        <td> {{$value->idEvento}}</td>
-        <td> {{$value->titulo}}</td>
-        <td> {{$value->adjunto}}</td>
-        <td> {{$value->demanda}}</td>
-        <td> {{$value->descripcion}}</td>
-        <td>
-          <a href="{{route('propuesta.show',$value->id)}}"> Ver detalles</a>
+  <div class="content-body">
+    <div class="container">
+      @if (Session::has('success'))
+      <div class="">
+        {{Session::get('success')}}
+      </div>
+      @endif
 
-          <a href="{{route('califica.create',$value->id)}}"> Calificar!</a>
-        </td>
-      </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
+      <table id='event_table'>
+        <thead>
+          <td> id </td>
+          <td> autor </td>
+          <td> Evento</td>
+          <td> titulo</td>
+        </thead>
+        <tbody>
+          @foreach($propuestas as $key => $value)
+          <tr>
+            <td> {{$value->id}}</td>
+            <td> {{$value->user->nombre}}</td>
+            <td> {{$value->evento->nombre}}</td>
+            <td> {{$value->titulo}}</td>
+            <td>
+              <a href="{{route('propuesta.show',$value->id)}}"> Ver detalles</a>
+              <a href="{{route('seleccionarEncuesta',$value->id)}}"> Evaluar</a>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
 @endsection

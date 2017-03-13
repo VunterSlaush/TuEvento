@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Presentador;
 use App\Actividad;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 class ActividadPresentadorController extends Controller
 {
@@ -26,7 +27,7 @@ class ActividadPresentadorController extends Controller
      */
     public function create($id_actividad)
     {
-      $actividad = Actividad::where('id','=',$id_actividad)->first();
+      $actividad = Actividad::find($id_actividad);
       return view('actividadPresentador.create',['actividad' => $actividad]);
     }
 
@@ -38,13 +39,26 @@ class ActividadPresentadorController extends Controller
      */
     public function store(Request $request,$id_actividad)
     {
-      $actividad = Actividad::where('id','=',$id_actividad)->first();
+      DB::beginTransaction();
 
-      $request->merge(['id_actividad' => $id_actividad]);
-      $presentador = Presentador::create($request->all());
-      $user = User::where('cedula',$presentador->id_user)->first();
+      try {
+        $actividad = Actividad::where('id','=',$id_actividad)->first();
 
-      return json_encode(["success" => true, "presentador" => $presentador, "user" => $user]);
+        $request->merge(['id_actividad' => $id_actividad]);
+        $presentador = Presentador::create($request->all());
+        $user = User::where('cedula',$presentador->id_user)->first();
+        DB::commit();
+
+        return json_encode(["success" => true, "presentador" => $presentador, "user" => $user]);
+
+      }
+      catch (Exception $e)
+      {
+        DB::rollBack();
+        return json_encode(["success" => false, "msg" => 'Error al Agregar Presentador']);
+      }
+
+
     }
 
     /**

@@ -11,12 +11,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-  
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
     <link href="/css/search_box.css" rel="stylesheet">
+    <link href="/css/materialize.clockpicker.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <link href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
 
@@ -33,6 +34,9 @@
       <div  class="navbar-fixed">
         <nav>
           <div class="nav-wrapper">
+            @if (!Auth::guest())
+              <a id="button-collapse" href="#" data-activates="slide-out"> <i class="material-icons" style="left:5px; position:absolute">menu</i></a>
+            @endif
             <div class="container">
               <a href="{{ url('/home') }}" class="brand-logo">TuEvento</a>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -42,13 +46,23 @@
                 @else
 
                 <li>
-                  <a id="search-btn">
+                  <a id="search-btn" class="tooltipped" data-delay="50" data-tooltip="Buscar" data-position="bottom">
                     <i class="material-icons">search</i>
                   </a>
                 </li>
                 <li>
-                  <a id="user-btn" href="{{ url('/miPerfil') }}">
+                  <a id="user-btn" href="{{ url('/miPerfil') }}" class="tooltipped" data-delay="50" data-tooltip="Configuraciones" data-position="bottom">
                     <i class="material-icons">person_pin</i>
+                  </a>
+                </li>
+                <li>
+                  <a id="exit-btn" href="{{ url('/logout') }}"
+                    class="tooltipped" data-delay="50" data-tooltip="Salir" data-position="bottom"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                         {{ csrf_field() }}
+                     </form>
+                     <i class="material-icons">power_settings_new</i>
                   </a>
                 </li>
 
@@ -59,12 +73,14 @@
         </nav>
       </div>
         @if (!Auth::guest())
-          <ul id="slide-out" class="side-nav fixed">
+          <ul id="slide-out" class="side-nav">
             <li class="profile-head">
             <div class="profile-img valign-wrapper">
               <img class="circle valign" src="https://d13yacurqjgara.cloudfront.net/users/759254/screenshots/2578941/calendar_1_1x.png" alt="">
             </div>
-            <h5 class="title center-align" id='user_name_horizontal'>{{Auth::user()->nombre}} </h5>
+            <h5 class="title center-align">{{title_case(Auth::user()->nombre)}} </h5>
+            <h6 class="title center-align">{{Auth::user()->email}} </h6>
+            <h6 class="title center-align">{{title_case(Auth::user()->organizacion)}} </h6>
           </li>
             <li class="slide-content">
             <ul class="collapsible" data-collapsible="accordion">
@@ -72,7 +88,7 @@
                 <a  class="collapsible-header" href="{{ url('/miHorario') }}">Mi Horario</a>
               </li>
               <li>
-                <div class="collapsible-header"> Eventos </div>
+                <div class="collapsible-header"> <i class="material-icons right">expand_more</i> Eventos </div>
                 <div class="collapsible-body">
                   <ul class="collection">
                     <a href="{{ url('/misEventos') }}" class="collection-item"> Mis Eventos</a>
@@ -89,21 +105,13 @@
               <li>
                 <a class="collapsible-header"  href="{{ url('/misCertificados') }}">Mis Certificados</a>
               </li>
-              <li>
-                <ul>
-                  <a  class="collapsible-header" href="{{ url('/califica') }}">Calificar</a>
-                </ul>
-              </li>
-              <li>
-                <ul>
-                  <a  class="collapsible-header" href="{{ url('/logout') }}"
-                    onclick="event.preventDefault();
-                             document.getElementById('logout-form').submit();">Cerrar Sesion</a>
-                             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                 {{ csrf_field() }}
-                             </form>
-                </ul>
-              </li>
+              @if(count(Auth::user()->jurado) > 0)
+                <li>
+                  <ul>
+                    <a  class="collapsible-header" href="{{ url('/califica') }}">Evaluaciones</a>
+                  </ul>
+                </li>
+              @endif
             </ul>
           </li>
           </ul>
@@ -141,6 +149,7 @@
           </div>
         </div>
         <div id="overlay"></div>
+
         <div class="content">
           @yield('content')
         </div>
@@ -156,6 +165,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
     <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="/js/materialize.clockpicker.js"></script>
+    <script src="/js/isotope.min.js"></script>
     <script>
     // TODO, PASAR TOOOOOODO ESTO A UN ARCHIVO !
 
@@ -163,6 +174,9 @@
       {
         $("#search-select").material_select();
         $.fn.select2.defaults.set('language', 'es');
+        $("#button-collapse").sideNav({
+          draggable: true
+        });
       });
 
 

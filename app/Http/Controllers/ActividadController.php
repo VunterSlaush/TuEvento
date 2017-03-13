@@ -48,15 +48,15 @@ class ActividadController extends Controller
 
       try{
         Actividad::create([
-          'ponente' => $propuesta->autor,
+          'id_user' => $propuesta->autor,
           'id_evento' => $propuesta->id_evento,
-          'fecha' => "2017-01-20",
           'titulo' => $propuesta->titulo,
-          'hora_inicio' => "2017-01-20 00:00:00",
-          'hora_fin' => "2017-01-20 00:00:00",
+          'tipo' => $propuesta->id_tipo,
+          'area' => $propuesta->id_area,
           'resumen' => $propuesta->descripcion
         ]);
-      } catch (\Illuminate\Database\QueryException $qe) {
+        $propuesta->delete();
+      } catch (\Exception $qe) {
         return redirect()->back()->withErrors(['Error al Aplicar propuesta']);
       }
 
@@ -83,7 +83,7 @@ class ActividadController extends Controller
 
       try{
         Actividad::create($request->all());
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return redirect()->back()->withErrors(['Error al crear Actividad']);
       }
 
@@ -131,7 +131,7 @@ class ActividadController extends Controller
         ]);
         try{
           Actividad::find($id)->update($request->all());
-        } catch (\Illuminate\Database\QueryException $qe) {
+        } catch (\Exception $qe) {
           return redirect()->back()->withErrors(['Error al editar Actividad']);
         }
 
@@ -147,7 +147,8 @@ class ActividadController extends Controller
       }
       else
       {
-        return view('actividad.verificar_asistencia',['id_actividad' => $id]);
+        $actividad = Actividad::find($id);
+        return view('actividad.verificar_asistencia',['actividad' => $actividad]);
       }
     }
 
@@ -173,8 +174,15 @@ class ActividadController extends Controller
 
     public function asistir($id)
     {
-        $this->createAsistencia($id,Auth::id());
-        return redirect('/miHorario');
+        try
+        {
+          $this->createAsistencia($id,Auth::id());
+          return redirect('/miHorario');
+        } catch (\Exception $e) {
+
+          return redirect('/miHorario')->withErrors(['Error al marcar asistencia']);;
+        }
+
     }
 
     function createAsistencia($id,$cedula)
@@ -201,10 +209,9 @@ class ActividadController extends Controller
 
     function schedulerUpdate(Request $request){
       $actividad = json_decode($request->actividad,true);
-      Log::info($actividad);
       try{
         Actividad::find($actividad["id"])->update($actividad);
-      } catch (\Illuminate\Database\QueryException $qe) {
+      } catch (\Exception $qe) {
         return json_encode(['success'=>'false']);
       }
       return json_encode(['success'=>'true']);

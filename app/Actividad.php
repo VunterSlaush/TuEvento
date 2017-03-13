@@ -12,6 +12,7 @@ class Actividad extends Model
     					'id_user',
               'id_evento',
               'tipo',
+              'area',
     					'fecha',
     					'titulo',
     					'hora_inicio',
@@ -52,13 +53,13 @@ class Actividad extends Model
 
     public function tipo_actividad(){
 
-    	return $this->belongsTo('App\TipoActividad','tipo');
+    	return $this->hasOne('App\TipoActividad','id','tipo');
 
     }
 
-    public function areas(){
+    public function area(){
 
-    	return $this->hasMany('App\AreaActividad','id_actividad');
+    	return $this->hasOne('App\AreaActividad','id_actividad');
 
     }
 }
