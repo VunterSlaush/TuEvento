@@ -29,7 +29,7 @@ class ActividadController extends Controller
      */
     public function index()
     {
-      $actividad = Actividad::all();
+      $actividad = Actividad::where('id_user',Auth::id())->get();
       return view('actividad.index',['actividad' => $actividad]);
     }
 

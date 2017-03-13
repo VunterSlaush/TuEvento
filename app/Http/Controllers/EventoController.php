@@ -35,8 +35,8 @@ class EventoController extends Controller
      */
     public function index()
     {
-        $evento = Evento::all();
-        return view('evento.index',['evento' => $evento]);
+      $evento = Evento::where('creador',Auth::id())->get();
+      return view('evento.index',['evento' => $evento]);
     }
 
     /**
