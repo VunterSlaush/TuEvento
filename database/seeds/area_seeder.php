@@ -14,7 +14,7 @@ class area_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 150; $i++) {
+		for ($i=0; $i < 450; $i++) {
     	\DB::table('area')->insert(array(
            	'nombre' => $faker->unique()->sentence($nbWords = 3, $variableNbWords = true),
            	'created_at' => date('Y-m-d H:m:s'),

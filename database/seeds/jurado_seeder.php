@@ -14,21 +14,11 @@ class jurado_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-
-        $estandar = 3;
-        $evento = 1;
-
-		for ($i=1; $i <= 150; $i++) {
-
-            if ($i > $estandar){
-                $evento++;
-                $estandar = $estandar + 3;
-            }
-
+		for ($i=1; $i <= 450; $i++) {
     	\DB::table('jurado')->insert(array(
-    		'id_user' => $faker->unique()->numberBetween($min = 1, $max = 450),
-            //Genera 3 jurados por evento
-    		'id_evento' => $evento,
+    		'id_user' => $i,
+            //1 jurado por evento           
+    		'id_evento' => $i,
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));

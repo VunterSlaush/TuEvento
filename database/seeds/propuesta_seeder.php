@@ -18,7 +18,7 @@ class propuesta_seeder extends Seeder
         $estandar = 3;
         $evento = 1;
 
-		for ($i=1; $i <= 150; $i++) {
+		for ($i=1; $i <= 1350; $i++) {
 
             if ($i > $estandar){
                 $evento++;

@@ -14,9 +14,9 @@ class evento_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 50; $i++) {
+		for ($i=1; $i <= 450; $i++) {
     	\DB::table('evento')->insert(array(
-    		'creador' => $faker->numberBetween($min = 1, $max = 450),
+    		'creador' => $i,
     		'nombre' => $faker->unique()->sentence($nbWords = 4, $variableNbWords = true),
     		'lugar' => $faker->state,    		
             'fecha_inicio'=> $faker->dateTimeThisYear->format('Y-m-d'),

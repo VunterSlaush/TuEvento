@@ -15,14 +15,14 @@ class actividad_seeder extends Seeder
         //
         $faker = Faker::create();
         
-        $estandar = 8;
+        $estandar = 5;
         $evento = 1;
 
-		for ($i=1; $i <= 400; $i++) {
+		for ($i=1; $i <= 2250; $i++) {
             
             if ($i > $estandar){
                 $evento++;
-                $estandar = $estandar + 8;
+                $estandar = $estandar + 5;
             }
 
     	\DB::table('actividad')->insert(array(
@@ -31,10 +31,10 @@ class actividad_seeder extends Seeder
     		'hora_inicio' => $faker->time($format = 'H:i:s', $max = 'now'),
     		'hora_fin' => $faker->time($format = 'H:i:s', $max = 'now'),
     		'resumen' => $faker->sentence($nbWords = 10, $variableNbWords = true),    		
-            //Genera 8 actividades por evento
+            //Genera 5 actividades por evento
             'id_evento' => $evento,
     		'tipo' => $faker->numberBetween($min = 1, $max = 20),
-    		'area' => $faker->numberBetween($min = 1, $max = 150),
+    		'area' => $faker->numberBetween($min = 1, $max = 450),
     		'id_user' => $faker->numberBetween($min = 1, $max = 450),
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
