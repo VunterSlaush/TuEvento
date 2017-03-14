@@ -14,10 +14,10 @@ class califica_satisfaccion_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 200; $i++) {
+		for ($i=0; $i < 400; $i++) {
     	\DB::table('califica_satisfaccion')->insert(array(
-    		'id_actividad' => $faker->numberBetween($min = 1, $max = 400),
-    		'id_encuesta' => $faker->numberBetween($min = 1, $max = 150),
+    		'id_actividad' => $faker->numberBetween($min = 1, $max = 2250),
+    		'id_encuesta' => $faker->numberBetween($min = 1, $max = 900),
     		'id_user' => $faker->numberBetween($min = 1, $max = 450),
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')

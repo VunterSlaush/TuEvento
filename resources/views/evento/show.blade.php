@@ -33,13 +33,15 @@
             <li>
               <strong>Áreas:</strong>
               @foreach ($evento->areas as $area)
+                  <br>
                   {{ $area->area->nombre }}
               @endforeach
             </li>
             <li>
-              <strong>Tipo de Actividades:</strong>
+              <strong>Tipo de Actividades:</strong>            
               @foreach ($evento->tipoActividad as $tipo)
-                  {{ $tipo->tipoActividad->nombre }}
+                  <br>
+                  {{ $tipo->tipoActividad->nombre }}            
               @endforeach
             </li>
           </ul>

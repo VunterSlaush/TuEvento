@@ -14,11 +14,11 @@ class evalua_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-		for ($i=0; $i < 200; $i++) {
+		for ($i=0; $i < 300; $i++) {
     	\DB::table('evalua')->insert(array(
-    		'cedula' => $faker->numberBetween($min = 1, $max = 450),
-    		'id_propuesta' => $faker->numberBetween($min = 1, $max = 150),
-    		'id_encuesta' => $faker->numberBetween($min = 1, $max = 150),    		
+    		'cedula' => $faker->unique()->numberBetween($min = 1, $max = 450),
+    		'id_propuesta' => $faker->numberBetween($min = 1, $max = 1350),
+    		'id_encuesta' => $faker->numberBetween($min = 1, $max = 900),    		
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));

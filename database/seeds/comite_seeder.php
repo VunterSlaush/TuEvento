@@ -14,21 +14,11 @@ class comite_seeder extends Seeder
     {
         //
         $faker = Faker::create();
-
-        $estandar = 5;
-        $evento = 1;
-
-		for ($i=1; $i <= 250; $i++) {
-
-            if ($i > $estandar){
-                $evento++;
-                $estandar = $estandar + 5;
-            }
-
+		for ($i=1; $i <= 450; $i++) {
     	\DB::table('comite')->insert(array(
-    		'id_user' => $faker->unique()->numberBetween($min = 1, $max = 450),
-            //Genera 5 comites por evento
-    		'id_evento' => $evento,
+    		'id_user' => $i,
+            //Genera 1 comite por evento
+    		'id_evento' => $i,
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')
     	));

@@ -18,7 +18,7 @@ class tipo_actividad_evento_seeder extends Seeder
         $estandar = 4;
         $evento = 1;
 
-		for ($i=1; $i <= 200; $i++) {
+		for ($i=1; $i <= 1800; $i++) {
             
             if ($i > $estandar){
                 $evento++;

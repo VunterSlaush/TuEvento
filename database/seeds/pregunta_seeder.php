@@ -15,19 +15,19 @@ class pregunta_seeder extends Seeder
         //
         $faker = Faker::create();
         
-        $estandar = 20;
+        $estandar = 10;
         $evento = 1;    
 
-		for ($i=1; $i <= 1000; $i++) {       
+		for ($i=1; $i <= 4500; $i++) {       
 
             if ($i > $estandar){
                 $evento++;
-                $estandar = $estandar + 20;
+                $estandar = $estandar + 10;
             }
 
     	\DB::table('pregunta')->insert(array(
     		'pregunta' => $faker->text($maxNbChars = 200),
-            //Genera 20 preguntas por evento
+            //Genera 10 preguntas por evento
     		'id_evento' => $evento,
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')

@@ -19,7 +19,7 @@ class opcion_seeder extends Seeder
 
         $faker = Faker::create();
 
-		for ($i=1; $i <= 2000; $i++) {
+		for ($i=1; $i <= 9000; $i++) {
 
             if ($i > $estandar){
                 $pregunta++;
