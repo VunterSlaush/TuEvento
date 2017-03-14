@@ -24,9 +24,16 @@
     function encuestar()
     {
         var id_encuesta = $('#select_encuesta').val();
-        console.log('encuesta_pa ve:'+id_encuesta);
-        var ruta = '/propuesta/'+id_propuesta+'/evaluar/'+id_encuesta;
-        window.location.href = ruta;
+        if(id_encuesta != null)
+        {
+          console.log('encuesta_pa ve:'+id_encuesta);
+          var ruta = '/propuesta/'+id_propuesta+'/evaluar/'+id_encuesta;
+          window.location.href = ruta;
+        }
+        else
+        {
+          Materialize.toast('Seleccione una Encuesta', 3000, 'red rounded');
+        }
     }
   </script>
   @endsection

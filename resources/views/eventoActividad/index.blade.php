@@ -21,7 +21,7 @@
     <div class="container">
       <table id="event_table">
         <thead>
-          <th> Creador </th>
+          <th> Ponente </th>
           <th> Fecha </th>
           <th> Titulo </th>
           <th> Inicio </th>

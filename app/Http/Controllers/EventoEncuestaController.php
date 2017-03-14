@@ -92,7 +92,7 @@ class EventoEncuestaController extends Controller
     }
     else
     {
-      return redirect('/home');//TODO redireccionar bien ..?
+      return redirect('/home')->withErrors(['No se Encontro la encuesta!']);
     }
   }
 
@@ -111,7 +111,7 @@ class EventoEncuestaController extends Controller
     try {
       DB::beginTransaction();
 
-      $id_actividad = $request->input('id_actividad');
+      $id_actividad = $request->input('id');
       $id_encuesta = $request->input('id_encuesta');
       $respuestas = $request->input('respuestas');
       $id_user = Auth::id();
@@ -127,7 +127,7 @@ class EventoEncuestaController extends Controller
 
       DB::commit();
 
-    } catch (QueryException $e) {
+    } catch (\Exception $e) {
       DB::rollBack();
       return json_encode(['success' => false,'msg' => $e]);
     }
@@ -159,11 +159,11 @@ class EventoEncuestaController extends Controller
     $encuestas =  Encuesta::where('id_evento',$propuesta->id_evento)
                          ->where('tipo','evaluacion')
                          ->get();
-    if($propuesta != null)
+    if($propuesta != null && $encuestas != null && count($encuestas) > 0)
     {
       return view('Encuesta.seleccionar',['propuesta' => $propuesta, 'encuestas' => $encuestas]);
     }
-    return redirect('/home');
+    return redirect('/home')->withErrors(['No existen Encuestas para Realizar la evaluacion']);
   }
 
   public function verPreguntas($id_evento)

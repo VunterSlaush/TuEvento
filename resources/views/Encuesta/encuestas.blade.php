@@ -56,7 +56,7 @@
       </ul>
     </div>
     <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+      <a href="#!" class=" modal-action modal-close waves-effect btn-flat">OK</a>
     </div>
   </div>
 </div>
@@ -85,7 +85,6 @@
           if(preguntas[i].id_encuesta == encuesta.id && borrados.indexOf(preguntas[i].id) === -1)
           {
             $('#modal_content').append('<li class="collection-item avatar" id="item-'+preguntas[i].id+'">'+
-                          '<i class="material-icons circle blue">grade</i>'+
                           '<h4>'+preguntas[i].pregunta+'</h4>'+
                           '<a href="#" onclick="borrarPregunta('+preguntas[i].id+')" class="secondary-content"><i class="small material-icons">delete</i></a>'+
                           '</li>');
