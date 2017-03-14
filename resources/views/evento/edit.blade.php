@@ -128,7 +128,7 @@
                   <span>
                     <input class="validate tipo-nombre" type="text"  name="tipo[{{$key}}]" id="tipo[{{$key}}]" value="{{$tipo->tipoActividad->nombre}}" style="display:none;"/>
                     <input class="validate tipo-cantidad" type="number" min="1"  name="tipo_cantidad[{{$key}}]" id="tipo_cantidad[{{$key}}" value="{{$tipo->cant_maxima}}" style="display:none;"/>
-                    <input class="tipo-evaluable" type="checkbox" id="tipo_evaluable[{{$key}}]" name="tipo_evaluable[{{$key}}]" value="{{$tipo->evaluable}}" style="display:none;"/>
+                    <input class="tipo-evaluable" type="text" id="tipo_evaluable[{{$key}}]" name="tipo_evaluable[{{$key}}]" value="{{$tipo->evaluable ? 'true' : 'false'}}" style="display:none;"/>
                     <input class="tipo-id" type="hidden" name="tipo_id[{{$key}}]" value="{{$tipo->tipoActividad->id}}"/>
                     @if ($tipo->evaluable == true)
                       <div class="chip" style="background-color: #1565C0 !important; color:#fff"> <a class="tipo-edit" style="color:#fff" href="#"> {{$tipo->cant_maxima}} | {{$tipo->tipoActividad->nombre}}</a> <i class="close material-icons"> close </i> </div>
@@ -329,7 +329,9 @@ $(document).ready(function(){
         $("#add_tipo").show();
         $("#edit_tipo").hide();
         //
-        // area_input.prop('value',"");
+        tipo_nombre.prop('value',"");
+        tipo_vacante.prop('value',"");
+        tipo_evaluable.removeAttr('checked');
       });
 
       $('.datepicker').pickadate({

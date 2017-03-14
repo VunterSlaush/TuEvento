@@ -1,6 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="content-head col s12">
+  <nav id="breadcrumb-nav" class="hide-on-med-and-down">
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="/home" class="breadcrumb"> Dashboard</a>
+        <a href="/califica/pendiente" class="breadcrumb"> Propuestas por Calificar</a>
+        <a href="#" class="breadcrumb">Evaluar</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <h3> Evaluar Propuesta</h3>
+  </div>
+</div>
+
+<div class="content-body">
   <div class="container">
     <h3> Seleccionar encuesta para {{$propuesta->titulo}}</h3>
     <div class="input-field col s12">
@@ -13,6 +30,10 @@
   </div>
   <a class="waves-effect waves-light btn" onclick="encuestar()"><i class="material-icons right">send</i>Seleccionar</a>
   </div>
+</div>
+
+  <div class="container">
+    </div>
   @endsection
   @section('scripts')
   <script type="text/javascript">

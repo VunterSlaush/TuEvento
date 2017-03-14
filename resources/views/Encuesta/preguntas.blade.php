@@ -47,7 +47,7 @@
 
 
 <!-- Modal Structure -->
-  <div id="modal1" class="modal bottom-sheet">
+  <div id="modal1" class="modal">
     <div class="modal-content">
       <h4 id='modal-title'>Modal Header</h4>
       <ul class="collection" id='modal_content'>
@@ -77,14 +77,14 @@
     function verOpciones(opciones, pregunta)
     {
         console.log(opciones);
-        $('#modal-title').text(pregunta);
+        $('#modal-title').text("Pregunta: "+pregunta);
         $('#modal_content').empty();
         for (var i = 0; i < opciones.length; i++)
         {
           if(borrados.indexOf(opciones[i].id) === -1)
           {
             $('#modal_content').append('<li class="collection-item avatar" id="item-'+opciones[i].id+'">'+
-                          '<h4>'+opciones[i].opcion+'</h4>'+
+                          '<h5> Opcion: '+opciones[i].opcion+'</h5>'+
                           '<a href="#" onclick="borrarOpcion('+opciones[i].id+')" class="secondary-content"><i class="small material-icons">delete</i></a>'+
                           '</li>');
           }
