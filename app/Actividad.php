@@ -41,7 +41,7 @@ class Actividad extends Model
 
     public function calificaciones(){
 
-        return $this->hasMany('App\Califica','id_activida','id');
+        return $this->hasMany('App\Califica','id_actividad','id');
 
     }
 

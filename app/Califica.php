@@ -32,4 +32,9 @@ class Califica extends Model
     {
       return $this->belongsTo('App\User','id','id_encuesta');
     }
+
+    public function respuestas()
+    {
+      return $this->hasMany('App\Respuesta','id_evalua');
+    }
 }

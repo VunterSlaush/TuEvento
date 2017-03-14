@@ -177,7 +177,8 @@ class EventoActividadController extends Controller
 
         $evento = Evento::find($id_evento);
         $actividad = Actividad::find($id);
-        return view('eventoActividad.show',['actividad' => $actividad,'evento'=> $evento]);
+        $promedio = $this->generarPromedio($actividad);
+        return view('eventoActividad.show',['actividad' => $actividad,'evento'=> $evento, 'promedio' => $promedio]);
       }
     }
 
@@ -227,5 +228,28 @@ class EventoActividadController extends Controller
         //
     }
 
+    public function generarPromedio($actividad)
+    {
+      $sum = 0;
+      foreach ($actividad->calificaciones as $key => $value)
+      {
+       $sum += $this->generarNotaCalificacion($value);
+      }
+      if(count($actividad->calificaciones) > 0)
+        $promedio = $sum / count($actividad->calificaciones);
+      else {
+        $promedio = 0;
+      }
+      return $promedio;
+    }
 
+    public function generarNotaCalificacion($califica)
+    {
+      $nota = 0;
+      foreach ($califica->respuestas as $key => $value)
+      {
+        $nota += $value->opcion->valor;
+      }
+      return $nota;
+    }
 }

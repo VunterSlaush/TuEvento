@@ -92,7 +92,7 @@ class EventoEncuestaController extends Controller
     }
     else
     {
-      return redirect('/home');//TODO redireccionar bien ..?
+      return redirect('/home')->withErrors(['No se Encontro la encuesta!']);
     }
   }
 
@@ -159,11 +159,11 @@ class EventoEncuestaController extends Controller
     $encuestas =  Encuesta::where('id_evento',$propuesta->id_evento)
                          ->where('tipo','evaluacion')
                          ->get();
-    if($propuesta != null)
+    if($propuesta != null && $encuestas != null && count($encuestas) > 0)
     {
       return view('Encuesta.seleccionar',['propuesta' => $propuesta, 'encuestas' => $encuestas]);
     }
-    return redirect('/home');
+    return redirect('/home')->withErrors(['No existen Encuestas para Realizar la evaluacion']);
   }
 
   public function verPreguntas($id_evento)

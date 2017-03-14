@@ -104,7 +104,33 @@ class ActividadController extends Controller
     public function show($id)
     {
       $actividad = Actividad::find($id);
-      return view('actividad.show',['actividad' => $actividad]);
+      $promedio = $this->generarPromedio($actividad);
+      return view('actividad.show',['actividad' => $actividad, 'promedio' => $promedio]);
+    }
+
+    public function generarPromedio($actividad)
+    {
+      $sum = 0;
+      foreach ($actividad->calificaciones as $key => $value)
+      {
+       $sum += $this->generarNotaCalificacion($value);
+      }
+      if(count($actividad->calificaciones) > 0)
+        $promedio = $sum / count($actividad->calificaciones);
+      else {
+        $promedio = 0;
+      }
+      return $promedio;
+    }
+
+    public function generarNotaCalificacion($califica)
+    {
+      $nota = 0;
+      foreach ($califica->respuestas as $key => $value)
+      {
+        $nota += $value->opcion->valor;
+      }
+      return $nota;
     }
 
     /**
