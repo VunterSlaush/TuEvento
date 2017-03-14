@@ -30,6 +30,9 @@ class ActividadController extends Controller
     public function index()
     {
       $actividad = Actividad::where('id_user',Auth::id())->get();
+      foreach (Auth::user()->presentadores as $key => $value) {
+        $actividad->push(Actividad::find($value->id_actividad));
+      }
       return view('actividad.index',['actividad' => $actividad]);
     }
 
@@ -170,6 +173,9 @@ class ActividadController extends Controller
     public function mis_actividades()
     {
         $actividad = Actividad::where('id_user',Auth::id())->get();
+        foreach (Auth::user()->presentadores as $key => $value) {
+          $actividad->push(Actividad::find($value->id_actividad));
+        }
         return view('actividad.index',['actividad' => $actividad]);
     }
 
