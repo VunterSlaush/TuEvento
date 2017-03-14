@@ -34,7 +34,7 @@ class actividad_seeder extends Seeder
             //Genera 8 actividades por evento
             'id_evento' => $evento,
     		'tipo' => $faker->numberBetween($min = 1, $max = 20),
-    		'area' => $faker->numberBetween($min = 1, $max = 30),
+    		'area' => $faker->numberBetween($min = 1, $max = 150),
     		'id_user' => $faker->numberBetween($min = 1, $max = 450),
            	'created_at' => date('Y-m-d H:m:s'),
            	'updated_at' => date('Y-m-d H:m:s')

@@ -29,7 +29,7 @@ class propuesta_seeder extends Seeder
     		'autor' => $faker->numberBetween($min = 1, $max = 450),
             //Se generan 3 propuestas por evento
     		'id_evento' => $evento,
-    		'id_area' => $faker->numberBetween($min = 1, $max = 30),
+    		'id_area' => $faker->numberBetween($min = 1, $max = 150),
     		'id_tipo' => $faker->numberBetween($min = 1, $max = 20),
             'adjunto' => $faker->imageUrl($width = 640, $height = 480),
     		'titulo' => $faker->sentence($nbWords = 4, $variableNbWords = true),

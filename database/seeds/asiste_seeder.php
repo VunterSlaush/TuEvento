@@ -17,7 +17,7 @@ class asiste_seeder extends Seeder
 		for ($i=0; $i < 100; $i++) {
     	\DB::table('asiste')->insert(array(
     		'codigo' => $faker->unique()->ean8,
-    		'cedula' => $faker->numberBetween($min = 1, $max = 450),
+    		'cedula' => $faker->unique()->numberBetween($min = 1, $max = 450),
     		'id_actividad' => $faker->numberBetween($min = 1, $max = 400),
     		'asistio' => $faker->boolean,    	
            	'created_at' => date('Y-m-d H:m:s'),
