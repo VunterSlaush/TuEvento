@@ -141,3 +141,8 @@ strong {
 .slider .indicators .indicator-item.active {
     background-color: #1976D2;
 }
+
+.secondary-content {
+    float: right;
+    color: #1976D2;
+}
