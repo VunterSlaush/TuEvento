@@ -36,16 +36,8 @@
         @foreach($propuestas as $key => $value)
         <tr>
           <td> {{$value->titulo}}</td>
-          <td> {{$value->autor}}</td>
+          <td> {{$value->user->nombre}}</td>
           <td> {{$value->evento->nombre}}</td>
-
-          <td>
-            {{ Form::open(['method' => 'DELETE','route' => ['califica.destroy', $value->id],'style'=>'display:inline'])}}
-            {{ Form::submit('Eliminar')}}
-            {{ Form::close()}}
-            <a href="{{route('califica.show',$value->id)}}"> Ver detalles</a>
-            <a href="{{route('califica.edit',$value->id)}}"> Editar</a>
-          </td>
         </tr>
         @endforeach
       </tbody>

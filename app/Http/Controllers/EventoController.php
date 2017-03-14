@@ -569,4 +569,102 @@ class EventoController extends Controller
       }
       return $randomString;
     }
+
+    public function verEstadisticas($id_evento)
+    {
+      $evento = Evento::find($id_evento);
+      if($evento !=null)
+      {
+        $asistencias = $this->generarActMasAsistencias($id_evento);
+        $puntuadas = $this->generarActividadesMejorPuntuada($id_evento);
+        $organizaciones = $this->generarOrgMasAsistentes($id_evento);
+         return view('evento.estadisticas', ['asistencias' => $asistencias,
+                                              'puntuadas' => $puntuadas,
+                                              'organizaciones' => $organizaciones,
+                                              'evento' => $evento]);
+      }
+      else {
+        return redirect('/home')->withErrors(['No exite el evento buscado']);
+      }
+    }
+
+    /*
+    SELECT actividad.titulo as nombre, count(asiste.*) as asistencias FROM actividad
+    JOIN asiste ON asiste.id_actividad = actividad.id
+    GROUP BY actividad.titulo
+    ORDER BY asistencias DESC
+    LIMIT 10;
+    */
+    public function generarActMasAsistencias($id_evento)
+    {
+      $dataset = DB::table('actividad')->select(DB::raw('actividad.titulo as nombre, count(asiste.*) as asistencias'))
+                          ->join('asiste', 'asiste.id_actividad', '=', 'actividad.id')
+                          ->where('actividad.id_evento', '=', $id_evento)
+                          ->groupBy('actividad.titulo')
+                          ->orderBy('asistencias', 'desc')
+                          ->limit(10)
+                          ->get();
+      return \Charts::create('bar', 'highcharts')
+            ->title('Actividades Con Mas Asistencias')
+             ->elementLabel('Asistencias')
+            ->labels($dataset->pluck('nombre'))
+             ->values($dataset->pluck('asistencias'))
+             ->responsive(true);
+    }
+
+    /*
+    SELECT actividad.titulo as nombre, sum(opcion.valor)/count(califica_satisfaccion.*) as calificacion FROM actividad
+    JOIN califica_satisfaccion ON califica_satisfaccion.id_actividad = actividad.id
+    JOIN respuesta_pregunta ON respuesta_pregunta.id_califica = califica_satisfaccion.id
+    JOIN opcion ON opcion.id = respuesta_pregunta.id_opcion
+    WHERE actividad.id_evento = 15
+    GROUP BY actividad.titulo
+    ORDER BY calificacion DESC;
+    */
+    public function generarActividadesMejorPuntuada($id_evento)
+    {
+      $dataset = DB::table('actividad')->select(DB::raw('actividad.titulo as nombre, sum(opcion.valor)/count(califica_satisfaccion.*) as calificacion'))
+                          ->join('califica_satisfaccion', 'califica_satisfaccion.id_actividad', '=', 'actividad.id')
+                          ->join('respuesta_pregunta', 'respuesta_pregunta.id_califica', '=', 'califica_satisfaccion.id')
+                          ->join('opcion', 'opcion.id', '=', 'respuesta_pregunta.id_opcion')
+                          ->where('actividad.id_evento', '=', $id_evento)
+                          ->groupBy('actividad.titulo')
+                          ->orderBy('calificacion', 'desc')
+                          ->limit(10)
+                          ->get();
+      return \Charts::create('bar', 'highcharts')
+            ->title('Actividades Mejor Puntuadas')
+             ->elementLabel('Puntaje')
+            ->labels($dataset->pluck('nombre'))
+             ->values($dataset->pluck('calificacion'))
+             ->responsive(true);
+    }
+
+    /*
+    SELECT users.organizacion as nombre, count(asiste.*) as asistentes FROM evento
+    JOIN actividad ON actividad.id_evento = evento.id
+    JOIN asiste ON asiste.id_actividad = actividad.id
+    JOIN users ON asiste.cedula = users.cedula
+    WHERE evento.id = 15
+    GROUP BY users.organizacion
+    ORDER BY asistentes DESC;
+    */
+    public function generarOrgMasAsistentes($id_evento)
+    {
+      $dataset = DB::table('evento')->select(DB::raw('users.organizacion as nombre, count(asiste.*) as asistentes '))
+                          ->join('actividad', 'actividad.id_evento', '=', 'evento.id')
+                          ->join('asiste', 'asiste.id_actividad', '=', 'actividad.id')
+                          ->join('users', 'users.cedula', '=', 'asiste.cedula')
+                          ->where('evento.id', '=', $id_evento)
+                          ->groupBy('users.organizacion')
+                          ->orderBy('asistentes', 'desc')
+                          ->limit(10)
+                          ->get();
+      return \Charts::create('pie', 'highcharts')
+            ->title('Organizaciones Mas Asistentes')
+             ->elementLabel('Asistencias')
+            ->labels($dataset->pluck('nombre'))
+             ->values($dataset->pluck('asistentes'))
+             ->responsive(true);
+    }
 }

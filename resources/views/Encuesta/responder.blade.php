@@ -32,7 +32,7 @@
 <script type="text/javascript">
   $(document).ready(function()
   {
-    $('.slider').slider({interval:80000});
+    $('.slider').slider({interval:800000});
   });
 
   var tipo = "{!! $tipo !!}";

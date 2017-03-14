@@ -85,7 +85,7 @@
           @can ('viewState',[$evento,['inscripciones']])
             <a class="btn" href="{{ route('evento.propuesta.create',$evento->id)}}">Enviar Propuesta</a>
             @can ('modify',$evento)
-            <a class="btn" href="{{ route('verAprobados',$evento->id)}}">Lista de Aprobados</a>
+            <a class="btn" href="{{ route('verAprobados',$evento->id)}}">Por Aprobar</a>
             @endcan
           @endcan
         </li>

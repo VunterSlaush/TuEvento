@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth'], function ()
 
   Route::post('/evento/aprobar',['as'=> 'aprobar', 'uses'=> 'EventoController@aprobar']);
   Route::post('/evento/reprobar',['as'=> 'reprobar', 'uses'=> 'EventoController@reprobar']);
+  Route::get('/evento/{id_evento}/estadisticas',['as'=>'estadisticas','uses'=> 'EventoController@verEstadisticas']);
 });
 
 
