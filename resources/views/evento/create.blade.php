@@ -119,7 +119,7 @@
         </ul>
 
           <div class="row">
-            {{Form::submit('Crear')}}
+            <center>{{Form::submit('Crear',['class' => 'waves-effect waves-light btn'])}}</center>
           </div>
             {{Form::close()}}
       </div>

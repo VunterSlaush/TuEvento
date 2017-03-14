@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
   <div class="content-head col s12">
     <nav id="breadcrumb-nav" class="hide-on-med-and-down">
       <div class="nav-wrapper">
@@ -40,7 +39,7 @@
             <td> {{$value->evento->nombre}}</td>
             <td> {{$value->titulo}}</td>
             <td>
-              <a href="{{route('propuesta.show',$value->id)}}"> Ver detalles</a>
+              <a href="{{route('evento.propuesta.show',[$value->evento->id,$value->id])}}"> Ver detalles</a>
               <a href="{{route('seleccionarEncuesta',$value->id)}}"> Evaluar</a>
             </td>
           </tr>
