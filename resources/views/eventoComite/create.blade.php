@@ -120,10 +120,11 @@
           '<td>'+
           '<a class="btn" href="#" onclick="eliminarComite('+data.comite.id+');">'+
           '<i class="material-icons">delete</i></a>'+
-          '</td>'+
+          '</td>'
           +'</tr>');
         }
         $('#seleccionado').empty();
+        location.reload();
       }
     });
   }

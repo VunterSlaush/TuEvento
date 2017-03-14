@@ -156,7 +156,7 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-  $("#certificado_por_actividad").prop('checked',{!! $evento->certificado_por_actividad!!});
+  $("#certificado_por_actividad").prop('checked',{!! $evento['certificado_por_actividad'] != null ? 'true' : 'false' !!});
 
   $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month

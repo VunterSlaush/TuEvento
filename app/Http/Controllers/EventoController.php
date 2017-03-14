@@ -37,11 +37,15 @@ class EventoController extends Controller
     public function index()
     {
       $evento = Evento::where('creador',Auth::id())->get();
-      foreach (Auth::user()->comites as $key => $value) {
-        $evento->push(Evento::find($value->id_evento));
+      foreach (Auth::user()->comites as $key => $value)
+      {
+        if(!$evento->contains('id',$value->id_evento))
+          $evento->push(Evento::find($value->id_evento));
       }
-      foreach (Auth::user()->jurado as $key => $value) {
-        $evento->push(Evento::find($value->id_evento));
+      foreach (Auth::user()->jurado as $key => $value)
+      {
+        if(!$evento->contains('id',$value->id_evento))
+          $evento->push(Evento::find($value->id_evento));
       }
       return view('evento.index',['evento' => $evento]);
     }
@@ -270,14 +274,18 @@ class EventoController extends Controller
 
     public function mis_eventos()
     {
-        $evento = Evento::where('creador',Auth::id())->get();
-        foreach (Auth::user()->comites as $key => $value) {
+      $evento = Evento::where('creador',Auth::id())->get();
+      foreach (Auth::user()->comites as $key => $value)
+      {
+        if(!$evento->contains('id',$value->id_evento))
           $evento->push(Evento::find($value->id_evento));
-        }
-        foreach (Auth::user()->jurado as $key => $value) {
+      }
+      foreach (Auth::user()->jurado as $key => $value)
+      {
+        if(!$evento->contains('id',$value->id_evento))
           $evento->push(Evento::find($value->id_evento));
-        }
-        return view('evento.index',['evento' => $evento]);
+      }
+      return view('evento.index',['evento' => $evento]);
     }
 
     public function organizar($id){
