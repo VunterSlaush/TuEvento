@@ -111,7 +111,7 @@ class EventoEncuestaController extends Controller
     try {
       DB::beginTransaction();
 
-      $id_actividad = $request->input('id_actividad');
+      $id_actividad = $request->input('id');
       $id_encuesta = $request->input('id_encuesta');
       $respuestas = $request->input('respuestas');
       $id_user = Auth::id();
@@ -127,7 +127,7 @@ class EventoEncuestaController extends Controller
 
       DB::commit();
 
-    } catch (QueryException $e) {
+    } catch (\Exception $e) {
       DB::rollBack();
       return json_encode(['success' => false,'msg' => $e]);
     }
